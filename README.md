@@ -17,5 +17,12 @@ npm install
 npm run dev
 ```
 
+## Variables for connection to admin account
+
+```bash
+username: test8@denrox.com
+password: password
+```
+
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
