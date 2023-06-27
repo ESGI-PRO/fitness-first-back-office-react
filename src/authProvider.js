@@ -1,6 +1,6 @@
 const authProvider = {
     login: async ({ username, password }) => {
-        const response = await fetch('http://localhost:8000/users/login', {
+        const request = await fetch('http://localhost:8000/users/login', {
             method: 'POST',
             body: JSON.stringify({ 
                 email: username,
@@ -9,13 +9,18 @@ const authProvider = {
             headers: { 'Content-Type': 'application/json' },
         });
 
-        const data = await response.json();
+        const response = await request.json()
 
         if (response.status < 200 || response.status >= 300) {
             return Promise.reject();
         }
 
-        localStorage.setItem('token', data.data.token.access.token);
+        if (response.data.user.role !== 'ADMIN') {
+            return Promise.reject();
+        }
+
+        console.log('TOKEN', response);
+        localStorage.setItem('token', response.data.token);
         
         return Promise.resolve();
     },
