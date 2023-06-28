@@ -11,6 +11,8 @@ import SignInPage from "./pages/authentication/sign-in";
 import SignUpPage from "./pages/authentication/sign-up";
 import EcommerceProductsPage from "./pages/e-commerce/products";
 import UserListPage from "./pages/users/list";
+import NutritionPage from "./pages/nutritions/nutritions";
+import IngredientsPage from "./pages/ingredients/ingredients";
 
 const container = document.getElementById("root");
 
@@ -33,6 +35,8 @@ root.render(
             element={<EcommerceProductsPage />}
           />
           <Route path="/users/list" element={<UserListPage />} />
+          <Route path="/nutritions" element={<NutritionPage />} />
+          <Route path="/ingredients" element={<IngredientsPage />} />
         </Routes>
       </BrowserRouter>
     </Flowbite>

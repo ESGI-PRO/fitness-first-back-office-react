@@ -58,6 +58,28 @@ const ExampleSidebar: FC = function () {
                 Products
               </Sidebar.Item>
               <Sidebar.Item
+                href="/nutritions"
+                icon={HiShoppingBag}
+                className={
+                  "/nutritions" === currentPage
+                    ? "bg-gray-100 dark:bg-gray-700"
+                    : ""
+                }
+              >
+                Nutritions
+              </Sidebar.Item>
+              <Sidebar.Item
+                href="/ingredients"
+                icon={HiShoppingBag}
+                className={
+                  "/ingredients" === currentPage
+                    ? "bg-gray-100 dark:bg-gray-700"
+                    : ""
+                }
+              >
+                Ingredients
+              </Sidebar.Item>
+              <Sidebar.Item
                 href="/users/list"
                 icon={HiUsers}
                 className={
