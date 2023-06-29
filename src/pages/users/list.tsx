@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import {
   Breadcrumb,
   Button,
@@ -22,10 +21,11 @@ import {
   HiPlus,
   HiTrash,
 } from "react-icons/hi";
+import { Toast } from 'primereact/toast';
 import NavbarSidebarLayout from "../../layouts/navbar-sidebar";
 import { useNavigate, Link } from 'react-router-dom';
 import { useForm } from "react-hook-form";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 import { usersService } from "../../services"; 
 
@@ -64,7 +64,7 @@ const UserListPage: FC = function () {
                   />
                 </div>
               </form>
-              <div className="mt-3 flex space-x-1 pl-0 sm:mt-0 sm:pl-2">
+              {/* <div className="mt-3 flex space-x-1 pl-0 sm:mt-0 sm:pl-2">
                 <a
                   href="#"
                   className="inline-flex cursor-pointer justify-center rounded p-1 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
@@ -93,16 +93,16 @@ const UserListPage: FC = function () {
                   <span className="sr-only">Settings</span>
                   <HiDotsVertical className="text-2xl" />
                 </a>
-              </div>
+              </div> */}
             </div>
             <div className="ml-auto flex items-center space-x-2 sm:space-x-3">
               <AddUserModal />
-              <Button color="gray">
+              {/* <Button color="gray">
                 <div className="flex items-center gap-x-3">
                   <HiDocumentDownload className="text-xl" />
                   <span>Export</span>
                 </div>
-              </Button>
+              </Button> */}
             </div>
           </div>
         </div>
@@ -209,7 +209,6 @@ const AddUserModal: FC = function () {
 };
 
 const AllUsersTable: FC = function () {
-  const navigate = useNavigate();
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
@@ -221,23 +220,23 @@ const AllUsersTable: FC = function () {
 
   return (
     <Table className="min-w-full divide-y divide-gray-200 dark:divide-gray-600">
-      <Table.Head className="bg-gray-100 dark:bg-gray-700">
-        {/* <Table.HeadCell>
-          <Label htmlFor="select-all" className="sr-only">
-            Select all
-          </Label>
-          <Checkbox id="select-all" name="select-all" />
-        </Table.HeadCell> */}
-        <Table.HeadCell>Name</Table.HeadCell>
-        <Table.HeadCell>Phone number</Table.HeadCell>
-        <Table.HeadCell>Role</Table.HeadCell>
-        <Table.HeadCell>Status</Table.HeadCell>
-        <Table.HeadCell>Actions</Table.HeadCell>
-      </Table.Head>
-      <Table.Body className="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-800">
-        {users.map((user: any) => (
-          <Table.Row className="hover:bg-gray-100 dark:hover:bg-gray-700">
-            {/* <Table.Cell className="w-4 p-4">
+        <Table.Head className="bg-gray-100 dark:bg-gray-700">
+          {/* <Table.HeadCell>
+      <Label htmlFor="select-all" className="sr-only">
+        Select all
+      </Label>
+      <Checkbox id="select-all" name="select-all" />
+    </Table.HeadCell> */}
+          <Table.HeadCell>Name</Table.HeadCell>
+          <Table.HeadCell>Phone number</Table.HeadCell>
+          <Table.HeadCell>Role</Table.HeadCell>
+          <Table.HeadCell>Status</Table.HeadCell>
+          <Table.HeadCell>Actions</Table.HeadCell>
+        </Table.Head>
+        <Table.Body className="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-800">
+          {users.map((user: any) => (
+            <Table.Row key={user.id} className="hover:bg-gray-100 dark:hover:bg-gray-700">
+              {/* <Table.Cell className="w-4 p-4">
               <div className="flex items-center">
                 <Checkbox aria-describedby="checkbox-1" id="checkbox-1" />
                 <label htmlFor="checkbox-1" className="sr-only">
@@ -245,83 +244,109 @@ const AllUsersTable: FC = function () {
                 </label>
               </div>
             </Table.Cell> */}
-            <Table.Cell className="mr-12 flex items-center space-x-6 whitespace-nowrap p-4 lg:mr-0">
-              {/* <img
-                className="h-10 w-10 rounded-full"
-                src="/images/users/neil-sims.png"
-                alt="Neil Sims avatar"
-              /> */}
-              <span
-                className="bg-gray-300 h-2 w-2 p-5 rounded-full text-white"
-                aria-hidden="true"
-              >
-              </span>
-              <div className="text-sm font-normal text-gray-500 dark:text-gray-400">
-                <div className="text-base font-semibold text-gray-900 dark:text-white">
-                  {user.usserName}
-                </div>
+              <Table.Cell className="mr-12 flex items-center space-x-6 whitespace-nowrap p-4 lg:mr-0">
+                {/* <img
+              className="h-10 w-10 rounded-full"
+              src="/images/users/neil-sims.png"
+              alt="Neil Sims avatar"
+            /> */}
+                <span
+                  className="bg-gray-300 h-2 w-2 p-5 rounded-full text-white"
+                  aria-hidden="true"
+                >
+                </span>
                 <div className="text-sm font-normal text-gray-500 dark:text-gray-400">
-                  {user.email}
+                  <div className="text-base font-semibold text-gray-900 dark:text-white">
+                    {user.usserName}
+                  </div>
+                  <div className="text-sm font-normal text-gray-500 dark:text-gray-400">
+                    {user.email}
+                  </div>
                 </div>
-              </div>
-            </Table.Cell>
-            <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
-              {user.mobileNumber}
-            </Table.Cell>
-            <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
-              <span className="px-2 py-1 text-sm text-green-800 bg-green-100 rounded-full">
-                {user.role}
-              </span>
-            </Table.Cell>
-            <Table.Cell className="whitespace-nowrap p-4 text-base font-normal text-gray-900 dark:text-white">
-              <div className="flex items-center">
-                <div className="mr-2 h-2.5 w-2.5 rounded-full bg-green-400"></div>{" "}
-                Active
-              </div>
-            </Table.Cell>
-            <Table.Cell>
-              <div className="flex items-center gap-x-3 whitespace-nowrap">
-                <EditUserModal userId={user.id} />
-                <DeleteUserModal userId={user.id} />
-              </div>
-            </Table.Cell>
-          </Table.Row>
-        ))}
-      </Table.Body>
-    </Table>
+              </Table.Cell>
+              <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
+                {user.mobileNumber}
+              </Table.Cell>
+              <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
+                <span className="px-2 py-1 text-sm text-green-800 bg-green-100 rounded-full">
+                  {user.role}
+                </span>
+              </Table.Cell>
+              <Table.Cell className="whitespace-nowrap p-4 text-base font-normal text-gray-900 dark:text-white">
+                <div className="flex items-center">
+                  <div className="mr-2 h-2.5 w-2.5 rounded-full bg-green-400"></div>{" "}
+                  Active
+                </div>
+              </Table.Cell>
+              <Table.Cell>
+                <div className="flex items-center gap-x-3 whitespace-nowrap">
+                  <EditUserModal userId={user.id} />
+                  <DeleteUserModal userId={user.id} />
+                </div>
+              </Table.Cell>
+            </Table.Row>
+          ))}
+        </Table.Body>
+      </Table>
   );
 };
 
 const EditUserModal: FC = function ({ userId }) {
   const [isOpen, setOpen] = useState(false);
   const [user, setUser] = useState(null);
-  const { register, handleSubmit, reset, setValue, formState } = useForm();
+  const { register, handleSubmit, reset, setValue, formState } = useForm({
+    defaultValues: { 
+      userName: '',
+      email: '',
+      mobileNumber: '',
+      role: '',
+    } 
+  });
+  const toast = useRef<Toast>(null);
 
   function onSubmit(data: any) {
     usersService.update(userId, data)
       .then(() => {
+        console.log(data);
+        toast.current?.show({severity:'success', summary: 'Success', detail:'Message Content', life: 3000});
         setOpen(false);
         reset();
       });
   }
 
-  useEffect(() => {
+  // useEffect(() => {
+  //   usersService.get(userId)
+  //     .then((response) => {
+  //       setUser(response.data);
+  //       setValue('userName', response.data.userName);
+  //       console.log(response.data.userName);
+  //       setValue('email', response.data.email);
+  //       console.log(response.data.email);
+  //       setValue('mobileNumber', response.data.mobileNumber);
+  //       console.log(response.data.mobileNumber);
+  //       setValue('role', response.data.role);
+  //       console.log(response.data.role);
+  //     });
+  // } , []);
+
+  function handleClick() {
     usersService.get(userId)
       .then((response) => {
         setUser(response.data);
-        setValue('userName', response.data.userName);
-        setValue('email', response.data.email);
-        setValue('mobileNumber', response.data.mobileNumber);
-        setValue('role', response.data.role);
+        setOpen(true);
+        setValue('userName', response.data[0].userName);
+        setValue('email', response.data[0].email);
+        setValue('mobileNumber', response.data[0].mobileNumber);
+        setValue('role', response.data[0].role);
       });
-  } , []);
+  }
 
   return (
     <>
-      <Button color="primary" onClick={() => setOpen(true)}>
+      <Button color="primary" onClick={() => handleClick()}>
         <div className="flex items-center gap-x-2">
           <HiOutlinePencilAlt className="text-lg" />
-          Edit user
+          {/* Edit user */}
         </div>
       </Button>
       <Modal onClose={() => setOpen(false)} show={isOpen}>
@@ -329,7 +354,6 @@ const EditUserModal: FC = function ({ userId }) {
           <strong>Edit user</strong>
         </Modal.Header>
         <Modal.Body>
-          <>{JSON.stringify(user)}</>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
               <div>
@@ -371,8 +395,7 @@ const EditUserModal: FC = function ({ userId }) {
         <Modal.Footer>
           <Button
             disabled={formState.isSubmitting}
-            color="primary" 
-            onClick={() => setOpen(false)}
+            color="primary"
           >
             Save all
           </Button>
@@ -396,7 +419,7 @@ const DeleteUserModal: FC = function ({ userId }) {
       <Button color="failure" onClick={() => setOpen(true)}>
         <div className="flex items-center gap-x-2">
           <HiTrash className="text-lg" />
-          Delete user
+          {/* Delete user */}
         </div>
       </Button>
       <Modal onClose={() => setOpen(false)} show={isOpen} size="md">
