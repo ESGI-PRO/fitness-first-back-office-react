@@ -236,8 +236,8 @@ import {
       </Table.Head>
       <Table.Body className="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-800">
         {
-          ingredients.map((ingredient) => (
-            <Table.Row className="hover:bg-gray-100 dark:hover:bg-gray-700">
+          ingredients.map((ingredient, id) => (
+            <Table.Row key={id} className="hover:bg-gray-100 dark:hover:bg-gray-700">
             <Table.Cell className="w-4 p-4">
               <div className="flex items-center">
                 <Checkbox aria-describedby="checkbox-1" id="checkbox-1" />
@@ -275,7 +275,7 @@ import {
             </Table.Cell>
             <Table.Cell>
               <div className="flex items-center gap-x-3 whitespace-nowrap">
-                <EditUserModal />
+                <EditUserModal ingredient={ingredient}/>
                 <DeleteUserModal />
               </div>
             </Table.Cell>
@@ -430,9 +430,40 @@ import {
     )
   }
   
-  const EditUserModal: FC = function () {
+  const EditUserModal: FC = function ({ingredient}) {
     const [isOpen, setOpen] = useState(false);
-  
+    const [name, setName] = useState(ingredient.name);
+    const [calories, setCalories] = useState(ingredient.calories);
+    const [carboH, setCarboH] = useState(ingredient.carbohydrates_total_g);
+    const [grammes, setGrammes] = useState(ingredient.grammes);
+    const [category, setCategory] = useState(ingredient.category);
+    const [cholesterol, setCholesterol] = useState(ingredient.cholesterol_mg);
+    const [fatSatured, setFatSatured] = useState(ingredient.fat_saturated_g);
+    const [fatTotal, setFatTotal] = useState(ingredient.fat_total_g);
+    const [fiber, setFiber] = useState(ingredient.fiber_g);
+    const [potassium, setPotassium] = useState(ingredient.potassium_mg);
+    const [protein, setProtein] = useState(ingredient.protein_g);
+    const [sodium, setSodium] = useState(ingredient.sodium_mg);
+    const [sugar, setSugar] = useState(ingredient.sugar_g);
+
+    const handleEditUser = () => {
+        // Mettez ici votre logique d'envoi des données au backend, par exemple avec axios
+        const updatedIngredient = { id: ingredient.id, name, calories, grammes, category };
+        axios.put(`http://localhost:8000/nutrition/ingredients/${ingredient.id}`, updatedIngredient)
+          .then(response => {
+            // Gérez la réponse du backend si nécessaire
+            console.log(response.data);
+            // Fermez le modal après la modification
+            setOpen(false);
+          })
+          .catch(error => {
+            // Gérez les erreurs de requête si nécessaire
+            console.error(error);
+          });
+      };
+      
+    
+    
     return (
       <>
         <Button color="primary" onClick={() => setOpen(true)}>
@@ -448,89 +479,159 @@ import {
           <Modal.Body>
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
               <div>
-                <Label htmlFor="firstName">First name</Label>
+                <Label htmlFor="name">Name</Label>
                 <div className="mt-1">
                   <TextInput
-                    id="firstName"
-                    name="firstName"
-                    placeholder="Bonnie"
+                    id="name"
+                    name="name"
+                    placeholder="Ingredient name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
                   />
                 </div>
               </div>
               <div>
-                <Label htmlFor="lastName">Last name</Label>
+                <Label htmlFor="calories">Calories</Label>
                 <div className="mt-1">
-                  <TextInput id="lastName" name="lastName" placeholder="Green" />
+                  <TextInput id="calories" name="calories" placeholder="Calories" value={calories} onChange={(e) => setCalories(e.target.value)}/>
                 </div>
               </div>
               <div>
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email">Categories</Label>
                 <div className="mt-1">
                   <TextInput
-                    id="email"
-                    name="email"
-                    placeholder="example@company.com"
-                    type="email"
+                    id="categories"
+                    name="categories"
+                    value={category.name}
+                    placeholder="category"
+                    onChange={(e) => setCategory(e.target.value)}
                   />
                 </div>
               </div>
               <div>
-                <Label htmlFor="phone">Phone number</Label>
+                <Label htmlFor="phone">Grammes</Label>
                 <div className="mt-1">
                   <TextInput
-                    id="phone"
-                    name="phone"
-                    placeholder="e.g., +(12)3456 789"
-                    type="tel"
+                    id="grammes"
+                    name="grammes"
+                    placeholder="grammes"
+                    value={grammes}
+                    onChange={(e) => setGrammes(e.target.value)}
                   />
                 </div>
               </div>
               <div>
-                <Label htmlFor="department">Department</Label>
+                <Label htmlFor="department">Fat - Total - G</Label>
                 <div className="mt-1">
                   <TextInput
-                    id="department"
-                    name="department"
-                    placeholder="Development"
+                    id="Fatt"
+                    name="Fatt"
+                    placeholder="Fat Total in G"
+                    value={fatTotal}
+                    onChange={(e) => setFatTotal(e.target.value)}
                   />
                 </div>
               </div>
               <div>
-                <Label htmlFor="company">Company</Label>
+                <Label htmlFor="company">Fat - Saturated - G</Label>
                 <div className="mt-1">
                   <TextInput
-                    id="company"
-                    name="company"
-                    placeholder="Somewhere"
+                    id="fats"
+                    name="fats"
+                    placeholder="Fat Saturated"
+                    value={fatSatured}
+                    onChange={(e) => setFatSatured(e.target.value)}
                   />
                 </div>
               </div>
               <div>
-                <Label htmlFor="passwordCurrent">Current password</Label>
+                <Label htmlFor="proteins">Protein - G</Label>
                 <div className="mt-1">
                   <TextInput
-                    id="passwordCurrent"
-                    name="passwordCurrent"
-                    placeholder="••••••••"
-                    type="password"
+                    id="prot"
+                    name="prot"
+                    placeholder="proteins"
+                    value={protein}
+                    onChange={(e) => setProtein(e.target.value)}
                   />
                 </div>
               </div>
               <div>
-                <Label htmlFor="passwordNew">New password</Label>
+                <Label htmlFor="passwordNew">Sodium - MG</Label>
                 <div className="mt-1">
                   <TextInput
-                    id="passwordNew"
-                    name="passwordNew"
-                    placeholder="••••••••"
-                    type="password"
+                    id="sodium"
+                    name="sodium"
+                    placeholder="sodium"
+                    value={sodium}
+                    onChange={(e) => setSodium(e.target.value)}
+                  />
+                </div>
+              </div>
+              <div>
+                <Label htmlFor="passwordNew">Potassium - MG</Label>
+                <div className="mt-1">
+                  <TextInput
+                    id="potassium"
+                    name="potassium"
+                    placeholder="potassium"
+                    value={potassium}
+                    onChange={(e) => setPotassium(e.target.value)}
+                  />
+                </div>
+              </div>
+              <div>
+                <Label htmlFor="passwordNew">Cholesterol - MG</Label>
+                <div className="mt-1">
+                  <TextInput
+                    id="cholesterol"
+                    name="cholesterol"
+                    placeholder="cholesterol"
+                    value={cholesterol}
+                    onChange={(e) => setCholesterol(e.target.value)}
+                  />
+                </div>
+              </div>
+              <div>
+                <Label htmlFor="passwordNew">Carbohydrates - Total - G</Label>
+                <div className="mt-1">
+                  <TextInput
+                    id="carboh"
+                    name="carboh"
+                    placeholder="carboh"
+                    value={carboH}
+                    onChange={(e) => setCarboH(e.target.value)}
+                  />
+                </div>
+              </div>
+              <div>
+                <Label htmlFor="passwordNew">Fiber - G</Label>
+                <div className="mt-1">
+                  <TextInput
+                    id="fiber"
+                    name="fiber"
+                    placeholder="Fiber"
+                    value={fiber}
+                    onChange={(e) => setFiber(e.target.value)}
+                  />
+                </div>
+              </div>
+              <div>
+                <Label htmlFor="passwordNew">Sugar - G</Label>
+                <div className="mt-1">
+                  <TextInput
+                    id="sugar"
+                    name="sugar"
+                    placeholder="sugar"
+                    value={sugar}
+                    onChange={(e) => setSugar(e.target.value)}
                   />
                 </div>
               </div>
             </div>
           </Modal.Body>
           <Modal.Footer>
-            <Button color="primary" onClick={() => setOpen(false)}>
+            <Button color="primary" onClick={handleEditUser}>
               Save all
             </Button>
           </Modal.Footer>
