@@ -31,6 +31,7 @@
     "flowbite": "^1.5.5",
     "flowbite-react": "^0.3.7",
     "notyf": "^3.10.0",
+    "primereact": "^9.6.0",
     "react-apexcharts": "^1.4.0",
     "react-hook-form": "^7.45.0",
     "react-icons": "^4.7.1"

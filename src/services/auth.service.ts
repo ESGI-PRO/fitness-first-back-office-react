@@ -13,7 +13,7 @@ function login(email: string, password: string) {
 }
 
 function logout() {
-    return http.post("/users/logout", {}, { headers });
+    return http.put("/users/logout", {}, { headers });
 }
 
 function getCurentUser() {
