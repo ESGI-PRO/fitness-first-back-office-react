@@ -5,6 +5,7 @@ import {
     Checkbox,
     Label,
     Modal,
+    Select,
     Table,
     Textarea,
     TextInput,
@@ -35,7 +36,7 @@ import {
 
     const handleSearch = async () => {
         const ingredient = await axios.get(`http://localhost:8000/nutrition/ingredients`)
-        console.log(ingredient.data.data.nutrition);
+        // console.log(ingredient.data.data.nutrition);
     }
     return (
       <NavbarSidebarLayout isFooter={false}>
@@ -102,7 +103,7 @@ import {
               </div>
             </div>
             <div className="ml-auto flex items-center space-x-2 sm:space-x-3">
-              <AddUserModal />
+              <AddUserModal/>
               <Button color="gray">
                 <div className="flex items-center gap-x-3">
                   <HiDocumentDownload className="text-xl" />
@@ -144,10 +145,22 @@ import {
     const [sodium, setSodium] = useState();
     const [sugar, setSugar] = useState();
 
+    const [allCategories, setAllCategories] = useState([]);
+
+    useEffect(() => {
+        const fetchCategory = async() => {
+            const getCategory = await axios.get(`http://localhost:8000/nutrition/categories`); //http://localhost:8000/nutrition/categories
+            setAllCategories(getCategory.data.data.nutrition);
+            console.log(getCategory.data.data.nutrition);
+        }
+        fetchCategory()
+    },[])
+
+
     const handleSubmitIngredient = () => {
         // Mettez ici votre logique d'envoi des données au backend, par exemple avec axios
-        const updatedIngredient = {name, calories, category, grammes, fatTotal, fatSatured, protein, sodium, potassium, cholesterol, carboH, fiber, sugar };
-        axios.post(`http://localhost:8000/nutrition/ingredients`, updatedIngredient)
+        const createIngredient = { name, calories: parseFloat(calories), grammes: parseFloat(grammes), CategorieId: parseFloat(category.id), cholesterol_mg: parseFloat(cholesterol), fat_saturated_g: parseFloat(fatSatured), fat_total_g: parseFloat(fatTotal), fiber_g: parseFloat(fiber), potassium_mg: parseFloat(potassium), protein_g: parseFloat(protein), sodium_mg: parseFloat(sodium), sugar_g: parseFloat(sugar)  };
+        axios.post(`http://localhost:8000/nutrition/ingredients`, createIngredient)
           .then(response => {
             // Gérez la réponse du backend si nécessaire
             console.log(response.data);
@@ -195,18 +208,30 @@ import {
               <div>
                 <Label htmlFor="email">Categories</Label>
                 <div className="mt-1">
-                  <TextInput
+                 <Select
+                    // onChange={(e) => handleChange(e)}
+                >
+                    {
+                        allCategories?.map((category) => (
+                            <option value={category}>{category.name}</option>
+                        ))
+                    }
+                    
+                </Select>
+                  {/* <TextInput
+                    type="number"
                     id="categories"
                     name="categories"
                     placeholder="category"
                     onChange={(e) => setCategory(e.target.value)}
-                  />
+                  /> */}
                 </div>
               </div>
               <div>
                 <Label htmlFor="phone">Grammes</Label>
                 <div className="mt-1">
                   <TextInput
+                   type="number"
                     id="grammes"
                     name="grammes"
                     placeholder="grammes"
@@ -219,6 +244,7 @@ import {
                 <Label htmlFor="department">Fat - Total - G</Label>
                 <div className="mt-1">
                   <TextInput
+                   type="number"
                     id="Fatt"
                     name="Fatt"
                     placeholder="Fat Total in G"
@@ -231,6 +257,7 @@ import {
                 <Label htmlFor="company">Fat - Saturated - G</Label>
                 <div className="mt-1">
                   <TextInput
+                   type="number"
                     id="fats"
                     name="fats"
                     placeholder="Fat Saturated"
@@ -243,6 +270,7 @@ import {
                 <Label htmlFor="proteins">Protein - G</Label>
                 <div className="mt-1">
                   <TextInput
+                   type="number"
                     id="prot"
                     name="prot"
                     placeholder="proteins"
@@ -255,6 +283,7 @@ import {
                 <Label htmlFor="passwordNew">Sodium - MG</Label>
                 <div className="mt-1">
                   <TextInput
+                   type="number"
                     id="sodium"
                     name="sodium"
                     placeholder="sodium"
@@ -267,6 +296,7 @@ import {
                 <Label htmlFor="passwordNew">Potassium - MG</Label>
                 <div className="mt-1">
                   <TextInput
+                   type="number"
                     id="potassium"
                     name="potassium"
                     placeholder="potassium"
@@ -279,6 +309,7 @@ import {
                 <Label htmlFor="passwordNew">Cholesterol - MG</Label>
                 <div className="mt-1">
                   <TextInput
+                   type="number"
                     id="cholesterol"
                     name="cholesterol"
                     placeholder="cholesterol"
@@ -291,6 +322,7 @@ import {
                 <Label htmlFor="passwordNew">Carbohydrates - Total - G</Label>
                 <div className="mt-1">
                   <TextInput
+                   type="number"
                     id="carboh"
                     name="carboh"
                     placeholder="carboh"
@@ -303,6 +335,7 @@ import {
                 <Label htmlFor="passwordNew">Fiber - G</Label>
                 <div className="mt-1">
                   <TextInput
+                   type="number"
                     id="fiber"
                     name="fiber"
                     placeholder="Fiber"
@@ -315,6 +348,7 @@ import {
                 <Label htmlFor="passwordNew">Sugar - G</Label>
                 <div className="mt-1">
                   <TextInput
+                   type="number"
                     id="sugar"
                     name="sugar"
                     placeholder="sugar"
@@ -342,11 +376,11 @@ import {
     useEffect(() => {
       const fetchNutritions = async () => {
         const ingredients = await axios.get('http://localhost:8000/nutrition/ingredients')
-        console.log(ingredients.data.data.nutrition);
+        // console.log(ingredients.data.data.nutrition);
         setIngredients(ingredients.data.data.nutrition);
       }
       fetchNutritions()
-    },[ingredients])
+    },[])
     return (
       <Table className="min-w-full divide-y divide-gray-200 dark:divide-gray-600">
       <Table.Head className="bg-gray-100 dark:bg-gray-700">
