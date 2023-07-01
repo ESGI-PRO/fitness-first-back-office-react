@@ -13,21 +13,19 @@ import {
   HiUsers,
   HiOutlineLogout,
 } from "react-icons/hi";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Toast } from 'primereact/toast';
 
 import { authService } from "../services"; 
 
 const ExampleSidebar: FC = function () {
   const [currentPage, setCurrentPage] = useState("");
-  const navigate = useNavigate();
   const toast = useRef<Toast>(null);
 
   const handleLogout = () => {
     authService.logout()
       .then((response: any) => {
         if (response) {
-          navigate('/authentication/sign-in');
           console.log('USER IS LOGGED OUT', response);
           localStorage.removeItem('token');
           toast.current?.show({ severity: 'success', summary: 'Success', detail: 'User is logged out', life: 3000 });
@@ -99,7 +97,7 @@ const ExampleSidebar: FC = function () {
                 icon={HiOutlineLogout}
                 onClick={() => { handleLogout() }}
               >
-                Logout
+                <Link to="/authentication/sign-in">Logout</Link>
               </Sidebar.Item>
             </Sidebar.ItemGroup>
           </Sidebar.Items>

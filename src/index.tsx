@@ -33,7 +33,7 @@ const App = () => {
         setAuthenticated(false);
         console.log(error);
       });
-  }, [authenticated]);
+  }, []);
 
   return (
     <StrictMode>
