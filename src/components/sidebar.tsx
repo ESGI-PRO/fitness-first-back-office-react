@@ -90,6 +90,17 @@ const ExampleSidebar: FC = function () {
               >
                 Users list
               </Sidebar.Item>
+              <Sidebar.Item
+                href="/trainings"
+                icon={HiShoppingBag}
+                className={
+                  "/trainings" === currentPage
+                    ? "bg-gray-100 dark:bg-gray-700"
+                    : ""
+                }
+              >
+                Trainings
+              </Sidebar.Item>
               <Sidebar.Item href="/authentication/sign-in" icon={HiLogin}>
                 Sign in
               </Sidebar.Item>

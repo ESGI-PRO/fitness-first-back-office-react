@@ -9,6 +9,8 @@ const DashboardPage: FC = function () {
     <NavbarSidebarLayout>
       <div className="px-4 pt-6">
         <SalesThisWeek />
+        <SalesThisWeek />
+        <SalesThisWeek />
         <div className="my-6">
           <LatestTransactions />
         </div>
@@ -49,9 +51,8 @@ const SalesThisWeek: FC = function () {
           </svg>
         </div>
       </div>
-      <SalesChart />
+      
       <div className="mt-5 flex items-center justify-between border-t border-gray-200 pt-3 dark:border-gray-700 sm:pt-6">
-        <Datepicker />
         <div className="shrink-0">
           <a
             href="#"
@@ -75,6 +76,7 @@ const SalesThisWeek: FC = function () {
           </a>
         </div>
       </div>
+      
     </div>
   );
 };
