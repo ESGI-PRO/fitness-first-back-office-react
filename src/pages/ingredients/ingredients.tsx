@@ -402,7 +402,7 @@ import {
             <Table.Cell>
               <div className="flex items-center gap-x-3 whitespace-nowrap">
                 <EditUserModal ingredient={ingredient}/>
-                <DeleteUserModal />
+                <DeleteUserModal ingredient={ingredient}/>
               </div>
             </Table.Cell>
           </Table.Row>
@@ -767,9 +767,25 @@ import {
   };
   
   
-  const DeleteUserModal: FC = function () {
+  const DeleteUserModal: FC = function ({ingredient}) {
     const [isOpen, setOpen] = useState(false);
-  
+    
+
+    const handleDelete = () => {
+        // Mettez ici votre logique d'envoi des données au backend, par exemple avec axios
+        axios.delete(`http://localhost:8000/nutrition/ingredients/${ingredient.id}`)
+          .then(response => {
+            // Gérez la réponse du backend si nécessaire
+            console.log(response.data);
+            // Fermez le modal après la modification
+            setOpen(false);
+          })
+          .catch(error => {
+            // Gérez les erreurs de requête si nécessaire
+            console.error(error);
+          });
+      };
+
     return (
       <>
         <Button color="failure" onClick={() => setOpen(true)}>
@@ -789,7 +805,7 @@ import {
                 Are you sure you want to delete this user?
               </p>
               <div className="flex items-center gap-x-3">
-                <Button color="failure" onClick={() => setOpen(false)}>
+                <Button color="failure" onClick={handleDelete}>
                   Yes, I'm sure
                 </Button>
                 <Button color="gray" onClick={() => setOpen(false)}>
