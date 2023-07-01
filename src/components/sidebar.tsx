@@ -1,6 +1,8 @@
 import { Sidebar, TextInput } from "flowbite-react";
 import type { FC } from "react";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+
 import {
   HiChartPie,
   HiClipboard,
@@ -37,8 +39,8 @@ const ExampleSidebar: FC = function () {
           </form>
           <Sidebar.Items>
             <Sidebar.ItemGroup>
+            <Link to="/">
               <Sidebar.Item
-                href="/"
                 icon={HiChartPie}
                 className={
                   "/" === currentPage ? "bg-gray-100 dark:bg-gray-700" : ""
@@ -46,6 +48,7 @@ const ExampleSidebar: FC = function () {
               >
                 Dashboard
               </Sidebar.Item>
+              </Link>
               <Sidebar.Item
                 href="/e-commerce/products"
                 icon={HiShoppingBag}
@@ -58,7 +61,6 @@ const ExampleSidebar: FC = function () {
                 Products
               </Sidebar.Item>
               <Sidebar.Item
-                href="/nutritions"
                 icon={HiShoppingBag}
                 className={
                   "/nutritions" === currentPage
@@ -66,10 +68,10 @@ const ExampleSidebar: FC = function () {
                     : ""
                 }
               >
-                Nutritions
+                <Link to="/nutritions">Nutritions</Link>
               </Sidebar.Item>
+              <Link to="/ingredients">
               <Sidebar.Item
-                href="/ingredients"
                 icon={HiShoppingBag}
                 className={
                   "/ingredients" === currentPage
@@ -79,8 +81,10 @@ const ExampleSidebar: FC = function () {
               >
                 Ingredients
               </Sidebar.Item>
+              </Link>
+                
+              <Link to="/users/list">
               <Sidebar.Item
-                href="/users/list"
                 icon={HiUsers}
                 className={
                   "/users/list" === currentPage
@@ -90,6 +94,7 @@ const ExampleSidebar: FC = function () {
               >
                 Users list
               </Sidebar.Item>
+              </Link>
               <Sidebar.Item href="/authentication/sign-in" icon={HiLogin}>
                 Sign in
               </Sidebar.Item>

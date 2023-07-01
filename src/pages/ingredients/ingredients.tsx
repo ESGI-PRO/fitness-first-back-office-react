@@ -28,6 +28,7 @@ import {
   import NavbarSidebarLayout from "../../layouts/navbar-sidebar";
   import { Pagination } from "../users/list";
   import axios from "axios";
+  import { useNavigate } from "react-router-dom";
 
   const IngredientsPage: FC = function () {
     const [ search, setSearch] = useState('')
@@ -152,6 +153,7 @@ import {
             console.log(response.data);
             // Fermez le modal après la modification
             setOpen(false);
+            
           })
           .catch(error => {
             // Gérez les erreurs de requête si nécessaire
@@ -344,7 +346,7 @@ import {
         setIngredients(ingredients.data.data.nutrition);
       }
       fetchNutritions()
-    },[])
+    },[ingredients])
     return (
       <Table className="min-w-full divide-y divide-gray-200 dark:divide-gray-600">
       <Table.Head className="bg-gray-100 dark:bg-gray-700">
@@ -571,21 +573,26 @@ import {
     const [protein, setProtein] = useState(ingredient.protein_g);
     const [sodium, setSodium] = useState(ingredient.sodium_mg);
     const [sugar, setSugar] = useState(ingredient.sugar_g);
-
-    const handleEditUser = () => {
+    const navigate = useNavigate();
+    const handleEditUser = async () => {
+        
         // Mettez ici votre logique d'envoi des données au backend, par exemple avec axios
         const updatedIngredient = { id: ingredient.id, name, calories, grammes, CategorieId: category.id, cholesterol_mg: cholesterol, fat_saturated_g: fatSatured, fat_total_g: fatTotal, fiber_g: fiber, potassium_mg: potassium, protein_g: protein, sodium_mg: sodium, sugar_g: sugar  };
-        axios.put(`http://localhost:8000/nutrition/ingredients/${ingredient.id}`, updatedIngredient)
+        await axios.put(`http://localhost:8000/nutrition/ingredients/${ingredient.id}`, updatedIngredient)
           .then(response => {
             // Gérez la réponse du backend si nécessaire
             console.log(response.data);
+            
             // Fermez le modal après la modification
             setOpen(false);
+            
+            
           })
           .catch(error => {
             // Gérez les erreurs de requête si nécessaire
             console.error(error);
           });
+          
       };
       
     
