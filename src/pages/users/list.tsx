@@ -6,6 +6,8 @@ import {
   Modal,
   Table,
   TextInput,
+  Select,
+  Spinner,
 } from "flowbite-react";
 import type { FC } from "react";
 import {
@@ -64,45 +66,9 @@ const UserListPage: FC = function () {
                   />
                 </div>
               </form>
-              {/* <div className="mt-3 flex space-x-1 pl-0 sm:mt-0 sm:pl-2">
-                <a
-                  href="#"
-                  className="inline-flex cursor-pointer justify-center rounded p-1 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                >
-                  <span className="sr-only">Configure</span>
-                  <HiCog className="text-2xl" />
-                </a>
-                <a
-                  href="#"
-                  className="inline-flex cursor-pointer justify-center rounded p-1 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                >
-                  <span className="sr-only">Delete</span>
-                  <HiTrash className="text-2xl" />
-                </a>
-                <a
-                  href="#"
-                  className="inline-flex cursor-pointer justify-center rounded p-1 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                >
-                  <span className="sr-only">Purge</span>
-                  <HiExclamationCircle className="text-2xl" />
-                </a>
-                <a
-                  href="#"
-                  className="inline-flex cursor-pointer justify-center rounded p-1 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                >
-                  <span className="sr-only">Settings</span>
-                  <HiDotsVertical className="text-2xl" />
-                </a>
-              </div> */}
             </div>
             <div className="ml-auto flex items-center space-x-2 sm:space-x-3">
               <AddUserModal />
-              {/* <Button color="gray">
-                <div className="flex items-center gap-x-3">
-                  <HiDocumentDownload className="text-xl" />
-                  <span>Export</span>
-                </div>
-              </Button> */}
             </div>
           </div>
         </div>
@@ -122,10 +88,25 @@ const UserListPage: FC = function () {
 };
 
 const AddUserModal: FC = function () {
+  const toast = useRef<Toast>(null);
   const [isOpen, setOpen] = useState(false);
+  const { register, handleSubmit, reset, formState } = useForm();
+
+  const onSubmit = async (data: any) => {
+    try {
+      //await usersService.create(data);
+      console.log(data);
+      toast.current?.show({ severity: 'success', summary: 'Success', detail: 'User created', life: 3000 });
+      reset();
+      setOpen(false);
+    } catch (error) {
+      toast.current?.show({ severity: 'error', summary: 'Error', detail: 'User not created', life: 3000 });
+    }
+  };
 
   return (
     <>
+      <Toast ref={toast} />
       <Button color="primary" onClick={() => setOpen(true)}>
         <div className="flex items-center gap-x-3">
           <HiPlus className="text-xl" />
@@ -133,76 +114,61 @@ const AddUserModal: FC = function () {
         </div>
       </Button>
       <Modal onClose={() => setOpen(false)} show={isOpen}>
-        <Modal.Header className="border-b border-gray-200 !p-6 dark:border-gray-700">
-          <strong>Add new user</strong>
-        </Modal.Header>
-        <Modal.Body>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Modal.Header className="border-b border-gray-200 !p-6 dark:border-gray-700">
+            <strong>Add new user</strong>
+          </Modal.Header>
+          <Modal.Body>
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
             <div>
-              <Label htmlFor="firstName">First name</Label>
-              <div className="mt-1">
-                <TextInput
-                  id="firstName"
-                  name="firstName"
-                  placeholder="Bonnie"
-                />
+                <Label htmlFor="Email">Email</Label>
+                <div className="mt-1">
+                  <TextInput 
+                    {...register("email")}
+                  />
+                </div>
+              </div>
+              <div>
+                <Label htmlFor="userName">Username</Label>
+                <div className="mt-1">
+                  <TextInput
+                    {...register("userName")}
+                  />
+                </div>
+              </div>
+              <div>
+                <Label htmlFor="mobileNumber">Mobile Number</Label>
+                <div className="mt-1">
+                  <TextInput
+                    {...register("mobileNumber")}
+                    type="tel"
+                  />
+                </div>
+              </div>
+              <div>
+                <Label htmlFor="role">Role</Label>
+                <div className="mt-1">
+                  <Select
+                    {...register("role")}
+                  >
+                    <option value="ADMIN">ADMIN</option>
+                    <option value="USER">USER</option>
+                  </Select>
+                </div>
               </div>
             </div>
-            <div>
-              <Label htmlFor="lastName">Last name</Label>
-              <div className="mt-1">
-                <TextInput id="lastName" name="lastName" placeholder="Green" />
-              </div>
-            </div>
-            <div>
-              <Label htmlFor="email">Email</Label>
-              <div className="mt-1">
-                <TextInput
-                  id="email"
-                  name="email"
-                  placeholder="example@company.com"
-                  type="email"
-                />
-              </div>
-            </div>
-            <div>
-              <Label htmlFor="phone">Phone number</Label>
-              <div className="mt-1">
-                <TextInput
-                  id="phone"
-                  name="phone"
-                  placeholder="e.g., +(12)3456 789"
-                  type="tel"
-                />
-              </div>
-            </div>
-            <div>
-              <Label htmlFor="department">Department</Label>
-              <div className="mt-1">
-                <TextInput
-                  id="department"
-                  name="department"
-                  placeholder="Development"
-                />
-              </div>
-            </div>
-            <div>
-              <Label htmlFor="company">Company</Label>
-              <div className="mt-1">
-                <TextInput
-                  id="company"
-                  name="company"
-                  placeholder="Somewhere"
-                />
-              </div>
-            </div>
-          </div>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button color="primary" onClick={() => setOpen(false)}>
-            Add user
-          </Button>
-        </Modal.Footer>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button
+              type="submit" 
+              color="primary"
+              disabled={formState.isSubmitting}
+            >
+              {formState.isSubmitting && <Spinner className="mr-2" />}
+              Add user
+            </Button>
+          </Modal.Footer>
+        </form>
       </Modal>
     </>
   );
@@ -221,12 +187,6 @@ const AllUsersTable: FC = function () {
   return (
     <Table className="min-w-full divide-y divide-gray-200 dark:divide-gray-600">
         <Table.Head className="bg-gray-100 dark:bg-gray-700">
-          {/* <Table.HeadCell>
-      <Label htmlFor="select-all" className="sr-only">
-        Select all
-      </Label>
-      <Checkbox id="select-all" name="select-all" />
-    </Table.HeadCell> */}
           <Table.HeadCell>Name</Table.HeadCell>
           <Table.HeadCell>Phone number</Table.HeadCell>
           <Table.HeadCell>Role</Table.HeadCell>
@@ -236,28 +196,16 @@ const AllUsersTable: FC = function () {
         <Table.Body className="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-800">
           {users.map((user: any) => (
             <Table.Row key={user.id} className="hover:bg-gray-100 dark:hover:bg-gray-700">
-              {/* <Table.Cell className="w-4 p-4">
-              <div className="flex items-center">
-                <Checkbox aria-describedby="checkbox-1" id="checkbox-1" />
-                <label htmlFor="checkbox-1" className="sr-only">
-                  checkbox
-                </label>
-              </div>
-            </Table.Cell> */}
               <Table.Cell className="mr-12 flex items-center space-x-6 whitespace-nowrap p-4 lg:mr-0">
-                {/* <img
-              className="h-10 w-10 rounded-full"
-              src="/images/users/neil-sims.png"
-              alt="Neil Sims avatar"
-            /> */}
                 <span
-                  className="bg-gray-300 h-2 w-2 p-5 rounded-full text-white"
+                  className="bg-gray-400 h-2 w-2 p-5 rounded-full font-bold text-white text-xl uppercase flex items-center justify-center"
                   aria-hidden="true"
                 >
+                  {user.userName[0]}
                 </span>
                 <div className="text-sm font-normal text-gray-500 dark:text-gray-400">
                   <div className="text-base font-semibold text-gray-900 dark:text-white">
-                    {user.usserName}
+                    {user.userName}
                   </div>
                   <div className="text-sm font-normal text-gray-500 dark:text-gray-400">
                     {user.email}
@@ -274,8 +222,17 @@ const AllUsersTable: FC = function () {
               </Table.Cell>
               <Table.Cell className="whitespace-nowrap p-4 text-base font-normal text-gray-900 dark:text-white">
                 <div className="flex items-center">
-                  <div className="mr-2 h-2.5 w-2.5 rounded-full bg-green-400"></div>{" "}
-                  Active
+                  {user.is_confirmed ? (
+                    <>
+                      <div className="mr-2 h-2.5 w-2.5 rounded-full bg-green-400"></div>
+                      <span>Active</span>
+                    </> 
+                  ) : (
+                    <>
+                      <div className="mr-2 h-2.5 w-2.5 rounded-full bg-red-400"></div>
+                      <span>Inactive</span>
+                    </>
+                  )}
                 </div>
               </Table.Cell>
               <Table.Cell>
@@ -293,7 +250,6 @@ const AllUsersTable: FC = function () {
 
 const EditUserModal: FC = function ({ userId }) {
   const [isOpen, setOpen] = useState(false);
-  const [user, setUser] = useState(null);
   const { register, handleSubmit, reset, setValue, formState } = useForm({
     defaultValues: { 
       userName: '',
@@ -304,112 +260,99 @@ const EditUserModal: FC = function ({ userId }) {
   });
   const toast = useRef<Toast>(null);
 
-  function onSubmit(data: any) {
-    usersService.update(userId, data)
-      .then(() => {
-        console.log(data);
-        toast.current?.show({severity:'success', summary: 'Success', detail:'Message Content', life: 3000});
-        setOpen(false);
-        reset();
-      });
-  }
+  const onSubmit = async (data: any) => {
+    try {
+      await usersService.update(userId, data);
+      toast.current?.show({severity:'success', summary: 'Success', detail:'User updated', life: 3000});
+      setOpen(false);
+      reset();
+    } catch (error) {
+      toast.current?.show({severity:'error', summary: 'Error', detail:'User not found', life: 3000});
+    }
+  };
 
-  // useEffect(() => {
-  //   usersService.get(userId)
-  //     .then((response) => {
-  //       setUser(response.data);
-  //       setValue('userName', response.data.userName);
-  //       console.log(response.data.userName);
-  //       setValue('email', response.data.email);
-  //       console.log(response.data.email);
-  //       setValue('mobileNumber', response.data.mobileNumber);
-  //       console.log(response.data.mobileNumber);
-  //       setValue('role', response.data.role);
-  //       console.log(response.data.role);
-  //     });
-  // } , []);
-
-  function handleClick() {
-    usersService.get(userId)
-      .then((response) => {
-        setUser(response.data);
-        setOpen(true);
-        setValue('userName', response.data[0].userName);
-        setValue('email', response.data[0].email);
-        setValue('mobileNumber', response.data[0].mobileNumber);
-        setValue('role', response.data[0].role);
-      });
-  }
+  const handleClick = async () => {
+    try {
+      const response = await usersService.get(userId);
+      setOpen(true);
+      setValue('userName', response.data[0].userName);
+      setValue('email', response.data[0].email);
+      setValue('mobileNumber', response.data[0].mobileNumber);
+      setValue('role', response.data[0].role);
+    } catch (error) {
+      toast.current?.show({severity:'error', summary: 'Error', detail:'User not found', life: 3000});
+    }
+  };
 
   return (
     <>
       <Button color="primary" onClick={() => handleClick()}>
         <div className="flex items-center gap-x-2">
           <HiOutlinePencilAlt className="text-lg" />
-          {/* Edit user */}
         </div>
       </Button>
+      <Toast ref={toast} />
       <Modal onClose={() => setOpen(false)} show={isOpen}>
-        <Modal.Header className="border-b border-gray-200 !p-6 dark:border-gray-700">
-          <strong>Edit user</strong>
-        </Modal.Header>
-        <Modal.Body>
-          <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Modal.Header className="border-b border-gray-200 !p-6 dark:border-gray-700">
+            <strong>Edit user</strong>
+          </Modal.Header>
+          <Modal.Body>
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-              <div>
-                <Label htmlFor="email">Email</Label>
-                <div className="mt-1">
-                  <TextInput
-                    {...register("email")}
-                  />
+                <div>
+                    <Label htmlFor="email">Email</Label>
+                    <div className="mt-1">
+                        <TextInput {...register("email")}/>
+                    </div>
                 </div>
-              </div>
-              <div>
-                <Label htmlFor="userName">Username</Label>
-                <div className="mt-1">
-                  <TextInput
-                    {...register("userName")}
-                  />
+                <div>
+                    <Label htmlFor="userName">Username</Label>
+                    <div className="mt-1">
+                        <TextInput {...register("userName")}/>
+                    </div>
                 </div>
-              </div>
-              <div>
-                <Label htmlFor="mobileNumber">Phone number</Label>
-                <div className="mt-1">
-                  <TextInput
-                    type="tel"
-                    {...register("mobileNumber")}
-                  />
+                <div>
+                    <Label htmlFor="mobileNumber">Phone number</Label>
+                    <div className="mt-1">
+                        <TextInput type="tel" {...register("mobileNumber")}/>
+                    </div>
                 </div>
-              </div>
-              <div>
-                <Label htmlFor="role">Role</Label>
-                <div className="mt-1">
-                  <TextInput
-                    {...register("role")}
-                  />
+                <div>
+                    <Label htmlFor="role">Role</Label>
+                    <div className="mt-1">
+                        <Select {...register("role")}>
+                            <option value="ADMIN">ADMIN</option>
+                            <option value="USER">USER</option>
+                        </Select>
+                    </div>
                 </div>
-              </div>
             </div>
-          </form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button
-            disabled={formState.isSubmitting}
-            color="primary"
-          >
-            Save all
-          </Button>
-        </Modal.Footer>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button
+              type="submit"
+              disabled={formState.isSubmitting}
+              color="primary"
+              >
+              {formState.isSubmitting && (
+                <Spinner className="mr-2" />
+                )}
+              Save all
+            </Button>
+          </Modal.Footer>
+        </form>
       </Modal>
     </>
   );
 };
 
 const DeleteUserModal: FC = function ({ userId }) {
+  const toast = useRef<Toast>(null);
   const [isOpen, setOpen] = useState(false);
 
   function handleDelete(id: number) {
     // usersService.remove(id);
+    toast.current?.show({severity:'success', summary: 'Success', detail:'Deleted successfully', life: 3000});
     console.log('delete user', id);
     setOpen(false);
   }
@@ -419,9 +362,9 @@ const DeleteUserModal: FC = function ({ userId }) {
       <Button color="failure" onClick={() => setOpen(true)}>
         <div className="flex items-center gap-x-2">
           <HiTrash className="text-lg" />
-          {/* Delete user */}
         </div>
       </Button>
+      <Toast ref={toast} />
       <Modal onClose={() => setOpen(false)} show={isOpen} size="md">
         <Modal.Header className="px-6 pt-6 pb-0">
           <span className="sr-only">Delete user</span>
