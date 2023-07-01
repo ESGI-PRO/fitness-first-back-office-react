@@ -124,7 +124,7 @@ const ExampleSidebar: FC = function () {
               </Sidebar.Item>
               <Sidebar.Item href="/authentication/sign-up" icon={HiPencil}>
                 Sign up
-              </Sidebar.Item> */}
+              </Sidebar.Item> 
             </Sidebar.ItemGroup>
             <Sidebar.ItemGroup>
               <Sidebar.Item
