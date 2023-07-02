@@ -12,8 +12,12 @@ import DashboardPage from "./pages";
 import SignInPage from "./pages/authentication/sign-in";
 import EcommerceProductsPage from "./pages/e-commerce/products";
 import UserListPage from "./pages/users/list";
+import NutritionPage from "./pages/nutritions/nutritions";
+import TrainingsPage from "./pages/trainings/trainings";
+import IngredientsPage from "./pages/ingredients/ingredients";
 
 import { authService } from "./services"; 
+import SignUpPage from "./pages/authentication/sign-up";
 
 const App = () => {
   const [authenticated, setAuthenticated] = useState(true);
@@ -64,4 +68,25 @@ if (!container) {
 }
 
 const root = createRoot(container);
-root.render(<App />);
+
+root.render(
+  <StrictMode>
+    <Flowbite theme={{ theme }}>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<DashboardPage />} index />
+          <Route path="/authentication/sign-in" element={<SignInPage />} />
+          <Route path="/authentication/sign-up" element={<SignUpPage />} />
+          <Route
+            path="/e-commerce/products"
+            element={<EcommerceProductsPage />}
+          />
+          <Route path="/users/list" element={<UserListPage />} />
+          <Route path="/nutritions" element={<NutritionPage />} />
+          <Route path="/trainings" element={<TrainingsPage />} />
+          <Route path="/ingredients" element={<IngredientsPage />} />
+        </Routes>
+      </BrowserRouter>
+    </Flowbite>
+  </StrictMode>
+);

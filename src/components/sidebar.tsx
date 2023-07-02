@@ -71,6 +71,29 @@ const ExampleSidebar: FC = function () {
                 Products
               </Sidebar.Item>
               <Sidebar.Item
+                href="/nutritions"
+                icon={HiShoppingBag}
+                className={
+                  "/nutritions" === currentPage
+                    ? "bg-gray-100 dark:bg-gray-700"
+                    : ""
+                }
+              >
+                Nutritions
+              </Sidebar.Item>
+              <Sidebar.Item
+                href="/ingredients"
+                icon={HiShoppingBag}
+                className={
+                  "/ingredients" === currentPage
+                    ? "bg-gray-100 dark:bg-gray-700"
+                    : ""
+                }
+              >
+                Ingredients
+              </Sidebar.Item>
+              <Sidebar.Item
+                href="/users/list"
                 icon={HiUsers}
                 className={
                   "/users/list" === currentPage
@@ -80,12 +103,23 @@ const ExampleSidebar: FC = function () {
               >
                 <Link to="/users/list">Users list</Link>
               </Sidebar.Item>
-              {/* <Sidebar.Item href="/authentication/sign-in" icon={HiLogin}>
+              <Sidebar.Item
+                href="/trainings"
+                icon={HiShoppingBag}
+                className={
+                  "/trainings" === currentPage
+                    ? "bg-gray-100 dark:bg-gray-700"
+                    : ""
+                }
+              >
+                Trainings
+              </Sidebar.Item>
+              <Sidebar.Item href="/authentication/sign-in" icon={HiLogin}>
                 Sign in
               </Sidebar.Item>
               <Sidebar.Item href="/authentication/sign-up" icon={HiPencil}>
                 Sign up
-              </Sidebar.Item> */}
+              </Sidebar.Item> 
             </Sidebar.ItemGroup>
             <Sidebar.ItemGroup>
               <Sidebar.Item
