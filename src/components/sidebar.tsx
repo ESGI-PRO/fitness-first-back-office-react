@@ -59,8 +59,7 @@ const ExampleSidebar: FC = function () {
               >
                 <Link to="/">Dashboard</Link>
               </Sidebar.Item>
-              <Sidebar.Item
-                href="/e-commerce/products"
+              {/* <Sidebar.Item
                 icon={HiShoppingBag}
                 className={
                   "/e-commerce/products" === currentPage
@@ -68,10 +67,9 @@ const ExampleSidebar: FC = function () {
                     : ""
                 }
               >
-                Products
-              </Sidebar.Item>
+                <Link to="/e-commerce/products">Products</Link>
+              </Sidebar.Item> */}
               <Sidebar.Item
-                href="/nutritions"
                 icon={HiShoppingBag}
                 className={
                   "/nutritions" === currentPage
@@ -79,10 +77,9 @@ const ExampleSidebar: FC = function () {
                     : ""
                 }
               >
-                Nutritions
+                <Link to="/nutritions">Nutritions</Link>
               </Sidebar.Item>
               <Sidebar.Item
-                href="/ingredients"
                 icon={HiShoppingBag}
                 className={
                   "/ingredients" === currentPage
@@ -90,10 +87,9 @@ const ExampleSidebar: FC = function () {
                     : ""
                 }
               >
-                Ingredients
+                <Link to="/ingredients">Ingredients</Link>
               </Sidebar.Item>
               <Sidebar.Item
-                href="/users/list"
                 icon={HiUsers}
                 className={
                   "/users/list" === currentPage
@@ -104,7 +100,6 @@ const ExampleSidebar: FC = function () {
                 <Link to="/users/list">Users list</Link>
               </Sidebar.Item>
               <Sidebar.Item
-                href="/trainings"
                 icon={HiShoppingBag}
                 className={
                   "/trainings" === currentPage
@@ -112,14 +107,8 @@ const ExampleSidebar: FC = function () {
                     : ""
                 }
               >
-                Trainings
+                <Link to="/trainings">Trainings</Link>
               </Sidebar.Item>
-              <Sidebar.Item href="/authentication/sign-in" icon={HiLogin}>
-                Sign in
-              </Sidebar.Item>
-              <Sidebar.Item href="/authentication/sign-up" icon={HiPencil}>
-                Sign up
-              </Sidebar.Item> 
             </Sidebar.ItemGroup>
             <Sidebar.ItemGroup>
               <Sidebar.Item
