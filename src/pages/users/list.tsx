@@ -1,7 +1,6 @@
 import {
   Breadcrumb,
   Button,
-  Checkbox,
   Label,
   Modal,
   Table,
@@ -13,10 +12,6 @@ import type { FC } from "react";
 import {
   HiChevronLeft,
   HiChevronRight,
-  HiCog,
-  HiDocumentDownload,
-  HiDotsVertical,
-  HiExclamationCircle,
   HiHome,
   HiOutlineExclamationCircle,
   HiOutlinePencilAlt,
@@ -25,7 +20,6 @@ import {
 } from "react-icons/hi";
 import { Toast } from 'primereact/toast';
 import NavbarSidebarLayout from "../../layouts/navbar-sidebar";
-import { useNavigate, Link } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import { useState, useEffect, useRef } from "react";
 
@@ -94,7 +88,7 @@ const AddUserModal: FC = function () {
 
   const onSubmit = async (data: any) => {
     try {
-      //await usersService.create(data);
+      await usersService.create(data);
       console.log(data);
       toast.current?.show({ severity: 'success', summary: 'Success', detail: 'User created', life: 3000 });
       reset();
@@ -248,7 +242,7 @@ const AllUsersTable: FC = function () {
   );
 };
 
-const EditUserModal: FC = function ({ userId }) {
+const EditUserModal: any = function (userId: any) {
   const [isOpen, setOpen] = useState(false);
   const { register, handleSubmit, reset, setValue, formState } = useForm({
     defaultValues: { 
@@ -346,7 +340,7 @@ const EditUserModal: FC = function ({ userId }) {
   );
 };
 
-const DeleteUserModal: FC = function ({ userId }) {
+const DeleteUserModal: any = function (userId: any) {
   const toast = useRef<Toast>(null);
   const [isOpen, setOpen] = useState(false);
 

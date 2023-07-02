@@ -2,7 +2,7 @@ import { Button, Card, Label, TextInput } from "flowbite-react";
 
 import { useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 import { Toast } from 'primereact/toast';
 
 import { authService } from "../../services";

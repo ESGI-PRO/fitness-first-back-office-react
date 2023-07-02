@@ -3,11 +3,6 @@ import type { FC } from "react";
 import { useEffect, useState, useRef } from "react";
 import {
   HiChartPie,
-  HiClipboard,
-  HiCollection,
-  HiInformationCircle,
-  HiLogin,
-  HiPencil,
   HiSearch,
   HiShoppingBag,
   HiUsers,
