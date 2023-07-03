@@ -151,16 +151,17 @@ const AddUserModal: FC = function () {
   const [allCategories, setAllCategories] = useState([]);
   
 
-  useEffect(() => {
+  // useEffect(() => {
     const fetchCategory = async () => {
+      setOpen(true)
       const getCategory = await axios.get(
         `http://localhost:8000/nutrition/categories`
       ); //http://localhost:8000/nutrition/categories
       setAllCategories(getCategory?.data.data.nutrition);
       console.log(getCategory?.data.data.nutrition);
     };
-    fetchCategory();
-  }, []);
+  //   fetchCategory();
+  // }, []);
 
   const handleSubmitIngredient = async () => {
     // Mettez ici votre logique d'envoi des données au backend, par exemple avec axios
@@ -207,7 +208,7 @@ const AddUserModal: FC = function () {
 
   return (
     <>
-      <Button color="primary" onClick={() => setOpen(true)}>
+      <Button color="primary" onClick={fetchCategory}>
         <div className="flex items-center gap-x-3">
           <HiPlus className="text-xl" />
           Add Ingredient
@@ -245,15 +246,15 @@ const AddUserModal: FC = function () {
             <div>
               <Label htmlFor="email">Categories</Label>
               <div className="mt-1">
-                <Select
+                 <Select
                 onChange={(e) => setCategory(e.target.value)}>
+                  <option>None</option>
                   {
                     allCategories?.map((singleCategory, id) => (
-                      <option key={id} value={singleCategory.id}>{singleCategory.name}</option>
-                      // <option>{singleCategory.name}</option>
+                      <option key={id} value={singleCategory.id ? singleCategory.id : 0}>{singleCategory.name}</option>
                     ))
                   }
-                </Select>
+                </Select> 
               </div>
             </div>
             <div>
@@ -495,22 +496,33 @@ const EditUserModal: FC = function ({ ingredient }) {
   const [protein, setProtein] = useState(ingredient.protein_g);
   const [sodium, setSodium] = useState(ingredient.sodium_mg);
   const [sugar, setSugar] = useState(ingredient.sugar_g);
+  const [allCategories, setAllCategories] = useState([]);
+
+  const fetchCategory = async () => {
+    setOpen(true)
+    const getCategory = await axios.get(
+      `http://localhost:8000/nutrition/categories`
+    ); //http://localhost:8000/nutrition/categories
+    setAllCategories(getCategory?.data.data.nutrition);
+    console.log(getCategory?.data.data.nutrition);
+  };
+  
   const handleEditUser = async () => {
     // Mettez ici votre logique d'envoi des données au backend, par exemple avec axios
     const updatedIngredient = {
       id: ingredient.id,
       name,
-      calories,
-      grammes,
-      CategorieId: category.id,
-      cholesterol_mg: cholesterol,
-      fat_saturated_g: fatSatured,
-      fat_total_g: fatTotal,
-      fiber_g: fiber,
-      potassium_mg: potassium,
-      protein_g: protein,
-      sodium_mg: sodium,
-      sugar_g: sugar,
+      calories: parseFloat(calories),
+      grammes: parseFloat(grammes),
+      CategorieId: Number(category),
+      cholesterol_mg: parseFloat(cholesterol),
+      fat_saturated_g: parseFloat(fatSatured),
+      fat_total_g: parseFloat(fatTotal),
+      fiber_g: parseFloat(fiber),
+      potassium_mg: parseFloat(potassium),
+      protein_g: parseFloat(protein),
+      sodium_mg: parseFloat(sodium),
+      sugar_g: parseFloat(sugar),
     };
     await axios
       .put(
@@ -532,7 +544,7 @@ const EditUserModal: FC = function ({ ingredient }) {
 
   return (
     <>
-      <Button color="primary" onClick={() => setOpen(true)}>
+      <Button color="primary" onClick={fetchCategory}>
         <div className="flex items-center gap-x-2">
           <HiOutlinePencilAlt className="text-lg" />
           Edit ingredient
@@ -571,13 +583,22 @@ const EditUserModal: FC = function ({ ingredient }) {
             <div>
               <Label htmlFor="email">Categories</Label>
               <div className="mt-1">
-                <TextInput
+                {/* <TextInput
                   id="categories"
                   name="categories"
                   value={category?.name}
                   placeholder="category"
                   onChange={(e) => setCategory(e.target.value)}
-                />
+                /> */}
+                <Select
+                  onChange={(e) => setCategory(e.target.value)}>
+                    <option>None</option>
+                    {
+                      allCategories?.map((singleCategory, id) => (
+                        <option key={id} value={singleCategory.id ? singleCategory.id : 0}>{singleCategory.name}</option>
+                      ))
+                    }
+                </Select> 
               </div>
             </div>
             <div>
