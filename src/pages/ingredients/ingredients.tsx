@@ -31,6 +31,8 @@ import { Pagination } from "../users/list";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { create } from "domain";
+import ingredientsAPI from "./datas";
+import notifications from "../../services/notifications";
 
 const IngredientsPage: FC = function () {
   const [search, setSearch] = useState("");
@@ -146,8 +148,8 @@ const AddUserModal: FC = function () {
   const [protein, setProtein] = useState();
   const [sodium, setSodium] = useState();
   const [sugar, setSugar] = useState();
-
   const [allCategories, setAllCategories] = useState([]);
+  
 
   useEffect(() => {
     const fetchCategory = async () => {
@@ -160,13 +162,13 @@ const AddUserModal: FC = function () {
     fetchCategory();
   }, []);
 
-  const handleSubmitIngredient = () => {
+  const handleSubmitIngredient = async () => {
     // Mettez ici votre logique d'envoi des données au backend, par exemple avec axios
     const createIngredient = {
       name,
       calories: parseFloat(calories),
       grammes: parseFloat(grammes),
-      CategorieId: parseFloat(category),
+      CategorieId: Number(category),
       cholesterol_mg: parseFloat(cholesterol),
       fat_saturated_g: parseFloat(fatSatured),
       fat_total_g: parseFloat(fatTotal),
@@ -178,24 +180,30 @@ const AddUserModal: FC = function () {
       carbohydrates_total_g: parseFloat(carboH),
     };
     console.log(createIngredient);
-    axios.post(`http://localhost:8000/nutrition/ingredients`, createIngredient)
+    await axios.post(`http://localhost:8000/nutrition/ingredients`, createIngredient)
       .then(response => {
         // Gérez la réponse du backend si nécessaire
         console.log(response.data);
         // Fermez le modal après la modification
         setOpen(false);
+        notifications.success("ingredients " + createIngredient.name + " created");
 
       })
       .catch(error => {
         // Gérez les erreurs de requête si nécessaire
         console.error(error);
       });
+
+      // await ingredientsAPI.create(createIngredient).then((response) => {
+      //   setOpen(false)
+      //   notifications.success("ingredients " + createIngredient.name + " created");
+      // });
   };
 
-  const changeCategory = async (id) => {
-    setCategory(id);
-    console.log(id);
-  };
+  // const changeCategory = async (id) => {
+  //   setCategory(id);
+  //   console.log(id);
+  // };
 
   return (
     <>
@@ -238,22 +246,14 @@ const AddUserModal: FC = function () {
               <Label htmlFor="email">Categories</Label>
               <div className="mt-1">
                 <Select
-                  // onChange={(e) => handleChange(e)}
-                  onChange={(e) => changeCategory(e.target.value)}
-                >
-                  {allCategories?.map((categoryP) => (
-                    <option value={categoryP.id}>
-                      {categoryP.name} - {categoryP.id}
-                    </option>
-                  ))}
+                onChange={(e) => setCategory(e.target.value)}>
+                  {
+                    allCategories?.map((singleCategory, id) => (
+                      <option key={id} value={singleCategory.id}>{singleCategory.name}</option>
+                      // <option>{singleCategory.name}</option>
+                    ))
+                  }
                 </Select>
-                {/* <TextInput
-                    type="number"
-                    id="categories"
-                    name="categories"
-                    placeholder="category"
-                    onChange={(e) => setCategory(e.target.value)}
-                  /> */}
               </div>
             </div>
             <div>
@@ -464,7 +464,7 @@ const AllUsersTable: FC = function () {
             <Table.Cell className="whitespace-nowrap p-4 text-base font-normal text-gray-900 dark:text-white">
               <div className="flex items-center">
                 <div className="mr-2 h-2.5 w-2.5 rounded-full bg-green-400"></div>{" "}
-                {ingredient.category.name}
+                {ingredient?.category?.name}
               </div>
             </Table.Cell>
             <Table.Cell>
@@ -475,147 +475,6 @@ const AllUsersTable: FC = function () {
             </Table.Cell>
           </Table.Row>
         ))}
-        {/* <Table.Row className="hover:bg-gray-100 dark:hover:bg-gray-700">
-          <Table.Cell className="w-4 p-4">
-            <div className="flex items-center">
-              <Checkbox aria-describedby="checkbox-1" id="checkbox-1" />
-              <label htmlFor="checkbox-1" className="sr-only">
-                checkbox
-              </label>
-            </div>
-          </Table.Cell>
-          <Table.Cell className="mr-12 flex items-center space-x-6 whitespace-nowrap p-4 lg:mr-0">
-            <img
-              className="h-10 w-10 rounded-full"
-              src="/images/users/neil-sims.png"
-              alt="Neil Sims avatar"
-            />
-            <div className="text-sm font-normal text-gray-500 dark:text-gray-400">
-              <div className="text-base font-semibold text-gray-900 dark:text-white">
-                Neil Sims
-              </div>
-              <div className="text-sm font-normal text-gray-500 dark:text-gray-400">
-                neil.sims@flowbite.com
-              </div>
-            </div>
-          </Table.Cell>
-          <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
-            Front-end developer
-          </Table.Cell>
-          <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
-            United States
-          </Table.Cell>
-          <Table.Cell className="whitespace-nowrap p-4 text-base font-normal text-gray-900 dark:text-white">
-            <div className="flex items-center">
-              <div className="mr-2 h-2.5 w-2.5 rounded-full bg-green-400"></div>{" "}
-              Active
-            </div>
-          </Table.Cell>
-          <Table.Cell>
-            <div className="flex items-center gap-x-3 whitespace-nowrap">
-              <EditUserModal />
-              <DeleteUserModal />
-            </div>
-          </Table.Cell>
-        </Table.Row> */}
-        {/* <Table.Row className="hover:bg-gray-100 dark:hover:bg-gray-700">
-          <Table.Cell className="w-4 p-4">
-            <div className="flex items-center">
-              <input
-                id="checkbox-2"
-                aria-describedby="checkbox-1"
-                type="checkbox"
-                className="h-4 w-4 rounded border-gray-300 bg-gray-50 focus:ring-4 focus:ring-primary-300 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600"
-              />
-              <label htmlFor="checkbox-2" className="sr-only">
-                checkbox
-              </label>
-            </div>
-          </Table.Cell>
-          <Table.Cell className="mr-12 flex items-center space-x-6 whitespace-nowrap p-4 lg:mr-0">
-            <img
-              className="h-10 w-10 rounded-full"
-              src="/images/users/roberta-casas.png"
-              alt="Roberta Casas avatar"
-            />
-            <div className="text-sm font-normal text-gray-500 dark:text-gray-400">
-              <div className="text-base font-semibold text-gray-900 dark:text-white">
-                Roberta Casas
-              </div>
-              <div className="text-sm font-normal text-gray-500 dark:text-gray-400">
-                roberta.casas@flowbite.com
-              </div>
-            </div>
-          </Table.Cell>
-          <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
-            Designer
-          </Table.Cell>
-          <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
-            Spain
-          </Table.Cell>
-          <Table.Cell className="whitespace-nowrap p-4 text-base font-normal text-gray-900 dark:text-white">
-            <div className="flex items-center">
-              <div className="mr-2 h-2.5 w-2.5 rounded-full bg-green-400"></div>{" "}
-              Active
-            </div>
-          </Table.Cell>
-          <Table.Cell>
-            <div className="flex items-center gap-x-3 whitespace-nowrap">
-              <EditUserModal />
-              <DeleteUserModal />
-            </div>
-          </Table.Cell>
-        </Table.Row>
-        <Table.Row className="hover:bg-gray-100 dark:hover:bg-gray-700">
-          <Table.Cell className="w-4 p-4">
-            <div className="flex items-center">
-              <input
-                id="checkbox-3"
-                aria-describedby="checkbox-1"
-                type="checkbox"
-                className="h-4 w-4 rounded border-gray-300 bg-gray-50 focus:ring-4 focus:ring-primary-300 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600"
-              />
-              <label htmlFor="checkbox-3" className="sr-only">
-                checkbox
-              </label>
-            </div>
-          </Table.Cell>
-          <Table.Cell className="mr-12 flex items-center space-x-6 whitespace-nowrap p-4 lg:mr-0">
-            <img
-              className="h-10 w-10 rounded-full"
-              src="/images/users/michael-gough.png"
-              alt="Michael Gough avatar"
-            />
-            <div className="text-sm font-normal text-gray-500 dark:text-gray-400">
-              <div className="text-base font-semibold text-gray-900 dark:text-white">
-                Michael Gough
-              </div>
-              <div className="text-sm font-normal text-gray-500 dark:text-gray-400">
-                michael.gough@flowbite.com
-              </div>
-            </div>
-          </Table.Cell>
-          <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
-            React developer
-          </Table.Cell>
-          <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
-            United Kingdom
-          </Table.Cell>
-          <Table.Cell className="whitespace-nowrap p-4 text-base font-normal text-gray-900 dark:text-white">
-            <div className="flex items-center">
-              <div className="mr-2 h-2.5 w-2.5 rounded-full bg-green-400"></div>{" "}
-              Active
-            </div>
-          </Table.Cell>
-          <Table.Cell>
-            <div className="flex items-center gap-x-3 whitespace-nowrap">
-              <EditUserModal />
-              <DeleteUserModal />
-            </div>
-          </Table.Cell>
-        </Table.Row> */}
-
-        {/*  */}
       </Table.Body>
     </Table>
   );
@@ -636,7 +495,6 @@ const EditUserModal: FC = function ({ ingredient }) {
   const [protein, setProtein] = useState(ingredient.protein_g);
   const [sodium, setSodium] = useState(ingredient.sodium_mg);
   const [sugar, setSugar] = useState(ingredient.sugar_g);
-  const navigate = useNavigate();
   const handleEditUser = async () => {
     // Mettez ici votre logique d'envoi des données au backend, par exemple avec axios
     const updatedIngredient = {
@@ -716,7 +574,7 @@ const EditUserModal: FC = function ({ ingredient }) {
                 <TextInput
                   id="categories"
                   name="categories"
-                  value={category.name}
+                  value={category?.name}
                   placeholder="category"
                   onChange={(e) => setCategory(e.target.value)}
                 />
