@@ -1,8 +1,6 @@
 import { Sidebar, TextInput } from "flowbite-react";
 import type { FC } from "react";
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-
+import { useEffect, useState, useRef } from "react";
 import {
   HiChartPie,
   HiClipboard,
@@ -13,10 +11,28 @@ import {
   HiSearch,
   HiShoppingBag,
   HiUsers,
+  HiOutlineLogout,
 } from "react-icons/hi";
+import { Link } from "react-router-dom";
+import { Toast } from 'primereact/toast';
+
+import { authService } from "../services"; 
 
 const ExampleSidebar: FC = function () {
   const [currentPage, setCurrentPage] = useState("");
+  const toast = useRef<Toast>(null);
+
+  const handleLogout = () => {
+    authService.logout()
+      .then((response: any) => {
+        if (response) {
+          console.log('USER IS LOGGED OUT', response);
+          localStorage.removeItem('token');
+          toast.current?.show({ severity: 'success', summary: 'Success', detail: 'User is logged out', life: 3000 });
+        }
+      }
+    );
+  }
 
   useEffect(() => {
     const newPage = window.location.pathname;
@@ -26,6 +42,7 @@ const ExampleSidebar: FC = function () {
 
   return (
     <Sidebar aria-label="Sidebar with multi-level dropdown example">
+      <Toast ref={toast} />
       <div className="flex h-full flex-col justify-between py-2">
         <div>
           <form className="pb-3 md:hidden">
@@ -46,7 +63,7 @@ const ExampleSidebar: FC = function () {
                   "/" === currentPage ? "bg-gray-100 dark:bg-gray-700" : ""
                 }
               >
-                Dashboard
+                <Link to="/">Dashboard</Link>
               </Sidebar.Item>
               </Link>
               <Sidebar.Item
@@ -92,7 +109,18 @@ const ExampleSidebar: FC = function () {
                     : ""
                 }
               >
-                Users list
+                <Link to="/users/list">Users list</Link>
+              </Sidebar.Item>
+              <Sidebar.Item
+                href="/trainings"
+                icon={HiShoppingBag}
+                className={
+                  "/trainings" === currentPage
+                    ? "bg-gray-100 dark:bg-gray-700"
+                    : ""
+                }
+              >
+                Trainings
               </Sidebar.Item>
               </Link>
               <Sidebar.Item href="/authentication/sign-in" icon={HiLogin}>
@@ -100,26 +128,14 @@ const ExampleSidebar: FC = function () {
               </Sidebar.Item>
               <Sidebar.Item href="/authentication/sign-up" icon={HiPencil}>
                 Sign up
-              </Sidebar.Item>
+              </Sidebar.Item> 
             </Sidebar.ItemGroup>
             <Sidebar.ItemGroup>
               <Sidebar.Item
-                href="https://github.com/themesberg/flowbite-react/"
-                icon={HiClipboard}
+                icon={HiOutlineLogout}
+                onClick={() => { handleLogout() }}
               >
-                Docs
-              </Sidebar.Item>
-              <Sidebar.Item
-                href="https://flowbite-react.com/"
-                icon={HiCollection}
-              >
-                Components
-              </Sidebar.Item>
-              <Sidebar.Item
-                href="https://github.com/themesberg/flowbite-react/issues"
-                icon={HiInformationCircle}
-              >
-                Help
+                <Link to="/authentication/sign-in">Logout</Link>
               </Sidebar.Item>
             </Sidebar.ItemGroup>
           </Sidebar.Items>
