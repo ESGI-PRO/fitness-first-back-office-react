@@ -23,9 +23,29 @@ import NavbarSidebarLayout from "../../layouts/navbar-sidebar";
 import { useForm } from "react-hook-form";
 import { useState, useEffect, useRef } from "react";
 
+import { DataTable } from 'primereact/datatable';
+import { Column } from 'primereact/column';
+import { FilterMatchMode, FilterOperator } from 'primereact/api';
+
 import { usersService } from "../../services"; 
 
 const UserListPage: FC = function () {
+  const [globalFilterValue, setGlobalFilterValue] = useState('');
+  const [filters, setFilters] = useState({
+    global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+  });
+
+  const onGlobalFilterChange = (event: any) => {
+    const value = event.target.value;
+    let _filters = { ...filters };
+
+    _filters['global'].value = value;
+
+    setFilters(_filters);
+    setGlobalFilterValue(value);
+
+    console.log('GLOBAL FILTER VALUE', value);
+  }
 
   return (
     <NavbarSidebarLayout isFooter={false}>
@@ -46,25 +66,6 @@ const UserListPage: FC = function () {
               All users
             </h1>
           </div>
-          <div className="sm:flex">
-            <div className="mb-3 hidden items-center dark:divide-gray-700 sm:mb-0 sm:flex sm:divide-x sm:divide-gray-100">
-              <form className="lg:pr-3">
-                <Label htmlFor="users-search" className="sr-only">
-                  Search
-                </Label>
-                <div className="relative mt-1 lg:w-64 xl:w-96">
-                  <TextInput
-                    id="users-search"
-                    name="users-search"
-                    placeholder="Search for users"
-                  />
-                </div>
-              </form>
-            </div>
-            <div className="ml-auto flex items-center space-x-2 sm:space-x-3">
-              <AddUserModal />
-            </div>
-          </div>
         </div>
       </div>
       <div className="flex flex-col">
@@ -76,7 +77,6 @@ const UserListPage: FC = function () {
           </div>
         </div>
       </div>
-      <Pagination />
     </NavbarSidebarLayout>
   );
 };
@@ -168,9 +168,93 @@ const AddUserModal: FC = function () {
   );
 };
 
+const statusBodyTemplate = (rowData: any) => {
+  return (
+    <div className="flex items-center">
+      {rowData.is_confirmed ? (
+        <>
+          <div className="mr-2 h-2.5 w-2.5 rounded-full bg-green-400"></div>
+          <span>Active</span>
+        </>
+      ) : (
+        <>
+          <div className="mr-2 h-2.5 w-2.5 rounded-full bg-red-400"></div>
+          <span>Inactive</span>
+        </>
+      )}
+    </div>  
+  )
+};
+
+const actionBodyTemplate = (user: any) => {
+  return (
+    <div className="flex items-center gap-x-3 whitespace-nowrap">
+      <EditUserModal data={user} />
+      <DeleteUserModal data={user} />
+    </div>
+  )
+}
+
+const userBodyTemplate = (user: any) => {
+  return (
+    <div className="mr-12 flex items-center space-x-6 whitespace-nowrap p-4 lg:mr-0">
+      <span
+          className="bg-gray-400 h-2 w-2 p-5 rounded-full font-bold text-white text-xl uppercase flex items-center justify-center"
+          aria-hidden="true">
+          {user.userName[0]}
+      </span>
+      <div className="text-sm font-normal text-gray-500 dark:text-gray-400">
+          <div className="text-base font-semibold text-gray-900 dark:text-white">
+              {user.userName}
+          </div>
+          <div className="text-sm font-normal text-gray-500 dark:text-gray-400">
+              {user.email}
+          </div>
+      </div>
+    </div>
+  )
+}
+
 const AllUsersTable: FC = function () {
   const [users, setUsers] = useState([]);
+  const [filters, setFilters] = useState({ global: { value: null, matchMode: FilterMatchMode.CONTAINS }});
+  const [globalFilterValue, setGlobalFilterValue] = useState('');
 
+  const onGlobalFilterChange = (e: any) => {
+    const value = e.target.value;
+    let _filters = { ...filters };
+
+    _filters['global'].value = value;
+
+    setFilters(_filters);
+    setGlobalFilterValue(value);
+};
+
+  const renderHeader = () => {
+      return (
+        <div className="sm:flex m-2">
+          <div className="mb-3 hidden items-center dark:divide-gray-700 sm:mb-0 sm:flex sm:divide-x sm:divide-gray-100">
+            <form className="lg:pr-3">
+              <Label htmlFor="users-search" className="sr-only">
+                Search
+              </Label>
+              <div className="relative mt-1 lg:w-64 xl:w-96">
+                <TextInput
+                  value={globalFilterValue}
+                  onChange={onGlobalFilterChange}
+                  placeholder="Search for users" />
+              </div>
+            </form>
+          </div>
+          <div className="ml-auto flex items-center space-x-2 sm:space-x-3">
+            <AddUserModal />
+          </div>
+        </div>
+      );
+  };
+
+  const header = renderHeader();
+  
   useEffect(() => {
     usersService.getAll()
       .then((response) => {
@@ -179,70 +263,29 @@ const AllUsersTable: FC = function () {
   }, []);
 
   return (
-    <Table className="min-w-full divide-y divide-gray-200 dark:divide-gray-600">
-        <Table.Head className="bg-gray-100 dark:bg-gray-700">
-          <Table.HeadCell>Name</Table.HeadCell>
-          <Table.HeadCell>Phone number</Table.HeadCell>
-          <Table.HeadCell>Role</Table.HeadCell>
-          <Table.HeadCell>Status</Table.HeadCell>
-          <Table.HeadCell>Actions</Table.HeadCell>
-        </Table.Head>
-        <Table.Body className="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-800">
-          {users.map((user: any) => (
-            <Table.Row key={user.id} className="hover:bg-gray-100 dark:hover:bg-gray-700">
-              <Table.Cell className="mr-12 flex items-center space-x-6 whitespace-nowrap p-4 lg:mr-0">
-                <span
-                  className="bg-gray-400 h-2 w-2 p-5 rounded-full font-bold text-white text-xl uppercase flex items-center justify-center"
-                  aria-hidden="true"
-                >
-                  {user.userName[0]}
-                </span>
-                <div className="text-sm font-normal text-gray-500 dark:text-gray-400">
-                  <div className="text-base font-semibold text-gray-900 dark:text-white">
-                    {user.userName}
-                  </div>
-                  <div className="text-sm font-normal text-gray-500 dark:text-gray-400">
-                    {user.email}
-                  </div>
-                </div>
-              </Table.Cell>
-              <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
-                {user.mobileNumber}
-              </Table.Cell>
-              <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
-                <span className="px-2 py-1 text-sm text-green-800 bg-green-100 rounded-full">
-                  {user.role}
-                </span>
-              </Table.Cell>
-              <Table.Cell className="whitespace-nowrap p-4 text-base font-normal text-gray-900 dark:text-white">
-                <div className="flex items-center">
-                  {user.is_confirmed ? (
-                    <>
-                      <div className="mr-2 h-2.5 w-2.5 rounded-full bg-green-400"></div>
-                      <span>Active</span>
-                    </> 
-                  ) : (
-                    <>
-                      <div className="mr-2 h-2.5 w-2.5 rounded-full bg-red-400"></div>
-                      <span>Inactive</span>
-                    </>
-                  )}
-                </div>
-              </Table.Cell>
-              <Table.Cell>
-                <div className="flex items-center gap-x-3 whitespace-nowrap">
-                  <EditUserModal userId={user.id} />
-                  <DeleteUserModal userId={user.id} />
-                </div>
-              </Table.Cell>
-            </Table.Row>
-          ))}
-        </Table.Body>
-      </Table>
+    <>
+      <DataTable 
+        value={users} 
+        size={"small"} 
+        paginator 
+        rows={10} 
+        rowsPerPageOptions={[5, 10, 25, 50]} 
+        tableStyle={{ minWidth: '50rem' }}
+        header={header}
+        globalFilterFields={['userName', 'mobileNumber', 'role']}
+        filters={filters}
+      >
+        <Column header="Name" style={{ width: '25%' }} body={userBodyTemplate}></Column>
+        <Column field="mobileNumber" header="Phone number" style={{ width: '25%' }}></Column>
+        <Column field="role" header="Role" style={{ width: '25%' }}></Column>
+        <Column header="Status" style={{ width: '25%' }} body={statusBodyTemplate}></Column>
+        <Column header="Actions" style={{ width: '25%' }} body={actionBodyTemplate}></Column>
+      </DataTable>
+    </>
   );
 };
 
-const EditUserModal: any = function (userId: any) {
+const EditUserModal: any = function (data: any) {
   const [isOpen, setOpen] = useState(false);
   const { register, handleSubmit, reset, setValue, formState } = useForm({
     defaultValues: { 
@@ -253,10 +296,11 @@ const EditUserModal: any = function (userId: any) {
     } 
   });
   const toast = useRef<Toast>(null);
+  const id = data.data.id;
 
   const onSubmit = async (data: any) => {
     try {
-      await usersService.update(userId, data);
+      await usersService.update(id, data);
       toast.current?.show({severity:'success', summary: 'Success', detail:'User updated', life: 3000});
       setOpen(false);
       reset();
@@ -267,12 +311,12 @@ const EditUserModal: any = function (userId: any) {
 
   const handleClick = async () => {
     try {
-      const response = await usersService.get(userId);
+      const response = await usersService.get(id);
       setOpen(true);
-      setValue('userName', response.data[0].userName);
-      setValue('email', response.data[0].email);
-      setValue('mobileNumber', response.data[0].mobileNumber);
-      setValue('role', response.data[0].role);
+      setValue('userName', response.data.userName);
+      setValue('email', response.data.email);
+      setValue('mobileNumber', response.data.mobileNumber);
+      setValue('role', response.data.role);
     } catch (error) {
       toast.current?.show({severity:'error', summary: 'Error', detail:'User not found', life: 3000});
     }
@@ -345,7 +389,7 @@ const DeleteUserModal: any = function (userId: any) {
   const [isOpen, setOpen] = useState(false);
 
   function handleDelete(id: number) {
-    // usersService.remove(id);
+    usersService.remove(id);
     toast.current?.show({severity:'success', summary: 'Success', detail:'Deleted successfully', life: 3000});
     console.log('delete user', id);
     setOpen(false);

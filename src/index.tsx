@@ -44,10 +44,6 @@ const App = () => {
           <Routes>
             <Route path="/authentication/sign-in" element={authenticated ? <Navigate to="/" /> : <SignInPage />} />
             <Route path="/" element={authenticated ? <DashboardPage /> : <Navigate to="/authentication/sign-in" />} />
-            {/* <Route
-              path="/e-commerce/products"
-              element={<EcommerceProductsPage />}
-            /> */}
             <Route path="/users/list" element={authenticated ? <UserListPage /> : <Navigate to="/authentication/sign-in" />} />
             <Route path="/nutritions" element={authenticated ? <NutritionPage /> : <Navigate to="/authentication/sign-in" />} />
             <Route path="/trainings" element={authenticated ? <TrainingsPage /> : <Navigate to="/authentication/sign-in" />} />

@@ -2,12 +2,13 @@ import { Sidebar, TextInput } from "flowbite-react";
 import type { FC } from "react";
 import { useEffect, useState, useRef } from "react";
 import {
-  HiChartPie,
   HiSearch,
   HiShoppingBag,
   HiUsers,
   HiOutlineLogout,
+  HiOutlineViewGrid,
 } from "react-icons/hi";
+import { FaRunning, FaNutritionix, FaSolarPanel, FaRegCommentAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { Toast } from 'primereact/toast';
 
@@ -24,6 +25,7 @@ const ExampleSidebar: FC = function () {
           console.log('USER IS LOGGED OUT', response);
           localStorage.removeItem('token');
           toast.current?.show({ severity: 'success', summary: 'Success', detail: 'User is logged out', life: 3000 });
+          window.location.href = '/authentication/sign-in';
         }
       }
     );
@@ -52,25 +54,25 @@ const ExampleSidebar: FC = function () {
           <Sidebar.Items>
             <Sidebar.ItemGroup>
               <Sidebar.Item
-                icon={HiChartPie}
+                icon={HiOutlineViewGrid}
                 className={
                   "/" === currentPage ? "bg-gray-100 dark:bg-gray-700" : ""
                 }
               >
                 <Link to="/">Dashboard</Link>
               </Sidebar.Item>
-              {/* <Sidebar.Item
-                icon={HiShoppingBag}
+              <Sidebar.Item
+                icon={FaSolarPanel}
                 className={
                   "/e-commerce/products" === currentPage
                     ? "bg-gray-100 dark:bg-gray-700"
                     : ""
                 }
               >
-                <Link to="/e-commerce/products">Products</Link>
-              </Sidebar.Item> */}
+                <Link to="/e-commerce/products">Subscriptions</Link>
+              </Sidebar.Item>
               <Sidebar.Item
-                icon={HiShoppingBag}
+                icon={FaNutritionix}
                 className={
                   "/nutritions" === currentPage
                     ? "bg-gray-100 dark:bg-gray-700"
@@ -100,7 +102,7 @@ const ExampleSidebar: FC = function () {
                 <Link to="/users/list">Users list</Link>
               </Sidebar.Item>
               <Sidebar.Item
-                icon={HiShoppingBag}
+                icon={FaRunning}
                 className={
                   "/trainings" === currentPage
                     ? "bg-gray-100 dark:bg-gray-700"
@@ -109,13 +111,24 @@ const ExampleSidebar: FC = function () {
               >
                 <Link to="/trainings">Trainings</Link>
               </Sidebar.Item>
+              <Sidebar.Item
+                icon={FaRegCommentAlt}
+                className={
+                  "/comments" === currentPage
+                    ? "bg-gray-100 dark:bg-gray-700"
+                    : ""
+                }
+              >
+                <Link to="/messengers">Messengers</Link>
+              </Sidebar.Item>
             </Sidebar.ItemGroup>
             <Sidebar.ItemGroup>
               <Sidebar.Item
                 icon={HiOutlineLogout}
+                className="cursor-pointer"
                 onClick={() => { handleLogout() }}
               >
-                <Link to="/authentication/sign-in">Logout</Link>
+                Logout
               </Sidebar.Item>
             </Sidebar.ItemGroup>
           </Sidebar.Items>

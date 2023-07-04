@@ -22,6 +22,7 @@ const SignInPage: FC = function () {
           localStorage.setItem('token', response.data.data.token.access.token);
           console.log(response);
           navigate('/');
+          window.location.reload();
         } else {
           toast.current?.show({ severity: 'error', summary: 'Error', detail: 'You are not authorized to access this page', life: 3000 });
           return;
