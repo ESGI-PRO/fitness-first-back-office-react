@@ -2,17 +2,14 @@ import { Sidebar, TextInput } from "flowbite-react";
 import type { FC } from "react";
 import { useEffect, useState, useRef } from "react";
 import {
-  HiChartPie,
-  HiClipboard,
-  HiCollection,
-  HiInformationCircle,
-  HiLogin,
-  HiPencil,
   HiSearch,
   HiShoppingBag,
   HiUsers,
   HiOutlineLogout,
+  HiOutlineViewGrid,
 } from "react-icons/hi";
+import { IoFitnessSharp, IoNutritionSharp } from "react-icons/io5";
+import { BiMessageDetail } from "react-icons/bi";
 import { Link } from "react-router-dom";
 import { Toast } from 'primereact/toast';
 
@@ -29,6 +26,7 @@ const ExampleSidebar: FC = function () {
           console.log('USER IS LOGGED OUT', response);
           localStorage.removeItem('token');
           toast.current?.show({ severity: 'success', summary: 'Success', detail: 'User is logged out', life: 3000 });
+          window.location.href = '/authentication/sign-in';
         }
       }
     );
@@ -58,7 +56,7 @@ const ExampleSidebar: FC = function () {
             <Sidebar.ItemGroup>
             <Link to="/">
               <Sidebar.Item
-                icon={HiChartPie}
+                icon={HiOutlineViewGrid}
                 className={
                   "/" === currentPage ? "bg-gray-100 dark:bg-gray-700" : ""
                 }
@@ -67,18 +65,7 @@ const ExampleSidebar: FC = function () {
               </Sidebar.Item>
               </Link>
               <Sidebar.Item
-                href="/e-commerce/products"
-                icon={HiShoppingBag}
-                className={
-                  "/e-commerce/products" === currentPage
-                    ? "bg-gray-100 dark:bg-gray-700"
-                    : ""
-                }
-              >
-                Products
-              </Sidebar.Item>
-              <Sidebar.Item
-                icon={HiShoppingBag}
+                icon={IoNutritionSharp}
                 className={
                   "/nutritions" === currentPage
                     ? "bg-gray-100 dark:bg-gray-700"
@@ -97,13 +84,13 @@ const ExampleSidebar: FC = function () {
                     : ""
                 }
               >
-                Ingredients
+                <Link to="/ingredients">Ingredients</Link>
               </Sidebar.Item>
               </Link>
 
 
                 
-              <Link to="/users/list">
+              
               <Sidebar.Item
                 icon={HiUsers}
                 className={
@@ -115,30 +102,33 @@ const ExampleSidebar: FC = function () {
                 <Link to="/users/list">Users list</Link>
               </Sidebar.Item>
               <Sidebar.Item
-                href="/trainings"
-                icon={HiShoppingBag}
+                icon={IoFitnessSharp}
                 className={
                   "/trainings" === currentPage
                     ? "bg-gray-100 dark:bg-gray-700"
                     : ""
                 }
               >
-                Trainings
+                <Link to="/trainings">Trainings</Link>
               </Sidebar.Item>
-              </Link>
-              <Sidebar.Item href="/authentication/sign-in" icon={HiLogin}>
-                Sign in
+              <Sidebar.Item
+                icon={BiMessageDetail}
+                className={
+                  "/comments" === currentPage
+                    ? "bg-gray-100 dark:bg-gray-700"
+                    : ""
+                }
+              >
+                <Link to="/messengers">Messengers</Link>
               </Sidebar.Item>
-              <Sidebar.Item href="/authentication/sign-up" icon={HiPencil}>
-                Sign up
-              </Sidebar.Item> 
             </Sidebar.ItemGroup>
             <Sidebar.ItemGroup>
               <Sidebar.Item
                 icon={HiOutlineLogout}
+                className="cursor-pointer"
                 onClick={() => { handleLogout() }}
               >
-                <Link to="/authentication/sign-in">Logout</Link>
+                Logout
               </Sidebar.Item>
             </Sidebar.ItemGroup>
           </Sidebar.Items>

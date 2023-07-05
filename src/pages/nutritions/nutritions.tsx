@@ -6,12 +6,11 @@ import {
   Label,
   Modal,
   Table,
-  Textarea,
   TextInput,
+  Textarea,
 } from "flowbite-react";
 import type { FC } from "react";
 import { useEffect, useState } from "react";
-import { FaPlus } from "react-icons/fa";
 import {
   HiCog,
   HiDocumentDownload,
@@ -20,13 +19,11 @@ import {
   HiHome,
   HiOutlineExclamationCircle,
   HiOutlinePencilAlt,
-  HiPencilAlt,
   HiPlus,
   HiTrash,
-  HiUpload,
 } from "react-icons/hi";
 import NavbarSidebarLayout from "../../layouts/navbar-sidebar";
-import { Pagination } from "../users/list";
+// import { Pagination } from "../users/list";
 import axios from "axios";
 import notifications from "../../services/notifications";
 const NutritionPage: FC = function () {
@@ -115,7 +112,7 @@ const NutritionPage: FC = function () {
           </div>
         </div>
       </div>
-      <Pagination />
+      
     </NavbarSidebarLayout>
   );
 }

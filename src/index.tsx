@@ -10,15 +10,12 @@ import { Routes, Route, Navigate } from "react-router";
 import { BrowserRouter } from "react-router-dom";
 import DashboardPage from "./pages";
 import SignInPage from "./pages/authentication/sign-in";
-import EcommerceProductsPage from "./pages/e-commerce/products";
 import UserListPage from "./pages/users/list";
 import NutritionPage from "./pages/nutritions/nutritions";
 import TrainingsPage from "./pages/trainings/trainings";
 import IngredientsPage from "./pages/ingredients/ingredients";
 
 import { authService } from "./services"; 
-import SignUpPage from "./pages/authentication/sign-up";
-import RecettesPage from "./pages/recettes/recettes";
 
 const App = () => {
   const [authenticated, setAuthenticated] = useState(true);
@@ -46,15 +43,11 @@ const App = () => {
         <BrowserRouter>
           <Routes>
             <Route path="/authentication/sign-in" element={authenticated ? <Navigate to="/" /> : <SignInPage />} />
-            <Route
-              path="/"
-              element={authenticated ? <DashboardPage /> : <Navigate to="/authentication/sign-in" />}
-            />
-            <Route
-              path="/e-commerce/products"
-              element={<EcommerceProductsPage />}
-            />
+            <Route path="/" element={authenticated ? <DashboardPage /> : <Navigate to="/authentication/sign-in" />} />
             <Route path="/users/list" element={authenticated ? <UserListPage /> : <Navigate to="/authentication/sign-in" />} />
+            <Route path="/nutritions" element={authenticated ? <NutritionPage /> : <Navigate to="/authentication/sign-in" />} />
+            <Route path="/trainings" element={authenticated ? <TrainingsPage /> : <Navigate to="/authentication/sign-in" />} />
+            <Route path="/ingredients" element={authenticated ? <IngredientsPage /> : <Navigate to="/authentication/sign-in" />} />
           </Routes>
         </BrowserRouter>
       </Flowbite>
@@ -70,24 +63,4 @@ if (!container) {
 
 const root = createRoot(container);
 
-root.render(
-  <StrictMode>
-    <Flowbite theme={{ theme }}>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<DashboardPage />} index />
-          <Route path="/authentication/sign-in" element={<SignInPage />} />
-          <Route path="/authentication/sign-up" element={<SignUpPage />} />
-          <Route
-            path="/e-commerce/products"
-            element={<EcommerceProductsPage />}
-          />
-          <Route path="/users/list" element={<UserListPage />} />
-          <Route path="/nutritions" element={<NutritionPage />} />
-          <Route path="/trainings" element={<TrainingsPage />} />
-          <Route path="/ingredients" element={<IngredientsPage />} />
-        </Routes>
-      </BrowserRouter>
-    </Flowbite>
-  </StrictMode>
-);
+root.render(<App />);
