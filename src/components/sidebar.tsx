@@ -8,7 +8,8 @@ import {
   HiOutlineLogout,
   HiOutlineViewGrid,
 } from "react-icons/hi";
-import { FaRunning, FaNutritionix, FaSolarPanel, FaRegCommentAlt } from "react-icons/fa";
+import { IoFitnessSharp, IoNutritionSharp } from "react-icons/io5";
+import { BiMessageDetail } from "react-icons/bi";
 import { Link } from "react-router-dom";
 import { Toast } from 'primereact/toast';
 
@@ -62,17 +63,7 @@ const ExampleSidebar: FC = function () {
                 <Link to="/">Dashboard</Link>
               </Sidebar.Item>
               <Sidebar.Item
-                icon={FaSolarPanel}
-                className={
-                  "/e-commerce/products" === currentPage
-                    ? "bg-gray-100 dark:bg-gray-700"
-                    : ""
-                }
-              >
-                <Link to="/e-commerce/products">Subscriptions</Link>
-              </Sidebar.Item>
-              <Sidebar.Item
-                icon={FaNutritionix}
+                icon={IoNutritionSharp}
                 className={
                   "/nutritions" === currentPage
                     ? "bg-gray-100 dark:bg-gray-700"
@@ -102,7 +93,7 @@ const ExampleSidebar: FC = function () {
                 <Link to="/users/list">Users list</Link>
               </Sidebar.Item>
               <Sidebar.Item
-                icon={FaRunning}
+                icon={IoFitnessSharp}
                 className={
                   "/trainings" === currentPage
                     ? "bg-gray-100 dark:bg-gray-700"
@@ -112,7 +103,7 @@ const ExampleSidebar: FC = function () {
                 <Link to="/trainings">Trainings</Link>
               </Sidebar.Item>
               <Sidebar.Item
-                icon={FaRegCommentAlt}
+                icon={BiMessageDetail}
                 className={
                   "/comments" === currentPage
                     ? "bg-gray-100 dark:bg-gray-700"

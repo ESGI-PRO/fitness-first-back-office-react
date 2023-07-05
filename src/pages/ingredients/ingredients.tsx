@@ -26,7 +26,7 @@ import {
     HiUpload,
   } from "react-icons/hi";
   import NavbarSidebarLayout from "../../layouts/navbar-sidebar";
-  import { Pagination } from "../users/list";
+  // import { Pagination } from "../users/list";
   import axios from "axios";
 
   const IngredientsPage: FC = function () {
@@ -115,7 +115,7 @@ import {
           </div>
         </div>
       </div>
-      <Pagination />
+      {/* <Pagination /> */}
     </NavbarSidebarLayout>
     );
   }

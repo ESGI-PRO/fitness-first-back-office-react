@@ -27,7 +27,7 @@ import {
   HiUpload,
 } from "react-icons/hi";
 import NavbarSidebarLayout from "../../layouts/navbar-sidebar";
-import { Pagination } from "../users/list";
+// import { Pagination } from "../users/list";
 import TrainingsAPI from "./datas";
 import notifications from "../../services/notifications";
 
@@ -187,7 +187,7 @@ const trainingsPage: FC = function () {
           </div>
         </div>
       </div>
-      <Pagination />
+      {/* <Pagination /> */}
     </NavbarSidebarLayout>
   );
 };
