@@ -18,6 +18,7 @@ import IngredientsPage from "./pages/ingredients/ingredients";
 
 import { authService } from "./services"; 
 import SignUpPage from "./pages/authentication/sign-up";
+import RecettesPage from "./pages/recettes/recettes";
 
 const App = () => {
   const [authenticated, setAuthenticated] = useState(true);

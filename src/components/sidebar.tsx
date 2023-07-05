@@ -87,6 +87,7 @@ const ExampleSidebar: FC = function () {
               >
                 <Link to="/nutritions">Nutritions</Link>
               </Sidebar.Item>
+
               <Link to="/ingredients">
               <Sidebar.Item
                 icon={HiShoppingBag}
@@ -99,6 +100,8 @@ const ExampleSidebar: FC = function () {
                 Ingredients
               </Sidebar.Item>
               </Link>
+
+
                 
               <Link to="/users/list">
               <Sidebar.Item

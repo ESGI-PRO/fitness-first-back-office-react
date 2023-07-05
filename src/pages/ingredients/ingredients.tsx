@@ -35,14 +35,6 @@ import ingredientsAPI from "./datas";
 import notifications from "../../services/notifications";
 
 const IngredientsPage: FC = function () {
-  const [search, setSearch] = useState("");
-
-  const handleSearch = async () => {
-    const ingredient = await axios.get(
-      `http://localhost:8000/nutrition/ingredients`
-    );
-    // console.log(ingredient.data.data.nutrition);
-  };
   return (
     <NavbarSidebarLayout isFooter={false}>
       <div className="block items-center justify-between border-b border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800 sm:flex">
