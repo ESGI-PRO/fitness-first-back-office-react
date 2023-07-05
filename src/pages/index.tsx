@@ -1,7 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { Badge, Dropdown, Table, useTheme } from "flowbite-react";
+import { Badge, Dropdown, Table } from "flowbite-react";
 import { useEffect, type FC, useState } from "react";
-import Chart from "react-apexcharts";
 import NavbarSidebarLayout from "../layouts/navbar-sidebar";
 import TrainingsAPI from "./trainings/datas";
 import NutritionsAPI from "./nutritions/datas";
@@ -20,7 +19,7 @@ const DashboardPage: FC = function () {
     setTrainings(t);
 
     var n: any = NutritionsAPI.nutritions;
-    setNutritions(t);
+    setNutritions(n);
 
     var i: any = NutritionsAPI.ingredients;
     setIngredients(i);

@@ -12,7 +12,6 @@ import {
 } from "flowbite-react";
 import type { FC } from "react";
 import { useEffect, useState } from "react";
-import { FaPlus } from "react-icons/fa";
 import {
   HiCog,
   HiDocumentDownload,
@@ -21,10 +20,7 @@ import {
   HiHome,
   HiOutlineExclamationCircle,
   HiOutlinePencilAlt,
-  HiPencilAlt,
-  HiPlus,
   HiTrash,
-  HiUpload,
 } from "react-icons/hi";
 import NavbarSidebarLayout from "../../layouts/navbar-sidebar";
 // import { Pagination } from "../users/list";
@@ -44,26 +40,26 @@ const trainingsPage: FC = function () {
   }, []);
 
   const fetchTrainings = async () => {
-    var p = await TrainingsAPI.trainings;
+    var p: any = await TrainingsAPI.trainings;
     console.log(p);
     setTrainings(p);
   };
 
   const fetchExercices = async () => {
-    var p = await TrainingsAPI.exercices;
+    var p: any = await TrainingsAPI.exercices;
     console.log(p);
     setExercices(p);
   };
 
   const fetchMuscles = async () => {
-    var p = await TrainingsAPI.muscles;
+    var p: any = await TrainingsAPI.muscles;
     console.log(p);
     setMuscles(p);
   };
 
-  const exampleTrainingOnExercices = [
-    { id: 15, exerciceId: 1, trainingId: 168, series: 9, repetition: 6 },
-  ];
+  // const exampleTrainingOnExercices = [
+  //   { id: 15, exerciceId: 1, trainingId: 168, series: 9, repetition: 6 },
+  // ];
 
   const example = {
     name: "",
@@ -80,13 +76,13 @@ const trainingsPage: FC = function () {
     trainingOnExercices: [],
   };
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: any) => {
     console.log(e.target?.value);
     var word = e.target?.value;
 
     if (word.length === 0) fetchTrainings();
 
-    var filtred = trainings.filter((item) =>
+    var filtred = trainings.filter((item: any) =>
       item?.name.toLowerCase().includes(e.target.value.toLowerCase())
     );
 
@@ -197,13 +193,13 @@ const AddTrainingModal: FC<{ training: any; categories: any; exercices: any }> =
     const [isOpen, setOpen] = useState(false);
     const [formData, setFormData] = useState(training);
 
-    const [exo, setExo] = useState("");
+    const [exo, setExo] = useState<any>("");
     const [series, setSeries] = useState("");
     const [rep, setRep] = useState("");
 
-    var exercicesList = [];
+    var exercicesList: any = [];
 
-    const handleChange = (e, key) => {
+    const handleChange = (e: any, key: any) => {
       const { value } = e.target;
       if (key === "trainingOnExercices") {
         exercicesList.push(value?.id);
@@ -212,14 +208,14 @@ const AddTrainingModal: FC<{ training: any; categories: any; exercices: any }> =
           exercicesList
         );
         setExo(value);
-        setFormData((prevData) => ({
+        setFormData((prevData: any) => ({
           ...prevData,
           [key]: value?.id,
         }));
         return;
       }
 
-      setFormData((prevData) => ({
+      setFormData((prevData: any) => ({
         ...prevData,
         [key]: value,
       }));
@@ -274,13 +270,13 @@ const AddTrainingModal: FC<{ training: any; categories: any; exercices: any }> =
                     onChange={(e) => handleChange(e, key)}
                   >
                     {key === "trainingOnExercices"
-                      ? exercices.map((exercice) => (
+                      ? exercices.map((exercice: any) => (
                           <option value={exercice}>{exercice?.name}</option>
                         ))
                       : ""}
 
                     {key === "category"
-                      ? categories.map((category) => (
+                      ? categories.map((category: any) => (
                           <option value={Number(category?.id)}>
                             {category?.name}
                           </option>
@@ -457,7 +453,7 @@ const AllUsersTable: FC<{ trainings: any; categories: any; exercices: any }> =
           <Table.HeadCell>Actions</Table.HeadCell>
         </Table.Head>
         <Table.Body className="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-800">
-          {trainings.map((training) => (
+          {trainings.map((training: any) => (
             <Table.Row
               className="hover:bg-gray-100 dark:hover:bg-gray-700"
               key={training?.id}
@@ -519,9 +515,9 @@ const EditUserModal: FC<{ training: any; categories: any; exercices: any }> =
     const [isOpen, setOpen] = useState(false);
     const [formData, setFormData] = useState(training);
 
-    const handleChange = (e, key) => {
+    const handleChange = (e: any, key: any) => {
       const { value } = e.target;
-      setFormData((prevData) => ({
+      setFormData((prevData: any) => ({
         ...prevData,
         [key]: value,
       }));
@@ -574,7 +570,7 @@ const EditUserModal: FC<{ training: any; categories: any; exercices: any }> =
                     onChange={(e) => handleChange(e, key)}
                   >
                     {key === "trainingOnExercices"
-                      ? exercices.map((exercice) => (
+                      ? exercices.map((exercice: any) => (
                           <option value={exercice?.name}>
                             {exercice?.name}
                           </option>
@@ -582,7 +578,7 @@ const EditUserModal: FC<{ training: any; categories: any; exercices: any }> =
                       : ""}
 
                     {key === "category"
-                      ? categories.map((category) => (
+                      ? categories.map((category: any) => (
                           <option value={category?.id}>{category?.name}</option>
                         ))
                       : ""}

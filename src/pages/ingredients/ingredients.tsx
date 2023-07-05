@@ -6,12 +6,10 @@ import {
     Label,
     Modal,
     Table,
-    Textarea,
     TextInput,
   } from "flowbite-react";
   import type { FC } from "react";
   import { useEffect, useState } from "react";
-  import { FaPlus } from "react-icons/fa";
   import {
     HiCog,
     HiDocumentDownload,
@@ -20,10 +18,8 @@ import {
     HiHome,
     HiOutlineExclamationCircle,
     HiOutlinePencilAlt,
-    HiPencilAlt,
     HiPlus,
     HiTrash,
-    HiUpload,
   } from "react-icons/hi";
   import NavbarSidebarLayout from "../../layouts/navbar-sidebar";
   // import { Pagination } from "../users/list";
@@ -236,7 +232,7 @@ import {
       </Table.Head>
       <Table.Body className="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-800">
         {
-          ingredients.map((ingredient, id) => (
+          ingredients.map((ingredient: any, id: number) => (
             <Table.Row key={id} className="hover:bg-gray-100 dark:hover:bg-gray-700">
             <Table.Cell className="w-4 p-4">
               <div className="flex items-center">
@@ -430,7 +426,7 @@ import {
     )
   }
   
-  const EditUserModal: FC = function ({ingredient}) {
+  const EditUserModal: any = function ({ingredient}: any) {
     const [isOpen, setOpen] = useState(false);
     const [name, setName] = useState(ingredient.name);
     const [calories, setCalories] = useState(ingredient.calories);

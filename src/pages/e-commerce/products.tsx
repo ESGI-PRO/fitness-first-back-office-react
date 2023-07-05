@@ -23,7 +23,7 @@ import {
   HiUpload,
 } from "react-icons/hi";
 import NavbarSidebarLayout from "../../layouts/navbar-sidebar";
-import { Pagination } from "../users/list";
+// import { Pagination } from "../users/list";
 
 const EcommerceProductsPage: FC = function () {
   return (
@@ -94,7 +94,7 @@ const EcommerceProductsPage: FC = function () {
           </div>
         </div>
       </div>
-      <Pagination />
+      {/* <Pagination /> */}
     </NavbarSidebarLayout>
   );
 };
