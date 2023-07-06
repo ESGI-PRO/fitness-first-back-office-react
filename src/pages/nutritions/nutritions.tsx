@@ -1,21 +1,14 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import {
   Breadcrumb,
   Button,
-  Checkbox,
   Label,
   Modal,
-  Table,
   TextInput,
   Textarea,
 } from "flowbite-react";
 import type { FC } from "react";
 import { useEffect, useState } from "react";
 import {
-  HiCog,
-  HiDocumentDownload,
-  HiDotsVertical,
-  HiExclamationCircle,
   HiHome,
   HiOutlineExclamationCircle,
   HiOutlinePencilAlt,
@@ -23,14 +16,12 @@ import {
   HiTrash,
 } from "react-icons/hi";
 import NavbarSidebarLayout from "../../layouts/navbar-sidebar";
-// import { Pagination } from "../users/list";
 import axios from "axios";
-import notifications from "../../services/notifications";
+import { FilterMatchMode } from 'primereact/api';
+
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-
-
-
+        
 const NutritionPage: FC = function () {
   return (
     <NavbarSidebarLayout isFooter={false}>
@@ -51,61 +42,6 @@ const NutritionPage: FC = function () {
               All nutritions
             </h1>
           </div>
-          <div className="sm:flex">
-            <div className="mb-3 hidden items-center dark:divide-gray-700 sm:mb-0 sm:flex sm:divide-x sm:divide-gray-100">
-              <form className="lg:pr-3">
-                <Label htmlFor="users-search" className="sr-only">
-                  Search
-                </Label>
-                <div className="relative mt-1 lg:w-64 xl:w-96">
-                  <TextInput
-                    id="users-search"
-                    name="users-search"
-                    placeholder="Search for users"
-                  />
-                </div>
-              </form>
-              <div className="mt-3 flex space-x-1 pl-0 sm:mt-0 sm:pl-2">
-                <a
-                  href="#"
-                  className="inline-flex cursor-pointer justify-center rounded p-1 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                >
-                  <span className="sr-only">Configure</span>
-                  <HiCog className="text-2xl" />
-                </a>
-                <a
-                  href="#"
-                  className="inline-flex cursor-pointer justify-center rounded p-1 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                >
-                  <span className="sr-only">Delete</span>
-                  <HiTrash className="text-2xl" />
-                </a>
-                <a
-                  href="#"
-                  className="inline-flex cursor-pointer justify-center rounded p-1 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                >
-                  <span className="sr-only">Purge</span>
-                  <HiExclamationCircle className="text-2xl" />
-                </a>
-                <a
-                  href="#"
-                  className="inline-flex cursor-pointer justify-center rounded p-1 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                >
-                  <span className="sr-only">Settings</span>
-                  <HiDotsVertical className="text-2xl" />
-                </a>
-              </div>
-            </div>
-            <div className="ml-auto flex items-center space-x-2 sm:space-x-3">
-              <AddRecipeModal />
-              <Button color="gray">
-                <div className="flex items-center gap-x-3">
-                  <HiDocumentDownload className="text-xl" />
-                  <span>Export</span>
-                </div>
-              </Button>
-            </div>
-          </div>
         </div>
       </div>
       <div className="flex flex-col">
@@ -122,108 +58,10 @@ const NutritionPage: FC = function () {
   );
 }
 
-
-// const AddRecipeModal: FC = function () {
-//   const [isOpen, setOpen] = useState(false);
-//   return (
-//     <>
-//       <Button color="primary" onClick={() => setOpen(true)}>
-//         <div className="flex items-center gap-x-3">
-//           <HiPlus className="text-xl" />
-//           Add Recipe
-//         </div>
-//       </Button>
-//       <Modal onClose={() => setOpen(false)} show={isOpen}>
-//         <Modal.Header className="border-b border-gray-200 !p-6 dark:border-gray-700">
-//           <strong>Add New Recipe</strong>
-//         </Modal.Header>
-//         <Modal.Body>
-//           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-//             <div>
-//               <Label htmlFor="firstName">First name</Label>
-//               <div className="mt-1">
-//                 <TextInput
-//                   id="firstName"
-//                   name="firstName"
-//                   placeholder="Bonnie"
-//                 />
-//               </div>
-//             </div>
-//             <div>
-//               <Label htmlFor="lastName">Last name</Label>
-//               <div className="mt-1">
-//                 <TextInput id="lastName" name="lastName" placeholder="Green" />
-//               </div>
-//             </div>
-//             <div>
-//               <Label htmlFor="email">Email</Label>
-//               <div className="mt-1">
-//                 <TextInput
-//                   id="email"
-//                   name="email"
-//                   placeholder="example@company.com"
-//                   type="email"
-//                 />
-//               </div>
-//             </div>
-//             <div>
-//               <Label htmlFor="phone">Phone number</Label>
-//               <div className="mt-1">
-//                 <TextInput
-//                   id="phone"
-//                   name="phone"
-//                   placeholder="e.g., +(12)3456 789"
-//                   type="tel"
-//                 />
-//               </div>
-//             </div>
-//             <div>
-//               <Label htmlFor="department">Department</Label>
-//               <div className="mt-1">
-//                 <TextInput
-//                   id="department"
-//                   name="department"
-//                   placeholder="Development"
-//                 />
-//               </div>
-//             </div>
-//             <div>
-//               <Label htmlFor="company">Company</Label>
-//               <div className="mt-1">
-//                 <TextInput
-//                   id="company"
-//                   name="company"
-//                   placeholder="Somewhere"
-//                 />
-//               </div>
-//             </div>
-//           </div>
-//         </Modal.Body>
-//         <Modal.Footer>
-//           <Button color="primary" onClick={() => setOpen(false)}>
-//             Add user
-//           </Button>
-//         </Modal.Footer>
-//       </Modal>
-//     </>
-//   )
-// }
-
 const AddRecipeModal: FC = function () {
 
   const [isOpen, setOpen] = useState(false);
-  const [recipe, setRecipe] = useState<{
-    title: string;
-    UserId: number;
-    instructions: {
-      order: number;
-      produits: {
-        quantite: number;
-        ingredients: number;
-      }[];
-      description: string;
-    }[];
-  }>({
+  const [recipe, setRecipe] = useState<any>({
     title: '',
     UserId: 0,
     instructions: [
@@ -248,10 +86,10 @@ const AddRecipeModal: FC = function () {
     const { name, value } = event.target;
 
     if (name.includes('instructions')) {
-      const [instructionName, index, subFieldName] = name.split('.');
-      setRecipe(prevRecipe => ({
+      const [index, subFieldName]: any = name.split('.');
+      setRecipe((prevRecipe: any) => ({
         ...prevRecipe,
-        instructions: prevRecipe.instructions.map((instruction, i) => {
+        instructions: prevRecipe.instructions.map((instruction: any, i: any) => {
           if (i === Number(index)) {
             return {
               ...instruction,
@@ -262,14 +100,14 @@ const AddRecipeModal: FC = function () {
         })
       }));
     } else if (name.includes('produits')) {
-      const [instructionName, index, produitsName, produitsIndex, subFieldName] = name.split('.');
-      setRecipe(prevRecipe => ({
+      const [index, produitsIndex, subFieldName]: any = name.split('.');
+      setRecipe((prevRecipe: any) => ({
         ...prevRecipe,
-        instructions: prevRecipe.instructions.map((instruction, i) => {
+        instructions: prevRecipe.instructions.map((instruction: any, i: any) => {
           if (i === Number(index)) {
             return {
               ...instruction,
-              produits: instruction.produits.map((produit, j) => {
+              produits: instruction.produits.map((produit: any, j: any) => {
                 if (j === Number(produitsIndex)) {
                   return {
                     ...produit,
@@ -284,7 +122,7 @@ const AddRecipeModal: FC = function () {
         })
       }));
     } else {
-      setRecipe(prevRecipe => ({
+      setRecipe((prevRecipe: any) => ({
         ...prevRecipe,
         [name]: value
       }));
@@ -420,7 +258,19 @@ const AddRecipeModal: FC = function () {
 
 const AllUsersTable: FC = function () {
   const [nutritions, setNutritions] = useState([])
-  const [instructions, setInstructions] = useState([])
+  // const [instructions, setInstructions] = useState([])
+  const [filters, setFilters] = useState({ global: { value: null, matchMode: FilterMatchMode.CONTAINS }});
+  const [globalFilterValue, setGlobalFilterValue] = useState('');
+
+  const onGlobalFilterChange = (e: any) => {
+    const value = e.target.value;
+    let _filters = { ...filters };
+
+    _filters['global'].value = value;
+
+    setFilters(_filters);
+    setGlobalFilterValue(value);
+  };
 
     
   const headers = {
@@ -443,24 +293,78 @@ const AllUsersTable: FC = function () {
     } catch(err) {
       // console.log(err);
     }
+    // fetchNutritions()
+  }, [])
 
-  }, [nutritions])
+  const actionBodyTemplate = (rowData: any) => {
+    return (
+      <div className="flex items-center gap-x-3 whitespace-nowrap">
+        <EditRecipeModal nutrition={rowData} />
+        <DeleteRecipeModal nutrition={rowData.id} />
+      </div>
+    )
+  };
+
+
+  const renderHeader = () => {
+    return (
+      <div className="sm:flex m-2">
+        <div className="mb-3 hidden items-center dark:divide-gray-700 sm:mb-0 sm:flex sm:divide-x sm:divide-gray-100">
+          <form className="lg:pr-3">
+            <Label htmlFor="users-search" className="sr-only">
+              Search
+            </Label>
+            <div className="relative mt-1 lg:w-64 xl:w-96">
+              <TextInput
+                value={globalFilterValue}
+                onChange={onGlobalFilterChange}
+                placeholder="Search nutrition..."
+              />
+            </div>
+          </form>
+        </div>
+        <div className="ml-auto flex items-center space-x-2 sm:space-x-3">
+          <AddRecipeModal />
+        </div>
+      </div>
+    );
+  };
+
+  const header = renderHeader();
 
   return (
     <>
-    <Table className="min-w-full divide-y divide-gray-200 dark:divide-gray-600">
-      <Table.Head className="bg-gray-100 dark:bg-gray-700">
-        <Table.HeadCell>
-          <Label htmlFor="select-all" className="sr-only">
-            Select all
-          </Label>
-          <Checkbox id="select-all" name="select-all" />
-        </Table.HeadCell>
-        <Table.HeadCell>Name</Table.HeadCell>
-      </Table.Head>
-      <Table.Body className="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-800">
-        {
-          nutritions.map((nutrition, id) => (
+    <DataTable
+      value={nutritions}
+      size={"small"}
+      paginator
+      rows={10}
+      rowsPerPageOptions={[5, 10, 25, 50]}
+      tableStyle={{ minWidth: '50rem' }}
+      header={header}
+      globalFilterFields={['title', 'UserId']}
+      filters={filters}
+    >
+      <Column field="title" header="Title" sortable></Column>
+      <Column field="UserId" header="User ID" sortable></Column>
+      <Column header="Actions" body={actionBodyTemplate} sortable></Column>
+    </DataTable>
+    {/* <Table className="min-w-full divide-y divide-gray-200 dark:divide-gray-600">
+        <Table.Head className="bg-gray-100 dark:bg-gray-700">
+          <Table.HeadCell>
+            <Label htmlFor="select-all" className="sr-only">
+              Select all
+            </Label>
+            <Checkbox id="select-all" name="select-all" />
+          </Table.HeadCell>
+          <Table.HeadCell>Name</Table.HeadCell>
+           <Table.HeadCell>Author</Table.HeadCell>
+          <Table.HeadCell>Description</Table.HeadCell>
+          <Table.HeadCell>Status</Table.HeadCell>
+    <Table.HeadCell>Actions</Table.HeadCell>
+        </Table.Head>
+        <Table.Body className="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-800">
+          {nutritions.map((nutrition, id) => (
             <Table.Row key={id} className="hover:bg-gray-100 dark:hover:bg-gray-700">
               <Table.Cell className="w-4 p-4">
                 <div className="flex items-center">
@@ -474,17 +378,32 @@ const AllUsersTable: FC = function () {
                 <img
                   className="h-10 w-10 rounded-full"
                   src="/images/users/neil-sims.png"
-                  alt="Neil Sims avatar"
-                />
+                  alt="Neil Sims avatar" />
                 <div className="text-sm font-normal text-gray-500 dark:text-gray-400">
                   <div className="text-base font-semibold text-gray-900 dark:text-white">
                     {nutrition.title}
                   </div>
-                   <div className="text-sm font-normal text-gray-500 dark:text-gray-400">
-                   {nutrition.UserId}
-              </div> 
+                  <div className="text-sm font-normal text-gray-500 dark:text-gray-400">
+                    {nutrition.UserId}
+                  </div>
                 </div>
               </Table.Cell>
+              <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
+              {nutrition.UserId}
+            </Table.Cell>
+            <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
+              {
+                nutrition.instructions.map((details) => (
+                  details.description
+                ))
+              }
+            </Table.Cell>
+              <Table.Cell className="whitespace-nowrap p-4 text-base font-normal text-gray-900 dark:text-white">
+              <div className="flex items-center">
+                <div className="mr-2 h-2.5 w-2.5 rounded-full bg-green-400"></div>{" "}
+                Active
+              </div>
+            </Table.Cell>
               <Table.Cell>
                 <div className="flex items-center gap-x-3 whitespace-nowrap">
                   <RecetteDetailModal nutrition={nutrition} />
@@ -492,25 +411,28 @@ const AllUsersTable: FC = function () {
                 </div>
               </Table.Cell>
             </Table.Row>
-          ))
-        }
-      </Table.Body>
-    </Table>
+          ))}
+
+
+
+
+
+        </Table.Body>
+      </Table> */}
     </>
   )
 }
 
-const RecetteDetailModal: FC = function ({ nutrition }) {
+const EditRecipeModal: any = function ({ nutrition }: any) {
   const [isOpen, setOpen] = useState(false);
-  const [title, setTitle] = useState(nutrition?.title);
-  const [description, setDescription] = useState(nutrition?.description);
+  const [title, setTitle] = useState(nutrition.title);
+  // const [description, setDescription] = useState(nutrition.description);
 
   return (
     <>
       <Button color="primary" onClick={() => setOpen(true)}>
         <div className="flex items-center gap-x-2">
           <HiOutlinePencilAlt className="text-lg" />
-          Details
         </div>
       </Button>
       <Modal onClose={() => setOpen(false)} show={isOpen}>
@@ -552,7 +474,7 @@ const RecetteDetailModal: FC = function ({ nutrition }) {
             </div> */}
 
             {
-              nutrition.instructions.map((details) => (
+              nutrition.instructions.map((details: any) => (
 
                 <>
 
@@ -585,7 +507,7 @@ const RecetteDetailModal: FC = function ({ nutrition }) {
 
 
                   {
-                    details.produits.map((lastdetails) => (
+                    details.produits.map((lastdetails: any) => (
                       <>
                         <div>
                           <Label htmlFor="email">Quantité(G)</Label>
@@ -634,7 +556,7 @@ const RecetteDetailModal: FC = function ({ nutrition }) {
 };
 
 
-const DeleteRecipeModal: FC = function ({nutrition}) {
+const DeleteRecipeModal: any = function ({nutrition}: any) {
   const [isOpen, setOpen] = useState(false);
 
   const headers = {
@@ -646,7 +568,7 @@ const DeleteRecipeModal: FC = function ({nutrition}) {
     axios
       .delete(
         // `http://localhost:8000/nutrition/${nutrition.id}`
-        import.meta.env["VITE_URL_BACKEND"] + `nutrition/${nutrition.id}`, { headers }
+        import.meta.env["VITE_URL_BACKEND"] + `nutrition/${nutrition}`, { headers }
         )
       .then((response) => {
         // Gérez la réponse du backend si nécessaire
@@ -665,7 +587,6 @@ const DeleteRecipeModal: FC = function ({nutrition}) {
       <Button color="failure" onClick={() => setOpen(true)}>
         <div className="flex items-center gap-x-2">
           <HiTrash className="text-lg" />
-          Delete user
         </div>
       </Button>
       <Modal onClose={() => setOpen(false)} show={isOpen} size="md">

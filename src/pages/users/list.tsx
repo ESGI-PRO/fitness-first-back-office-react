@@ -20,11 +20,13 @@ import NavbarSidebarLayout from "../../layouts/navbar-sidebar";
 import { useForm } from "react-hook-form";
 import { useState, useEffect, useRef } from "react";
 
+
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { FilterMatchMode } from 'primereact/api';
 
 import { usersService } from "../../services"; 
+import { Link } from "react-router-dom";
 
 const UserListPage: FC = function () {
   return (
@@ -33,13 +35,15 @@ const UserListPage: FC = function () {
         <div className="mb-1 w-full">
           <div className="mb-4">
             <Breadcrumb className="mb-4">
-              <Breadcrumb.Item href="#">
+              <Breadcrumb.Item>
                 <div className="flex items-center gap-x-3">
                   <HiHome className="text-xl" />
-                  <span className="dark:text-white">Home</span>
+                  <Link to="/" className="dark:text-white">Home</Link>
                 </div>
               </Breadcrumb.Item>
-              <Breadcrumb.Item href="/users/list">Users</Breadcrumb.Item>
+              <Breadcrumb.Item>
+                <Link to="/users/list">Users</Link>
+              </Breadcrumb.Item>
               <Breadcrumb.Item>List</Breadcrumb.Item>
             </Breadcrumb>
             <h1 className="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">
@@ -246,6 +250,7 @@ const AllUsersTable: FC = function () {
         await usersService.update(id, data);
         toast.current?.show({severity:'success', summary: 'Success', detail:'User updated', life: 3000});
         setOpen(false);
+        setUsers(users.map((user) => (user.id === id ? { ...user, ...data } : user)));
         reset();
       } catch (error) {
         toast.current?.show({severity:'error', summary: 'Error', detail:'User not found', life: 3000});

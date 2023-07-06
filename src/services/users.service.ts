@@ -8,19 +8,19 @@ function getAll() {
     return http.get("/users", { headers });
 }
 
-function get(id: number) {
+function get(id: string) {
     return http.get(`/users/${id}`, { headers });
 }
 
 function create(data: any) {
-    return http.post("/users/register", data);
+    return http.post("/users/new_user", data);
 }
 
-function update(id: number, data: any) {
+function update(id: string, data: any) {
     return http.put(`/users/${id}`, data, { headers });
 }
 
-function remove(id: number) {
+function remove(id: string) {
     return http.delete(`/users/${id}`, { headers });
 }
 
