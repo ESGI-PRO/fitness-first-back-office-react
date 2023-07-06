@@ -17,8 +17,6 @@ import {
   HiTrash,
 } from "react-icons/hi";
 import NavbarSidebarLayout from "../../layouts/navbar-sidebar";
-import axios from "axios";
-import notifications from "../../services/notifications";
 
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
