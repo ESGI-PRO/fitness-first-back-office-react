@@ -26,6 +26,11 @@ import NavbarSidebarLayout from "../../layouts/navbar-sidebar";
 // import { Pagination } from "../users/list";
 import axios from "axios";
 import notifications from "../../services/notifications";
+import { DataTable } from 'primereact/datatable';
+import { Column } from 'primereact/column';
+
+
+
 const NutritionPage: FC = function () {
   return (
     <NavbarSidebarLayout isFooter={false}>
@@ -409,15 +414,22 @@ const AllUsersTable: FC = function () {
   const [instructions, setInstructions] = useState([])
 
   useEffect(() => {
-    const fetchNutritions = async () => {
-      const getNutritions = await axios.get('http://localhost:8000/nutrition')
-      console.log(getNutritions.data.data.nutrition);
-      setNutritions(getNutritions.data.data.nutrition);
-
+    try {
+      const fetchNutritions = async () => {
+        const getNutritions = await axios.get('http://localhost:8000/nutrition')
+        console.log(getNutritions.data.data.nutrition);
+        setNutritions(getNutritions.data.data.nutrition);
+        
+      }
+      fetchNutritions()
+    } catch(err) {
+      console.log(err);
     }
-    fetchNutritions()
+
   }, [])
+
   return (
+    <>
     <Table className="min-w-full divide-y divide-gray-200 dark:divide-gray-600">
       <Table.Head className="bg-gray-100 dark:bg-gray-700">
         <Table.HeadCell>
@@ -427,10 +439,6 @@ const AllUsersTable: FC = function () {
           <Checkbox id="select-all" name="select-all" />
         </Table.HeadCell>
         <Table.HeadCell>Name</Table.HeadCell>
-        {/* <Table.HeadCell>Author</Table.HeadCell> */}
-        {/* <Table.HeadCell>Description</Table.HeadCell> */}
-        {/* <Table.HeadCell>Status</Table.HeadCell>
-        <Table.HeadCell>Actions</Table.HeadCell> */}
       </Table.Head>
       <Table.Body className="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-800">
         {
@@ -459,22 +467,6 @@ const AllUsersTable: FC = function () {
               </div> 
                 </div>
               </Table.Cell>
-              {/* <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
-                {nutrition.UserId}
-              </Table.Cell>
-              <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
-                {
-                  nutrition.instructions.map((details) => (
-                    details.description
-                  ))
-                }
-              </Table.Cell> */}
-              {/* <Table.Cell className="whitespace-nowrap p-4 text-base font-normal text-gray-900 dark:text-white">
-                <div className="flex items-center">
-                  <div className="mr-2 h-2.5 w-2.5 rounded-full bg-green-400"></div>{" "}
-                  Active
-                </div>
-              </Table.Cell> */}
               <Table.Cell>
                 <div className="flex items-center gap-x-3 whitespace-nowrap">
                   <RecetteDetailModal nutrition={nutrition} />
@@ -484,20 +476,16 @@ const AllUsersTable: FC = function () {
             </Table.Row>
           ))
         }
-
-
-
-
-
       </Table.Body>
     </Table>
+    </>
   )
 }
 
 const RecetteDetailModal: FC = function ({ nutrition }) {
   const [isOpen, setOpen] = useState(false);
-  const [title, setTitle] = useState(nutrition.title);
-  const [description, setDescription] = useState(nutrition.description);
+  const [title, setTitle] = useState(nutrition?.title);
+  const [description, setDescription] = useState(nutrition?.description);
 
   return (
     <>

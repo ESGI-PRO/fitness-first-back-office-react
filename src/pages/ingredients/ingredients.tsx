@@ -115,7 +115,7 @@ const IngredientsPage: FC = function () {
         <div className="overflow-x-auto">
           <div className="inline-block min-w-full align-middle">
             <div className="overflow-hidden shadow">
-              <AllUsersTable />
+              <AllIngredientsTable />
             </div>
           </div>
         </div>
@@ -391,18 +391,23 @@ const AddUserModal: FC = function () {
   );
 };
 
-const AllUsersTable: FC = function () {
+const AllIngredientsTable: FC = function () {
   const [ingredients, setIngredients] = useState([]);
 
   useEffect(() => {
-    const fetchNutritions = async () => {
-      const ingredients = await axios.get(
-        "http://localhost:8000/nutrition/ingredients"
-      );
-      // console.log(ingredients.data.data.nutrition);
-      setIngredients(ingredients.data.data.nutrition);
-    };
-    fetchNutritions();
+    try {
+      const fetchNutritions = async () => {
+        const ingredients = await axios.get(
+          "http://localhost:8000/nutrition/ingredients"
+        );
+        // console.log(ingredients.data.data.nutrition);
+        setIngredients(ingredients.data.data.nutrition);
+      };
+      fetchNutritions();
+    }catch (e) {
+      console.log(e);
+    }
+
   }, []);
   return (
     <Table className="min-w-full divide-y divide-gray-200 dark:divide-gray-600">
@@ -462,8 +467,8 @@ const AllUsersTable: FC = function () {
             </Table.Cell>
             <Table.Cell>
               <div className="flex items-center gap-x-3 whitespace-nowrap">
-                <EditUserModal ingredient={ingredient} />
-                <DeleteUserModal ingredient={ingredient} />
+                <EditIngredientModal ingredient={ingredient} />
+                <DeleteIngredientModal ingredient={ingredient} />
               </div>
             </Table.Cell>
           </Table.Row>
@@ -473,7 +478,7 @@ const AllUsersTable: FC = function () {
   );
 };
 
-const EditUserModal: FC = function ({ ingredient }) {
+const EditIngredientModal: FC = function ({ ingredient }) {
   const [isOpen, setOpen] = useState(false);
   const [name, setName] = useState(ingredient.name);
   const [calories, setCalories] = useState(ingredient.calories);
@@ -725,7 +730,7 @@ const EditUserModal: FC = function ({ ingredient }) {
   );
 };
 
-const DeleteUserModal: FC = function ({ ingredient }) {
+const DeleteIngredientModal: FC = function ({ ingredient }) {
   const [isOpen, setOpen] = useState(false);
 
   const handleDelete = () => {
