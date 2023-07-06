@@ -157,12 +157,12 @@ const AddRecipeModal: FC = function () {
 
   return (
     <>
-      <Button color="primary" onClick={() => setOpen(true)}>
+      {/* <Button color="primary" onClick={() => setOpen(true)}>
         <div className="flex items-center gap-x-3">
           <HiPlus className="text-xl" />
           Add Recipe
         </div>
-      </Button>
+      </Button> */}
       <Modal onClose={() => setOpen(false)} show={isOpen}>
         <Modal.Header className="border-b border-gray-200 !p-6 dark:border-gray-700">
           <strong>Add New Recipe</strong>
