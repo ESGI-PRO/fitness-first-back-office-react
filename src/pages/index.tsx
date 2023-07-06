@@ -2,7 +2,7 @@ import { Badge, Dropdown, Table } from "flowbite-react";
 import { useEffect, type FC, useState } from "react";
 import NavbarSidebarLayout from "../layouts/navbar-sidebar";
 import { Link } from "react-router-dom";
-import { nutritionsService, trainingsService, usersService } from "../services"; 
+import { nutritionsService, trainingsService, usersService, subscriptionsService } from "../services"; 
 
 const DashboardPage: FC = function () {
   const [ingredients, setIngredients] = useState<any>([]);
@@ -122,6 +122,14 @@ const LatestCustomers: FC = function () {
 };
 
 const LatestTransactions: FC = function () {
+  const [invoices, setInvoices] = useState<any>([]);
+
+  useEffect(() => {
+    subscriptionsService.getAllInvoices()
+      .then((x: any) => setInvoices(x.data))
+      .catch((error: any) => console.log(error));
+  }, []);
+
   return (
     <div className="rounded-lg bg-white p-4 shadow dark:bg-gray-800 sm:p-6 xl:p-8">
       <div className="mb-4 flex items-center justify-between">
@@ -130,7 +138,7 @@ const LatestTransactions: FC = function () {
             Latest Transactions
           </h3>
           <span className="text-base font-normal text-gray-600 dark:text-gray-400">
-            This is a list of latest transactions
+            This is a list of latest transactions to plan
           </span>
         </div>
       </div>
@@ -149,160 +157,25 @@ const LatestTransactions: FC = function () {
                   <Table.HeadCell>Status</Table.HeadCell>
                 </Table.Head>
                 <Table.Body className="bg-white dark:bg-gray-800">
-                  <Table.Row>
-                    <Table.Cell className="whitespace-nowrap p-4 text-sm font-normal text-gray-900 dark:text-white">
-                      Payment from{" "}
-                      <span className="font-semibold">Bonnie Green</span>
-                    </Table.Cell>
-                    <Table.Cell className="whitespace-nowrap p-4 text-sm font-normal text-gray-500 dark:text-gray-400">
-                      Apr 23, 2021
-                    </Table.Cell>
-                    <Table.Cell className="whitespace-nowrap p-4 text-sm font-semibold text-gray-900 dark:text-white">
-                      $2300
-                    </Table.Cell>
-                    <Table.Cell className="flex whitespace-nowrap p-4">
-                      <Badge color="success">Completed</Badge>
-                    </Table.Cell>
-                  </Table.Row>
-                  <Table.Row>
-                    <Table.Cell className="whitespace-nowrap p-4 text-sm font-normal text-gray-900 dark:text-white">
-                      Payment refund to{" "}
-                      <span className="font-semibold">#00910</span>
-                    </Table.Cell>
-                    <Table.Cell className="whitespace-nowrap p-4 text-sm font-normal text-gray-500 dark:text-gray-400">
-                      Apr 23, 2021
-                    </Table.Cell>
-                    <Table.Cell className="whitespace-nowrap p-4 text-sm font-semibold text-gray-900 dark:text-white">
-                      -$670
-                    </Table.Cell>
-                    <Table.Cell className="flex whitespace-nowrap p-4">
-                      <Badge color="success">Completed</Badge>
-                    </Table.Cell>
-                  </Table.Row>
-                  <Table.Row>
-                    <Table.Cell className="whitespace-nowrap p-4 text-sm font-normal text-gray-900 dark:text-white">
-                      Payment failed from{" "}
-                      <span className="font-semibold">#087651</span>
-                    </Table.Cell>
-                    <Table.Cell className="whitespace-nowrap p-4 text-sm font-normal text-gray-500 dark:text-gray-400">
-                      Apr 18, 2021
-                    </Table.Cell>
-                    <Table.Cell className="whitespace-nowrap p-4 text-sm font-semibold text-gray-900 dark:text-white">
-                      $234
-                    </Table.Cell>
-                    <Table.Cell className="flex whitespace-nowrap p-4">
-                      <Badge color="failure">Cancelled</Badge>
-                    </Table.Cell>
-                  </Table.Row>
-                  <Table.Row>
-                    <Table.Cell className="whitespace-nowrap p-4 text-sm font-normal text-gray-900 dark:text-white">
-                      Payment from{" "}
-                      <span className="font-semibold">Lana Byrd</span>
-                    </Table.Cell>
-                    <Table.Cell className="whitespace-nowrap p-4 text-sm font-normal text-gray-500 dark:text-gray-400">
-                      Apr 15, 2021
-                    </Table.Cell>
-                    <Table.Cell className="whitespace-nowrap p-4 text-sm font-semibold text-gray-900 dark:text-white">
-                      $5000
-                    </Table.Cell>
-                    <Table.Cell className="flex whitespace-nowrap p-4">
-                      <span className="mr-2 rounded-md bg-purple-100 py-0.5 px-2.5 text-xs font-medium text-purple-800 dark:bg-purple-200">
-                        In progress
-                      </span>
-                    </Table.Cell>
-                  </Table.Row>
-                  <Table.Row>
-                    <Table.Cell className="whitespace-nowrap p-4 text-sm font-normal text-gray-900 dark:text-white">
-                      Payment from{" "}
-                      <span className="font-semibold">Jese Leos</span>
-                    </Table.Cell>
-                    <Table.Cell className="whitespace-nowrap p-4 text-sm font-normal text-gray-500 dark:text-gray-400">
-                      Apr 15, 2021
-                    </Table.Cell>
-                    <Table.Cell className="whitespace-nowrap p-4 text-sm font-semibold text-gray-900 dark:text-white">
-                      $2300
-                    </Table.Cell>
-                    <Table.Cell className="flex whitespace-nowrap p-4">
-                      <Badge color="success">Completed</Badge>
-                    </Table.Cell>
-                  </Table.Row>
-                  <Table.Row>
-                    <Table.Cell className="whitespace-nowrap p-4 text-sm font-normal text-gray-900 dark:text-white">
-                      Payment from{" "}
-                      <span className="font-semibold">THEMESBERG LLC</span>
-                    </Table.Cell>
-                    <Table.Cell className="whitespace-nowrap p-4 text-sm font-normal text-gray-500 dark:text-gray-400">
-                      Apr 11, 2021
-                    </Table.Cell>
-                    <Table.Cell className="whitespace-nowrap p-4 text-sm font-semibold text-gray-900 dark:text-white">
-                      $560
-                    </Table.Cell>
-                    <Table.Cell className="flex whitespace-nowrap p-4">
-                      <Badge color="success">Completed</Badge>
-                    </Table.Cell>
-                  </Table.Row>
-                  <Table.Row>
-                    <Table.Cell className="whitespace-nowrap p-4 text-sm font-normal text-gray-900 dark:text-white">
-                      Payment from{" "}
-                      <span className="font-semibold">Lana Lysle</span>
-                    </Table.Cell>
-                    <Table.Cell className="whitespace-nowrap p-4 text-sm font-normal text-gray-500 dark:text-gray-400">
-                      Apr 6, 2021
-                    </Table.Cell>
-                    <Table.Cell className="whitespace-nowrap p-4 text-sm font-semibold text-gray-900 dark:text-white">
-                      $1437
-                    </Table.Cell>
-                    <Table.Cell className="flex whitespace-nowrap p-4">
-                      <Badge color="success">Completed</Badge>
-                    </Table.Cell>
-                  </Table.Row>
-                  <Table.Row>
-                    <Table.Cell className="whitespace-nowrap p-4 text-sm font-normal text-gray-900 dark:text-white">
-                      Payment to{" "}
-                      <span className="font-semibold">Joseph Mcfall</span>
-                    </Table.Cell>
-                    <Table.Cell className="whitespace-nowrap p-4 text-sm font-normal text-gray-500 dark:text-gray-400">
-                      Apr 1, 2021
-                    </Table.Cell>
-                    <Table.Cell className="whitespace-nowrap p-4 text-sm font-semibold text-gray-900 dark:text-white">
-                      $980
-                    </Table.Cell>
-                    <Table.Cell className="flex whitespace-nowrap p-4">
-                      <Badge color="success">Completed</Badge>
-                    </Table.Cell>
-                  </Table.Row>
-                  <Table.Row>
-                    <Table.Cell className="whitespace-nowrap p-4 text-sm font-normal text-gray-900 dark:text-white">
-                      Payment from{" "}
-                      <span className="font-semibold">Alphabet LLC</span>
-                    </Table.Cell>
-                    <Table.Cell className="whitespace-nowrap p-4 text-sm font-normal text-gray-500 dark:text-gray-400">
-                      Mar 23, 2021
-                    </Table.Cell>
-                    <Table.Cell className="whitespace-nowrap p-4 text-sm font-semibold text-gray-900 dark:text-white">
-                      $11,436
-                    </Table.Cell>
-                    <Table.Cell className="flex whitespace-nowrap p-4">
-                      <span className="mr-2 rounded-md bg-purple-100 py-0.5 px-2.5 text-xs font-medium text-purple-800 dark:bg-purple-200">
-                        In progress
-                      </span>
-                    </Table.Cell>
-                  </Table.Row>
-                  <Table.Row>
-                    <Table.Cell className="whitespace-nowrap p-4 text-sm font-normal text-gray-900 dark:text-white">
-                      Payment from{" "}
-                      <span className="font-semibold">Bonnie Green</span>
-                    </Table.Cell>
-                    <Table.Cell className="whitespace-nowrap p-4 text-sm font-normal text-gray-500 dark:text-gray-400">
-                      Mar 23, 2021
-                    </Table.Cell>
-                    <Table.Cell className="whitespace-nowrap p-4 text-sm font-semibold text-gray-900 dark:text-white">
-                      $560
-                    </Table.Cell>
-                    <Table.Cell className="flex whitespace-nowrap p-4">
-                      <Badge color="success">Completed</Badge>
-                    </Table.Cell>
-                  </Table.Row>
+                  {invoices.slice(0, 10).map((invoice: any, index: number) => (
+                    <Table.Row key={index}>
+                      <Table.Cell className="whitespace-nowrap p-4 text-sm font-normal text-gray-900 dark:text-white">
+                        Payment from{" "}
+                        <span className="font-semibold">
+                          #{invoice.userId}
+                        </span>
+                      </Table.Cell>
+                      <Table.Cell className="whitespace-nowrap p-4 text-sm font-normal text-gray-500 dark:text-gray-400">
+                        {invoice.createdAt.slice(0, 10)}
+                      </Table.Cell>
+                      <Table.Cell className="whitespace-nowrap p-4 text-sm font-semibold text-gray-900 dark:text-white">
+                        {invoice.amountPaid} $
+                      </Table.Cell>
+                      <Table.Cell className="flex whitespace-nowrap p-4">
+                        <Badge color="success">Completed</Badge>
+                      </Table.Cell>
+                    </Table.Row>
+                  ))}
                 </Table.Body>
               </Table>
             </div>

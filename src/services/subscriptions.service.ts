@@ -4,10 +4,15 @@ const headers = {
     "Authorization": `Bearer ${localStorage.getItem("token")}`
 };
 
-function getAll() {
+function getAllSubscriptions() {
     return http.get("/subscription/find-all-subscriptions", { headers });
 }
 
+function getAllInvoices() {
+    return http.get("/subscription/find-all-invoices", { headers });
+}
+
 export const subscriptionsService = {
-    getAll,
+    getAllSubscriptions,
+    getAllInvoices
 }
