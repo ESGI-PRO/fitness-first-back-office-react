@@ -349,76 +349,6 @@ const AllUsersTable: FC = function () {
       <Column field="UserId" header="User ID" sortable></Column>
       <Column header="Actions" body={actionBodyTemplate} sortable></Column>
     </DataTable>
-    {/* <Table className="min-w-full divide-y divide-gray-200 dark:divide-gray-600">
-        <Table.Head className="bg-gray-100 dark:bg-gray-700">
-          <Table.HeadCell>
-            <Label htmlFor="select-all" className="sr-only">
-              Select all
-            </Label>
-            <Checkbox id="select-all" name="select-all" />
-          </Table.HeadCell>
-          <Table.HeadCell>Name</Table.HeadCell>
-           <Table.HeadCell>Author</Table.HeadCell>
-          <Table.HeadCell>Description</Table.HeadCell>
-          <Table.HeadCell>Status</Table.HeadCell>
-    <Table.HeadCell>Actions</Table.HeadCell>
-        </Table.Head>
-        <Table.Body className="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-800">
-          {nutritions.map((nutrition, id) => (
-            <Table.Row key={id} className="hover:bg-gray-100 dark:hover:bg-gray-700">
-              <Table.Cell className="w-4 p-4">
-                <div className="flex items-center">
-                  <Checkbox aria-describedby="checkbox-1" id="checkbox-1" />
-                  <label htmlFor="checkbox-1" className="sr-only">
-                    checkbox
-                  </label>
-                </div>
-              </Table.Cell>
-              <Table.Cell className="mr-12 flex items-center space-x-6 whitespace-nowrap p-4 lg:mr-0">
-                <img
-                  className="h-10 w-10 rounded-full"
-                  src="/images/users/neil-sims.png"
-                  alt="Neil Sims avatar" />
-                <div className="text-sm font-normal text-gray-500 dark:text-gray-400">
-                  <div className="text-base font-semibold text-gray-900 dark:text-white">
-                    {nutrition.title}
-                  </div>
-                  <div className="text-sm font-normal text-gray-500 dark:text-gray-400">
-                    {nutrition.UserId}
-                  </div>
-                </div>
-              </Table.Cell>
-              <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
-              {nutrition.UserId}
-            </Table.Cell>
-            <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
-              {
-                nutrition.instructions.map((details) => (
-                  details.description
-                ))
-              }
-            </Table.Cell>
-              <Table.Cell className="whitespace-nowrap p-4 text-base font-normal text-gray-900 dark:text-white">
-              <div className="flex items-center">
-                <div className="mr-2 h-2.5 w-2.5 rounded-full bg-green-400"></div>{" "}
-                Active
-              </div>
-            </Table.Cell>
-              <Table.Cell>
-                <div className="flex items-center gap-x-3 whitespace-nowrap">
-                  <RecetteDetailModal nutrition={nutrition} />
-                  <DeleteRecipeModal nutrition={nutrition} />
-                </div>
-              </Table.Cell>
-            </Table.Row>
-          ))}
-
-
-
-
-
-        </Table.Body>
-      </Table> */}
     </>
   )
 }
@@ -481,24 +411,12 @@ const EditRecipeModal: any = function ({ nutrition }: any) {
                   <div>
                     <Label htmlFor="email">Order</Label>
                     <div className="mt-1">
-                      {/* <TextInput
-                    id="email"
-                    name="email"
-                    placeholder="example@company.com"
-                    type="email"
-                  /> */}
                       {details.order}
                     </div>
                   </div>
                   <div>
                     <Label htmlFor="email">Description</Label>
                     <div className="mt-1">
-                      {/* <TextInput
-                    id="email"
-                    name="email"
-                    placeholder="example@company.com"
-                    type="email"
-                  /> */}
                       {details.description}
                     </div>
                   </div>
@@ -512,12 +430,6 @@ const EditRecipeModal: any = function ({ nutrition }: any) {
                         <div>
                           <Label htmlFor="email">Quantité(G)</Label>
                           <div className="mt-1">
-                            {/* <TextInput
-                          id="email"
-                          name="email"
-                          placeholder="example@company.com"
-                          type="email"
-                        /> */}
                             {lastdetails.quantite}
                           </div>
                         </div>
@@ -525,12 +437,6 @@ const EditRecipeModal: any = function ({ nutrition }: any) {
                         <div>
                           <Label htmlFor="email">Ingredients</Label>
                           <div className="mt-1">
-                            {/* <TextInput
-                          id="email"
-                          name="email"
-                          placeholder="example@company.com"
-                          type="email"
-                        /> */}
                             {lastdetails.ingredients}
                           </div>
                         </div>
