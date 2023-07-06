@@ -162,25 +162,33 @@ const LatestTransactions: FC = function () {
                   <Table.HeadCell>Status</Table.HeadCell>
                 </Table.Head>
                 <Table.Body className="bg-white dark:bg-gray-800">
-                  {invoices.slice(0, 10).map((invoice: any, index: number) => (
-                    <Table.Row key={index}>
+                  {invoices.length > 0 ? (
+                    invoices.slice(0, 10).map((invoice: any, index: number) => (
+                      <Table.Row key={index}>
+                        <Table.Cell className="whitespace-nowrap p-4 text-sm font-normal text-gray-900 dark:text-white">
+                          Payment from{" "}
+                          <span className="font-semibold">
+                            #{invoice.userId}
+                          </span>
+                        </Table.Cell>
+                        <Table.Cell className="whitespace-nowrap p-4 text-sm font-normal text-gray-500 dark:text-gray-400">
+                          {invoice.createdAt.slice(0, 10)}
+                        </Table.Cell>
+                        <Table.Cell className="whitespace-nowrap p-4 text-sm font-semibold text-gray-900 dark:text-white">
+                          {invoice.amountPaid} $
+                        </Table.Cell>
+                        <Table.Cell className="flex whitespace-nowrap p-4">
+                          <Badge color="success">Completed</Badge>
+                        </Table.Cell>
+                      </Table.Row>
+                    ))
+                  ) : (
+                    <Table.Row>
                       <Table.Cell className="whitespace-nowrap p-4 text-sm font-normal text-gray-900 dark:text-white">
-                        Payment from{" "}
-                        <span className="font-semibold">
-                          #{invoice.userId}
-                        </span>
-                      </Table.Cell>
-                      <Table.Cell className="whitespace-nowrap p-4 text-sm font-normal text-gray-500 dark:text-gray-400">
-                        {invoice.createdAt.slice(0, 10)}
-                      </Table.Cell>
-                      <Table.Cell className="whitespace-nowrap p-4 text-sm font-semibold text-gray-900 dark:text-white">
-                        {invoice.amountPaid} $
-                      </Table.Cell>
-                      <Table.Cell className="flex whitespace-nowrap p-4">
-                        <Badge color="success">Completed</Badge>
+                        No transactions
                       </Table.Cell>
                     </Table.Row>
-                  ))}
+                  )}
                 </Table.Body>
               </Table>
             </div>
@@ -196,14 +204,52 @@ const LatestTransactions: FC = function () {
 
 const PlanOverview: FC = function () {
   const [plans, setPlans] = useState<any>([]);
+  const [subscriptions, setSubscriptions] = useState<any>([]);
+  const [users, setUsers] = useState<any>([]);
+  
+  const countUsersPerPlan = (planId: number) => {
+    let count = 0;
+    subscriptions.forEach((subscription: any) => {
+      if (subscription.planId === planId) {
+        count++;
+      }
+    });
+    return count;
+  };
+
+  const getRgb = () => Math.floor(Math.random() * 255);
+
+  const rgbToHex = (r: number, g: number, b: number) => {
+    return "#" + [r, g, b].map((x) => {
+      const hex = x.toString(16);
+      return hex.length === 1 ? "0" + hex : hex;
+    }
+    ).join("");
+  };
+
+  const generateColor = () => {
+    const r = getRgb();
+    const g = getRgb();
+    const b = getRgb();
+    const color = rgbToHex(r, g, b);
+    return color;
+  };
 
   useEffect(() => {
     subscriptionsService.getAllPlans()
       .then((x: any) => setPlans(x.data))
       .catch((error: any) => console.log(error));
+
+    subscriptionsService.getAllSubscriptions()
+      .then((x: any) => setSubscriptions(x.data))
+      .catch((error: any) => console.log(error));
+
+    usersService.getAll()
+      .then((x: any) => setUsers(x.data.length))
+      .catch((error: any) => console.log(error));
+
   }, []);
 
-  console.log(plans);
   return (
     <div className="rounded-lg bg-white p-4 shadow dark:bg-gray-800 sm:p-6 xl:p-8">
       <h3 className="mb-6 text-xl font-bold leading-none text-gray-900 dark:text-white">
@@ -214,43 +260,48 @@ const PlanOverview: FC = function () {
           <div className="inline-block min-w-full align-middle">
             <div className="overflow-hidden shadow sm:rounded-lg">
               <Table className="min-w-full table-fixed">
-                <Table.Head>
-                  <Table.HeadCell className="whitespace-nowrap rounded-l border-x-0 bg-gray-50 py-3 px-4 text-left align-middle text-xs font-semibold uppercase text-gray-700 dark:bg-gray-700 dark:text-white">
-                    Plan
-                  </Table.HeadCell>
-                  <Table.HeadCell className="whitespace-nowrap border-x-0 bg-gray-50 py-3 px-4 text-left align-middle text-xs font-semibold uppercase text-gray-700 dark:bg-gray-700 dark:text-white">
-                    Users Subscribed
-                  </Table.HeadCell>
-                  <Table.HeadCell className="min-w-[140px] whitespace-nowrap rounded-r border-x-0 bg-gray-50 py-3 px-4 text-left align-middle text-xs font-semibold uppercase text-gray-700 dark:bg-gray-700 dark:text-white">
-                    Acquisition
-                  </Table.HeadCell>
-                </Table.Head>
-                <Table.Body className="divide-y divide-gray-100 dark:divide-gray-700">
-                  {plans.map((plan: any, index: number) => (
-                  <Table.Row className="text-gray-500 dark:text-gray-400" key={index}>
-                    <Table.Cell className="whitespace-nowrap border-t-0 p-4 text-left align-middle text-sm font-normal">
-                      {plan.name}
-                    </Table.Cell>
-                    <Table.Cell className="whitespace-nowrap border-t-0 p-4 align-middle text-xs font-medium text-gray-900 dark:text-white">
-                      5,649
-                    </Table.Cell>
-                    <Table.Cell className="whitespace-nowrap border-t-0 p-4 align-middle text-xs">
-                      <div className="flex items-center">
-                        <span className="mr-2 text-xs font-medium">30%</span>
-                        <div className="relative w-full">
-                          <div className="h-2 w-full rounded-sm bg-gray-200 dark:bg-gray-700">
-                            <div
-                              className="h-2 rounded-sm bg-primary-700"
-                              style={{ width: "30%" }}
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </Table.Cell>
-                  </Table.Row>
-                  ))}
-                </Table.Body>
-              </Table>
+                  <Table.Head>
+                    <Table.HeadCell className="whitespace-nowrap rounded-l border-x-0 bg-gray-50 py-3 px-4 text-left align-middle text-xs font-semibold uppercase text-gray-700 dark:bg-gray-700 dark:text-white">
+                      Plan
+                    </Table.HeadCell>
+                    <Table.HeadCell className="whitespace-nowrap border-x-0 bg-gray-50 py-3 px-4 text-left align-middle text-xs font-semibold uppercase text-gray-700 dark:bg-gray-700 dark:text-white">
+                      Subscribed
+                    </Table.HeadCell>
+                    <Table.HeadCell className="min-w-[140px] whitespace-nowrap rounded-r border-x-0 bg-gray-50 py-3 px-4 text-left align-middle text-xs font-semibold uppercase text-gray-700 dark:bg-gray-700 dark:text-white">
+                      Acquisition
+                    </Table.HeadCell>
+                  </Table.Head>
+                  <Table.Body className="divide-y divide-gray-100 dark:divide-gray-700">
+                    {plans.map((plan: any, index: number) => {
+                      const color = generateColor();
+                      return (
+                        <Table.Row className="text-gray-500 dark:text-gray-400" key={index}>
+                          <Table.Cell className="whitespace-nowrap border-t-0 p-4 text-left align-middle text-sm font-normal">
+                            {plan.name}
+                          </Table.Cell>
+                          <Table.Cell className="whitespace-nowrap border-t-0 p-4 align-middle text-xs font-medium text-gray-900 dark:text-white">
+                            {countUsersPerPlan(plan.id)}  
+                          </Table.Cell>
+                          <Table.Cell className="whitespace-nowrap border-t-0 p-4 align-middle text-xs">
+                            <div className="flex items-center">
+                              <span className="mr-2 text-xs font-medium">
+                                {Math.round(countUsersPerPlan(plan.id) / users * 100)}%
+                              </span>
+                              <div className="relative w-full">
+                                <div className="h-2 w-full rounded-sm bg-gray-200 dark:bg-gray-700">
+                                  <div
+                                    className="h-2 rounded-sm"
+                                    style={{ width: `${countUsersPerPlan(plan.id) / users * 100}%`, backgroundColor: color }}
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          </Table.Cell>
+                        </Table.Row>
+                      );
+                    })}
+                  </Table.Body>
+                </Table>
             </div>
           </div>
         </div>
