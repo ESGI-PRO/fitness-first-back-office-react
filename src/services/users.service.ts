@@ -13,7 +13,7 @@ function get(id: string) {
 }
 
 function create(data: any) {
-    return http.post("/users/register", data);
+    return http.post("/users/new_user", data);
 }
 
 function update(id: string, data: any) {

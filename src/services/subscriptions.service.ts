@@ -12,7 +12,12 @@ function getAllInvoices() {
     return http.get("/subscription/find-all-invoices", { headers });
 }
 
+function getAllPlans() {
+    return http.get("/subscription/find-all-plans", { headers });
+}
+
 export const subscriptionsService = {
     getAllSubscriptions,
-    getAllInvoices
+    getAllInvoices,
+    getAllPlans
 }
