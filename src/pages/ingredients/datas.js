@@ -1,75 +1,51 @@
 import axios from "axios";
 
-class Trainings {
-  trainings = [];
-  exercices = [];
-  muscles = [];
+class Ingredients {
+  ingredients = [];
+
   constructor() {
     this.init();
   }
 
   async init() {
-    this.getTrainings().then((item) => {
-      this.trainings.push(...item);
-    });
-
-    this.getExercices().then((item) => {
-      this.exercices.push(...item);
-    });
-
-    this.getMuscles().then((item) => {
-      console.log(
-        "🚀 ~ file: datas.js:21 ~ Trainings ~ this.getMuscles ~ item:",
-        item
-      );
-      this.muscles.push(...item);
+    this.getingredients().then((item) => {
+      this.ingredients.push(...item);
     });
   }
 
-  async getTrainings() {
-    this.trainings.length = 0;
+  async getingredients() {
+    this.ingredients.length = 0;
     return new Promise(function (resolve, reject) {
       axios
-        .get(import.meta.env.VITE_URL_BACKEND + "training")
-        .then((trainings) => {
-          var res = trainings.data.data.training;
-          console.log(trainings.data.data.training);
+        .get(import.meta.env.VITE_URL_BACKEND + "nutrition/ingredients")
+        .then((ingredients) => {
+          var res = ingredients.data.data.nutrition;
+          console.log(ingredients.data.data.nutrition);
           resolve(res);
         });
     });
   }
 
-  async getMuscles() {
+  async getingredientsByID(id) {
+    this.ingredients.length = 0;
     return new Promise(function (resolve, reject) {
       axios
-        .get(import.meta.env.VITE_URL_BACKEND + "training/exercices/category")
-        .then((responses) => {
-          var res = responses.data.data.exercices.data;
-          console.log("🚀 ~ file: datas.js:44 ~ Trainings ~ .then ~ res:", res);
-
+        .get(import.meta.env.VITE_URL_BACKEND + "nutrition/ingredients" + id)
+        .then((ingredients) => {
+          var res = ingredients.data.data.nutrition;
+          console.log(ingredients.data.data.nutrition);
           resolve(res);
         });
     });
   }
 
-  async getExercices() {
-    return new Promise(function (resolve, reject) {
-      axios
-        .get(import.meta.env.VITE_URL_BACKEND + "training/exercices/")
-        .then((exercices) => {
-          var res = exercices.data.data.exercices.data;
-          console.log(exercices);
-          resolve(res);
-        });
-    });
-  }
-
+ 
   async create(data) {
     return new Promise(function (resolve, reject) {
       axios
-        .post(import.meta.env.VITE_URL_BACKEND + "training", data)
+        .post(import.meta.env.VITE_URL_BACKEND + "nutrition/ingredients", data)
         .then((response) => {
-          var res = response.data.data.training;
+          var res = response.data.data.nutrition;
           resolve(res);
         });
     });
@@ -77,15 +53,15 @@ class Trainings {
 
   async delete(id) {
     await axios
-      .delete(import.meta.env.VITE_URL_BACKEND + "training/ " + id)
-      .then((trainings) => {
-        var res = trainings.data.data.training;
+      .delete(import.meta.env.VITE_URL_BACKEND + "nutrition/ " + id)
+      .then((ingredients) => {
+        var res = ingredients.data.data.nutrition;
         return res;
       });
 
-    this.getTrainings();
+    this.getingredients();
   }
 }
 
-const TrainingsAPI = new Trainings();
-export default TrainingsAPI;
+const ingredientsAPI = new Ingredients();
+export default ingredientsAPI;

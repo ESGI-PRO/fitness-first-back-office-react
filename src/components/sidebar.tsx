@@ -54,6 +54,7 @@ const ExampleSidebar: FC = function () {
           </form>
           <Sidebar.Items>
             <Sidebar.ItemGroup>
+            <Link to="/">
               <Sidebar.Item
                 icon={HiOutlineViewGrid}
                 className={
@@ -62,6 +63,7 @@ const ExampleSidebar: FC = function () {
               >
                 <Link to="/">Dashboard</Link>
               </Sidebar.Item>
+              </Link>
               <Sidebar.Item
                 icon={IoNutritionSharp}
                 className={
@@ -72,6 +74,8 @@ const ExampleSidebar: FC = function () {
               >
                 <Link to="/nutritions">Nutritions</Link>
               </Sidebar.Item>
+
+              <Link to="/ingredients">
               <Sidebar.Item
                 icon={HiShoppingBag}
                 className={
@@ -82,6 +86,11 @@ const ExampleSidebar: FC = function () {
               >
                 <Link to="/ingredients">Ingredients</Link>
               </Sidebar.Item>
+              </Link>
+
+
+                
+              
               <Sidebar.Item
                 icon={HiUsers}
                 className={
