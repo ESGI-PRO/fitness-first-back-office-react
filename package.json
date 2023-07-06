@@ -28,6 +28,7 @@
     "apexcharts": "^3.36.3",
     "axios": "^1.4.0",
     "classnames": "^2.3.2",
+    "dotenv": "^16.3.1",
     "flowbite": "^1.5.5",
     "flowbite-react": "^0.3.7",
     "notyf": "^3.10.0",

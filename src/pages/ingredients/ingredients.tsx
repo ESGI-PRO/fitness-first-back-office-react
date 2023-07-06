@@ -147,7 +147,8 @@ const AddUserModal: FC = function () {
     const fetchCategory = async () => {
       setOpen(true)
       const getCategory = await axios.get(
-        `http://localhost:8000/nutrition/categories`
+        // `http://localhost:8000/nutrition/categories`
+        import.meta.env["VITE_URL_BACKEND"] + "nutrition/categories"
       ); //http://localhost:8000/nutrition/categories
       setAllCategories(getCategory?.data.data.nutrition);
       console.log(getCategory?.data.data.nutrition);
@@ -173,7 +174,10 @@ const AddUserModal: FC = function () {
       carbohydrates_total_g: parseFloat(carboH),
     };
     console.log(createIngredient);
-    await axios.post(`http://localhost:8000/nutrition/ingredients`, createIngredient)
+    await axios.post(
+      // `http://localhost:8000/nutrition/ingredients`
+      import.meta.env["VITE_URL_BACKEND"] + "nutrition/ingredients", 
+      createIngredient)
       .then(response => {
         // Gérez la réponse du backend si nécessaire
         console.log(response.data);
@@ -186,17 +190,7 @@ const AddUserModal: FC = function () {
         // Gérez les erreurs de requête si nécessaire
         console.error(error);
       });
-
-      // await ingredientsAPI.create(createIngredient).then((response) => {
-      //   setOpen(false)
-      //   notifications.success("ingredients " + createIngredient.name + " created");
-      // });
   };
-
-  // const changeCategory = async (id) => {
-  //   setCategory(id);
-  //   console.log(id);
-  // };
 
   return (
     <>
@@ -394,21 +388,28 @@ const AddUserModal: FC = function () {
 const AllIngredientsTable: FC = function () {
   const [ingredients, setIngredients] = useState([]);
 
+  const headers = {
+    "Authorization": `Bearer ${localStorage.getItem("token")}`
+  };
+
+
+
   useEffect(() => {
     try {
       const fetchNutritions = async () => {
         const ingredients = await axios.get(
-          "http://localhost:8000/nutrition/ingredients"
+          import.meta.env["VITE_URL_BACKEND"] + "nutrition/ingredients", { headers }
         );
         // console.log(ingredients.data.data.nutrition);
         setIngredients(ingredients.data.data.nutrition);
       };
       fetchNutritions();
+      console.log()
     }catch (e) {
-      console.log(e);
+      // console.log(e);
     }
 
-  }, []);
+  }, [ingredients]);
   return (
     <Table className="min-w-full divide-y divide-gray-200 dark:divide-gray-600">
       <Table.Head className="bg-gray-100 dark:bg-gray-700">
@@ -448,9 +449,9 @@ const AllIngredientsTable: FC = function () {
                 <div className="text-base font-semibold text-gray-900 dark:text-white">
                   {ingredient.name}
                 </div>
-                <div className="text-sm font-normal text-gray-500 dark:text-gray-400">
+                {/* <div className="text-sm font-normal text-gray-500 dark:text-gray-400">
                   neil.sims@flowbite.com
-                </div>
+                </div> */}
               </div>
             </Table.Cell>
             <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
@@ -498,7 +499,8 @@ const EditIngredientModal: FC = function ({ ingredient }) {
   const fetchCategory = async () => {
     setOpen(true)
     const getCategory = await axios.get(
-      `http://localhost:8000/nutrition/categories`
+      // `http://localhost:8000/nutrition/categories`
+      import.meta.env["VITE_URL_BACKEND"] + "nutrition/categories"
     ); //http://localhost:8000/nutrition/categories
     setAllCategories(getCategory?.data.data.nutrition);
     console.log(getCategory?.data.data.nutrition);
@@ -523,7 +525,9 @@ const EditIngredientModal: FC = function ({ ingredient }) {
     };
     await axios
       .put(
-        `http://localhost:8000/nutrition/ingredients/${ingredient.id}`,
+        // `http://localhost:8000/nutrition/ingredients/${ingredient.id}`
+        import.meta.env["VITE_URL_BACKEND"] + `nutrition/ingredients/${ingredient.id}`
+        ,
         updatedIngredient
       )
       .then((response) => {
@@ -736,7 +740,11 @@ const DeleteIngredientModal: FC = function ({ ingredient }) {
   const handleDelete = () => {
     // Mettez ici votre logique d'envoi des données au backend, par exemple avec axios
     axios
-      .delete(`http://localhost:8000/nutrition/ingredients/${ingredient.id}`)
+      .delete(
+        // `http://localhost:8000/nutrition/ingredients/${ingredient.id}`
+        import.meta.env["VITE_URL_BACKEND"] + `nutrition/ingredients/${ingredient.id}`
+
+        )
       .then((response) => {
         // Gérez la réponse du backend si nécessaire
         console.log(response.data);
@@ -754,7 +762,7 @@ const DeleteIngredientModal: FC = function ({ ingredient }) {
       <Button color="failure" onClick={() => setOpen(true)}>
         <div className="flex items-center gap-x-2">
           <HiTrash className="text-lg" />
-          Delete user
+          Delete Ingredient
         </div>
       </Button>
       <Modal onClose={() => setOpen(false)} show={isOpen} size="md">

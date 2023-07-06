@@ -210,6 +210,7 @@ const NutritionPage: FC = function () {
 // }
 
 const AddRecipeModal: FC = function () {
+
   const [isOpen, setOpen] = useState(false);
   const [recipe, setRecipe] = useState<{
     title: string;
@@ -238,6 +239,10 @@ const AddRecipeModal: FC = function () {
       }
     ]
   });
+
+  const headers = {
+    "Authorization": `Bearer ${localStorage.getItem("token")}`
+  };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = event.target;
@@ -303,7 +308,11 @@ const AddRecipeModal: FC = function () {
     UserId: userId
   };
     // Effectuez ici la requête front-end avec la recette ajoutée
-    await axios.post(`http://localhost:8000/nutrition`, newRecipe)
+    await axios.post(
+      // `http://localhost:8000/nutrition`
+      import.meta.env["VITE_URL_BACKEND"] + `nutrition`, { headers }
+      
+      , newRecipe)
     console.log(recipe);
     setOpen(false);
   };
@@ -413,20 +422,29 @@ const AllUsersTable: FC = function () {
   const [nutritions, setNutritions] = useState([])
   const [instructions, setInstructions] = useState([])
 
+    
+  const headers = {
+    "Authorization": `Bearer ${localStorage.getItem("token")}`
+  };
+
+
   useEffect(() => {
     try {
       const fetchNutritions = async () => {
-        const getNutritions = await axios.get('http://localhost:8000/nutrition')
-        console.log(getNutritions.data.data.nutrition);
+        const getNutritions = await axios.get(
+          // 'http://localhost:8000/nutrition'
+        import.meta.env["VITE_URL_BACKEND"] + `nutrition`, { headers }
+          )
+        // console.log(getNutritions.data.data.nutrition);
         setNutritions(getNutritions.data.data.nutrition);
-        
+        // console.log(nutritions)
       }
       fetchNutritions()
     } catch(err) {
-      console.log(err);
+      // console.log(err);
     }
 
-  }, [])
+  }, [nutritions])
 
   return (
     <>
@@ -619,10 +637,17 @@ const RecetteDetailModal: FC = function ({ nutrition }) {
 const DeleteRecipeModal: FC = function ({nutrition}) {
   const [isOpen, setOpen] = useState(false);
 
+  const headers = {
+    "Authorization": `Bearer ${localStorage.getItem("token")}`
+  };
+
   const handleDelete = () => {
     // Mettez ici votre logique d'envoi des données au backend, par exemple avec axios
     axios
-      .delete(`http://localhost:8000/nutrition/${nutrition.id}`)
+      .delete(
+        // `http://localhost:8000/nutrition/${nutrition.id}`
+        import.meta.env["VITE_URL_BACKEND"] + `nutrition/${nutrition.id}`, { headers }
+        )
       .then((response) => {
         // Gérez la réponse du backend si nécessaire
         console.log(response.data);
