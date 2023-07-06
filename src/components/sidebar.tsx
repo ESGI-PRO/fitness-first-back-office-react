@@ -102,7 +102,7 @@ const ExampleSidebar: FC = function () {
               >
                 <Link to="/trainings">Trainings</Link>
               </Sidebar.Item>
-              <Sidebar.Item
+              {/* <Sidebar.Item
                 icon={BiMessageDetail}
                 className={
                   "/comments" === currentPage
@@ -111,7 +111,7 @@ const ExampleSidebar: FC = function () {
                 }
               >
                 <Link to="/messengers">Messengers</Link>
-              </Sidebar.Item>
+              </Sidebar.Item> */}
             </Sidebar.ItemGroup>
             <Sidebar.ItemGroup>
               <Sidebar.Item
