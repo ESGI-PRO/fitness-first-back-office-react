@@ -9,7 +9,6 @@ import {
   HiOutlineViewGrid,
 } from "react-icons/hi";
 import { IoFitnessSharp, IoNutritionSharp } from "react-icons/io5";
-import { BiMessageDetail } from "react-icons/bi";
 import { Link } from "react-router-dom";
 import { Toast } from 'primereact/toast';
 

@@ -41,7 +41,9 @@ const UserListPage: FC = function () {
                   <Link to="/" className="dark:text-white">Home</Link>
                 </div>
               </Breadcrumb.Item>
-              <Breadcrumb.Item href="/users/list">Users</Breadcrumb.Item>
+              <Breadcrumb.Item>
+                <Link to="/users/list">Users</Link>
+              </Breadcrumb.Item>
               <Breadcrumb.Item>List</Breadcrumb.Item>
             </Breadcrumb>
             <h1 className="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">
