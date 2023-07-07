@@ -481,6 +481,7 @@ const DeleteRecipeModal: any = function ({nutrition}: any) {
         console.log(response.data);
         // Fermez le modal après la modification
         setOpen(false);
+        window.location.href = '/nutritions';
       })
       .catch((error) => {
         // Gérez les erreurs de requête si nécessaire

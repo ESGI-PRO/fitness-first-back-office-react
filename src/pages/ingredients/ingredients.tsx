@@ -119,10 +119,13 @@ const AllIngredientsTable: FC = function () {
         setOpen(false);
         toast.current?.show({ severity: 'success', summary: 'Successful', detail: 'Ingredient Created', life: 3000 });
         setIngredients([...ingredients, data]);
+        window.location.href = '/ingredients';
       } catch (error) {
         console.log(error);
         toast.current?.show({ severity: 'error', summary: 'Error Message', detail: 'Ingredient Not Created', life: 3000 });
       }
+
+      
     };
     
     return (
@@ -289,6 +292,7 @@ const AllIngredientsTable: FC = function () {
           setOpen(false);
           setIngredients(ingredients.filter((ingredient: any) => ingredient.id !== ingredient));
           toast.current?.show({ severity: 'success', summary: 'Successful', detail: 'Ingredient Deleted', life: 3000 });
+          window.location.href = '/ingredients';
         })
         .catch((error) => {
           console.log(error);
@@ -367,6 +371,7 @@ const AllIngredientsTable: FC = function () {
         setOpen(false);
         setIngredients((ingredients: any) => ingredients.map((ingredient: any) => ingredient.id === data.id ? data : ingredient));
         toast.current?.show({ severity: 'success', summary: 'Successful', detail: 'Ingredient Updated', life: 3000 });
+        window.location.href = '/ingredients';
       } catch (error) {
         console.log(error);
         toast.current?.show({ severity: 'error', summary: 'Error Message', detail: 'Ingredient Not Updated', life: 3000 });
