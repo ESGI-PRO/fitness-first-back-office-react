@@ -26,6 +26,7 @@ import NavbarSidebarLayout from "../../layouts/navbar-sidebar";
 // import { Pagination } from "../users/list";
 import TrainingsAPI from "./datas";
 import notifications from "../../services/notifications";
+import axios from "axios";
 
 const trainingsPage: FC = function () {
   const [trainings, setTrainings] = useState([]);
@@ -33,11 +34,32 @@ const trainingsPage: FC = function () {
 
   const [muscles, setMuscles] = useState([]);
 
+  const headers = {
+    "Authorization": `Bearer ${localStorage.getItem("token")}`
+  };
+
   useEffect(() => {
     fetchTrainings();
     fetchMuscles();
     fetchExercices();
   }, []);
+
+  // useEffect(() => {
+  //   try {
+  //     const fetchData = async () => { 
+  //       const data = await axios.get(
+  //         // 'http://localhost:8000/nutrition'
+  //       import.meta.env["VITE_URL_BACKEND"] + `training/exercises`, { headers }
+  //         )
+
+  //       console.log(data.data.data.exercises);
+  //       await setTrainings(data.data.data.exercises);
+  //     }
+  //     fetchData();
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // })
 
   const fetchTrainings = async () => {
     var p: any = await TrainingsAPI.trainings;
@@ -469,12 +491,12 @@ const AllUsersTable: FC<{ trainings: any; categories: any; exercices: any }> =
               <Table.Cell className="mr-12 flex items-center space-x-6 whitespace-nowrap p-4 lg:mr-0">
                 <img
                   className="h-10 w-10 rounded-full"
-                  src="/images/users/neil-sims.png"
+                  src={training?.content.gifUrl}
                   alt="Neil Sims avatar"
                 />
                 <div className="text-sm font-normal text-gray-500 dark:text-gray-400">
                   <div className="text-base font-semibold text-gray-900 dark:text-white">
-                    {training?.name}
+                    {training?.content.name}
                   </div>
                   <div className="text-sm font-normal text-gray-500 dark:text-gray-400">
                     {training?.userId}
@@ -482,7 +504,7 @@ const AllUsersTable: FC<{ trainings: any; categories: any; exercices: any }> =
                 </div>
               </Table.Cell>
               <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
-                {training?.muscle?.name}
+                {training?.content?.bodyPart}
               </Table.Cell>
               <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
                 {training?._count?.trainingOnExercices}

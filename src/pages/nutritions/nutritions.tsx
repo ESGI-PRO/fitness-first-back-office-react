@@ -404,11 +404,11 @@ const EditRecipeModal: any = function ({ nutrition }: any) {
             </div> */}
 
             {
-              nutrition.instructions.map((details: any) => (
+              nutrition.instructions.map((details: any, id: any) => (
 
                 <>
 
-                  <div>
+                  <div key={id}>
                     <Label htmlFor="email">Order</Label>
                     <div className="mt-1">
                       {details.order}
@@ -425,9 +425,9 @@ const EditRecipeModal: any = function ({ nutrition }: any) {
 
 
                   {
-                    details.produits.map((lastdetails: any) => (
+                    details.produits.map((lastdetails: any, id: any) => (
                       <>
-                        <div>
+                        <div key={id}>
                           <Label htmlFor="email">Quantité(G)</Label>
                           <div className="mt-1">
                             {lastdetails.quantite}
