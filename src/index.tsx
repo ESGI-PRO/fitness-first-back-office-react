@@ -16,6 +16,7 @@ import TrainingsPage from "./pages/trainings/trainings";
 import IngredientsPage from "./pages/ingredients/ingredients";
 
 import { authService } from "./services"; 
+import { User } from "./pages/users";
 
 const App = () => {
   const [authenticated, setAuthenticated] = useState(true);
@@ -44,10 +45,10 @@ const App = () => {
           <Routes>
             <Route path="/authentication/sign-in" element={authenticated ? <Navigate to="/" /> : <SignInPage />} />
             <Route path="/" element={authenticated ? <DashboardPage /> : <Navigate to="/authentication/sign-in" />} />
-            <Route path="/users/list" element={authenticated ? <UserListPage /> : <Navigate to="/authentication/sign-in" />} />
-            <Route path="/nutritions" element={authenticated ? <NutritionPage /> : <Navigate to="/authentication/sign-in" />} />
+            <Route path="/users/*" element={authenticated ? <User /> : <Navigate to="/authentication/sign-in" />} />
+            {/* <Route path="/nutritions" element={authenticated ? <NutritionPage /> : <Navigate to="/authentication/sign-in" />} /> */}
             <Route path="/trainings" element={authenticated ? <TrainingsPage /> : <Navigate to="/authentication/sign-in" />} />
-            <Route path="/ingredients" element={authenticated ? <IngredientsPage /> : <Navigate to="/authentication/sign-in" />} />
+            {/* <Route path="/ingredients" element={authenticated ? <IngredientsPage /> : <Navigate to="/authentication/sign-in" />} /> */}
           </Routes>
         </BrowserRouter>
       </Flowbite>

@@ -122,6 +122,19 @@ const ExampleSidebar: FC = function () {
               </Sidebar.Item> */}
             </Sidebar.ItemGroup>
             <Sidebar.ItemGroup>
+              <Sidebar.Item className="hover:bg-transparent">
+                <span className="text-sm font-semibold text-gray-500 dark:text-gray-400">
+                  User
+                </span>
+              </Sidebar.Item>
+              <Sidebar.Item>
+                <Link to="/users">Users list</Link>
+              </Sidebar.Item>
+              <Sidebar.Item>
+                <Link to="/users/add">Role list</Link>
+              </Sidebar.Item>
+            </Sidebar.ItemGroup>
+            <Sidebar.ItemGroup>
               <Sidebar.Item
                 icon={HiOutlineLogout}
                 className="cursor-pointer"

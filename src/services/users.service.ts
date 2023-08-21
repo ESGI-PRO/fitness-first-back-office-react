@@ -8,7 +8,7 @@ function getAll() {
     return http.get("/users", { headers });
 }
 
-function get(id: string) {
+function getById(id: string) {
     return http.get(`/users/${id}`, { headers });
 }
 
@@ -26,7 +26,7 @@ function remove(id: string) {
 
 export const usersService = {
     getAll,
-    get,
+    getById,
     create,
     update,
     remove,

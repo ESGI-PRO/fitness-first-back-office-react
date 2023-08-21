@@ -2,8 +2,7 @@ import { Button, Card, Label, TextInput, Spinner } from "flowbite-react";
 
 import { useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
-import { useRef } from 'react';
-import { Toast } from 'primereact/toast';
+import toast, { Toaster } from 'react-hot-toast';
 
 import { authService } from "../../services";
 
@@ -11,20 +10,19 @@ import type { FC } from "react";
 
 const SignInPage: FC = function () {
   const navigate = useNavigate();
-  const toast = useRef<Toast>(null);
   const { register, handleSubmit, formState } = useForm();
 
   function onSubmit(data: any) {
     authService.login(data.email, data.password)
       .then((response: any) => {
         if (response.data.data.user.isAdmin) {
-          toast.current?.show({severity:'success', summary: 'Success', detail:'You are logged in', life: 3000});
+          toast.success('You are logged in');
           localStorage.setItem('token', response.data.data.token.access.token);
           console.log(response);
           navigate('/');
           window.location.reload();
         } else {
-          toast.current?.show({ severity: 'error', summary: 'Error', detail: 'You are not authorized to access this page', life: 3000 });
+          toast.error('You are not authorized to access this page');
           return;
         }
       })
@@ -36,7 +34,10 @@ const SignInPage: FC = function () {
 
   return (
     <div className="flex flex-col items-center justify-center px-6 h-screen lg:gap-y-12">
-      <Toast ref={toast} />
+      <Toaster
+        position="top-right"
+        reverseOrder={false}
+      />
       <Card
         horizontal
         className="w-full md:max-w-screen-sm [&>img]:hidden md:[&>img]:w-96 md:[&>img]:p-0 md:[&>*]:w-full md:[&>*]:p-16 lg:[&>img]:block"
