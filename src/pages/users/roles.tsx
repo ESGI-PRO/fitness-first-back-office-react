@@ -21,10 +21,10 @@ import {
   import { Column } from 'primereact/column';
   import { FilterMatchMode } from 'primereact/api';
   
-  import { trainingsService } from "../../services"; 
+  import { usersService } from "../../services"; 
   import { Link } from "react-router-dom";
   
-  const TrainingsList = () => {
+  const UserRoles = () => {
     return (
       <NavbarSidebarLayout isFooter={false}>
         <div className="block items-center justify-between border-b border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800 sm:flex">
@@ -38,12 +38,12 @@ import {
                   </div>
                 </Breadcrumb.Item>
                 <Breadcrumb.Item>
-                  <Link to="/trainings">Trainings</Link>
+                  <Link to="/users">Users</Link>
                 </Breadcrumb.Item>
-                <Breadcrumb.Item>List</Breadcrumb.Item>
+                <Breadcrumb.Item>Roles</Breadcrumb.Item>
               </Breadcrumb>
               <h1 className="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">
-                All trainings
+                Requested roles users
               </h1>
               <Toaster
                 position="top-center"
@@ -56,7 +56,7 @@ import {
           <div className="overflow-x-auto">
             <div className="inline-block min-w-full align-middle">
               <div className="overflow-hidden shadow">
-                <AllTrainingsTable />
+                <AllUsersTable />
               </div>
             </div>
           </div>
@@ -64,9 +64,47 @@ import {
       </NavbarSidebarLayout>
     );
   };
-
-  const AllTrainingsTable: FC = function () {
-    const [data, setData] = useState<any[]>([]);
+  
+  const statusBodyTemplate = (rowData: any) => {
+    return (
+      <div className="flex items-center">
+        {rowData.is_confirmed ? (
+          <>
+            <div className="mr-2 h-2.5 w-2.5 rounded-full bg-green-400"></div>
+            <span>Active</span>
+          </>
+        ) : (
+          <>
+            <div className="mr-2 h-2.5 w-2.5 rounded-full bg-red-400"></div>
+            <span>Inactive</span>
+          </>
+        )}
+      </div>  
+    )
+  };
+  
+  const userBodyTemplate = (user: any) => {
+    return (
+      <div className="mr-12 flex items-center space-x-6 whitespace-nowrap p-4 lg:mr-0">
+        <span
+            className="bg-gray-400 h-2 w-2 p-5 rounded-full font-bold text-white text-xl uppercase flex items-center justify-center"
+            aria-hidden="true">
+            {user.userName[0]}
+        </span>
+        <div className="text-sm font-normal text-gray-500 dark:text-gray-400">
+            <div className="text-base font-semibold text-gray-900 dark:text-white">
+                {user.userName}
+            </div>
+            <div className="text-sm font-normal text-gray-500 dark:text-gray-400">
+                {user.email}
+            </div>
+        </div>
+      </div>
+    )
+  }
+  
+  const AllUsersTable: FC = function () {
+    const [users, setUsers] = useState<any[]>([]);
     const [filters, setFilters] = useState({ global: { value: null, matchMode: FilterMatchMode.CONTAINS }});
     const [globalFilterValue, setGlobalFilterValue] = useState('');
   
@@ -80,18 +118,19 @@ import {
       setGlobalFilterValue(value);
     };
   
-    const DeleteTrainingsModal: any = function (itemId: any) {
+    const DeleteUserModal: any = function (userId: any) {
       const [isOpen, setOpen] = useState(false);
     
       const handleDelete = () => {
-        const id = itemId.data;
-        trainingsService.remove(id)
+        const id = userId.data;
+        // console.log('delete user with id: ', id);
+        usersService.remove(id)
           .then(() => {
-            toast.success('Item deleted');
-            setData(data.filter((item: any) => item.id !== id));
+            toast.success('User deleted successfully.');
+            setUsers(users.filter((user: any) => user.id !== id));
           })
           .catch((error: any) => {
-            toast.error('Error');
+            toast.error("User deletion failed.");
             console.log(error);
           });
       };  
@@ -103,15 +142,16 @@ import {
               <HiTrash className="text-lg" />
             </div>
           </Button>
+          {/* <Toast ref={toast} /> */}
           <Modal onClose={() => setOpen(false)} show={isOpen} size="md">
             <Modal.Header className="px-6 pt-6 pb-0">
-              <span className="sr-only">Deleted item</span>
+              <span className="sr-only">Delete user</span>
             </Modal.Header>
             <Modal.Body className="px-6 pt-0 pb-6">
               <div className="flex flex-col items-center gap-y-6 text-center">
                 <HiOutlineExclamationCircle className="text-7xl text-red-500" />
                 <p className="text-xl text-gray-500">
-                  Are you sure you want to delete this item ?
+                  Are you sure you want to delete this user?
                 </p>
                 <div className="flex items-center gap-x-3">
                   <Button color="failure" onClick={() => handleDelete()}>
@@ -127,90 +167,72 @@ import {
         </>
       );
     };
-
-    const contentBodyTemplate = (data: any) => {
-        return (
-            <div className="flex flex-col items-start gap-x-3 whitespace-nowrap">
-                <span className="font-semibold text-gray-800 capitalize">{data.content.bodyPart}</span>
-                <span className="text-gray-500 text-sm">{data.content.name}</span>
-            </div>
-            )
-    };
-
-    const actionBodyTemplate = (data: any) => {
+  
+    const actionBodyTemplate = (user: any) => {
         return (
             <div className="flex items-center gap-x-3 whitespace-nowrap">
             <Button color="primary">
-                <Link to={`edit/${data._id}`} className="flex items-center gap-x-2">
-                    <HiOutlinePencilAlt className="text-lg" />
+                <Link to={`edit/${user.id}`} className="flex items-center gap-x-2">
+                <HiOutlinePencilAlt className="text-lg" />
                 </Link>
             </Button>
-            <DeleteTrainingsModal data={data._id} />
+            <DeleteUserModal data={user.id} />
             </div>
         )
     };
-
+    
     const renderHeader = () => {
         return (
-          <div className="sm:flex m-2">
-            <div className="mb-3 hidden items-center dark:divide-gray-700 sm:mb-0 sm:flex sm:divide-x sm:divide-gray-100">
-              <form className="lg:pr-3">
-                <Label htmlFor="users-search" className="sr-only">
-                  Search
-                </Label>
-                <div className="relative mt-1 lg:w-64 xl:w-96">
-                  <TextInput
-                    value={globalFilterValue}
-                    onChange={onGlobalFilterChange}
-                    placeholder="Search trainings..." />
+            <div className="sm:flex m-2">
+                <div className="mb-3 hidden items-center dark:divide-gray-700 sm:mb-0 sm:flex sm:divide-x sm:divide-gray-100">
+                <form className="lg:pr-3">
+                    <Label htmlFor="users-search" className="sr-only">
+                    Search
+                    </Label>
+                    <div className="relative mt-1 lg:w-64 xl:w-96">
+                    <TextInput
+                        value={globalFilterValue}
+                        onChange={onGlobalFilterChange}
+                        placeholder="Search users..." />
+                    </div>
+                </form>
                 </div>
-              </form>
             </div>
-            <div className="ml-auto flex items-center space-x-2 sm:space-x-3">
-              <Button color="primary">
-                <Link to="add" className="flex items-center gap-x-3">
-                  <HiPlus className="text-xl" />
-                  Add training
-                </Link>
-              </Button>
-            </div>
-          </div>
         );
     };
 
     const header = renderHeader();
     
     useEffect(() => {
-      trainingsService.getAll()
+      usersService.getAll()
         .then((response) => {
-          setData(response.data.data.exercises);
+          setUsers(response.data);
         })
         .catch((error) => {
-          toast.error('Error', error);
-          // console.log(error);
+          console.log(error);
         });
     }, []);
   
     return (
-    <>
+      <>
         <DataTable 
-            value={data} 
-            size={"small"} 
-            paginator 
-            rows={10} 
-            rowsPerPageOptions={[5, 10, 25, 50]} 
-            tableStyle={{ minWidth: '50rem' }}
-            header={header}
-            globalFilterFields={['user_id', 'trainer_id', 'content.name']}
-            filters={filters}
+          value={users} 
+          size={"small"} 
+          paginator 
+          rows={10} 
+          rowsPerPageOptions={[5, 10, 25, 50]} 
+          tableStyle={{ minWidth: '50rem' }}
+          header={header}
+          globalFilterFields={['userName']}
+          filters={filters}
         >
-            <Column field="user_id" header="User ID" style={{ width: '25%' }}></Column>
-            <Column field="trainer_id" header="Trainer ID" style={{ width: '25%' }}></Column>
-            <Column header="Training" style={{ width: '25%' }} body={contentBodyTemplate}></Column>
-            <Column header="Actions" style={{ width: '25%' }} body={actionBodyTemplate}></Column>
+          <Column header="Name" body={userBodyTemplate}></Column>
+          <Column field="role" header="Role"></Column>
+          <Column header="Status" body={statusBodyTemplate}></Column>
+          <Column header="Actions" body={actionBodyTemplate}></Column>
         </DataTable>
       </>
     );
   };
-
-export default TrainingsList;  
+  
+  export default UserRoles;  

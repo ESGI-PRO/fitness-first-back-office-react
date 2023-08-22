@@ -49,7 +49,6 @@ const SignInPage: FC = function () {
           <div className="mb-4 flex flex-col gap-y-3">
             <Label htmlFor="email">Your email</Label>
             <TextInput
-              placeholder="name@company.com"
               type="email"
               {...register("email", { required: true })}
             />
@@ -57,7 +56,6 @@ const SignInPage: FC = function () {
           <div className="mb-6 flex flex-col gap-y-3">
             <Label htmlFor="password">Your password</Label>
             <TextInput
-              placeholder="••••••••"
               type="password"
               {...register("password", { required: true })}
             />

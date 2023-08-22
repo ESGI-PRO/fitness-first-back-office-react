@@ -3,12 +3,12 @@ import type { FC } from "react";
 import { useEffect, useState, useRef } from "react";
 import {
   HiSearch,
-  HiShoppingBag,
-  HiUsers,
   HiOutlineLogout,
   HiOutlineViewGrid,
+  HiOutlineHeart,
+  HiOutlineUser
 } from "react-icons/hi";
-import { IoFitnessSharp, IoNutritionSharp } from "react-icons/io5";
+import { IoIosFitness } from "react-icons/io";
 import { Link } from "react-router-dom";
 import { Toast } from 'primereact/toast';
 
@@ -53,7 +53,6 @@ const ExampleSidebar: FC = function () {
           </form>
           <Sidebar.Items>
             <Sidebar.ItemGroup>
-            <Link to="/">
               <Sidebar.Item
                 icon={HiOutlineViewGrid}
                 className={
@@ -62,86 +61,79 @@ const ExampleSidebar: FC = function () {
               >
                 <Link to="/">Dashboard</Link>
               </Sidebar.Item>
-              </Link>
-
-
-              
-
-
-                
-              
-              {/* <Sidebar.Item
-                icon={HiUsers}
-                className={
-                  "/users/list" === currentPage
-                    ? "bg-gray-100 dark:bg-gray-700"
-                    : ""
-                }
-              >
-                <Link to="/users/list">Users list</Link>
-              </Sidebar.Item> */}
-
-              {/* <Sidebar.Item
-                icon={BiMessageDetail}
-                className={
-                  "/comments" === currentPage
-                    ? "bg-gray-100 dark:bg-gray-700"
-                    : ""
-                }
-              >
-                <Link to="/messengers">Messengers</Link>
-              </Sidebar.Item> */}
             </Sidebar.ItemGroup>
             <Sidebar.ItemGroup>
-              <Sidebar.Item className="hover:bg-transparent">
+              <Sidebar.Item icon={IoIosFitness} className="hover:bg-transparent">
                 <span className="text-sm font-extrabold text-gray-500 dark:text-gray-400">
-                  Fitness and Nutrition
+                  Trainings
                 </span>
               </Sidebar.Item>
-              <Sidebar.Item
-                className={
-                  "/nutritions" === currentPage
-                    ? "bg-gray-100 dark:bg-gray-700"
-                    : ""
-                }
-              >
-                <Link to="/nutritions">Recipes</Link>
-              </Sidebar.Item>
-              <Sidebar.Item
-                className={
-                  "/ingredients" === currentPage
-                    ? "bg-gray-100 dark:bg-gray-700"
-                    : ""
-                }
-              >
-                <Link to="/ingredients">Ingredients</Link>
-              </Sidebar.Item>
-              <Sidebar.Item
-                className={
-                  "/trainings" === currentPage
-                    ? "bg-gray-100 dark:bg-gray-700"
-                    : ""
-                }
-              >
-                <Link to="/trainings">Trainings</Link>
-              </Sidebar.Item>
+              <div className="pl-6">
+                <Sidebar.Item
+                  className={
+                    "/trainings" === currentPage
+                      ? "bg-gray-100 dark:bg-gray-700"
+                      : ""
+                  }
+                >
+                  <Link to="/trainings">Trainings</Link>
+                </Sidebar.Item>
+              </div>
             </Sidebar.ItemGroup>
             <Sidebar.ItemGroup>
-              <Sidebar.Item className="hover:bg-transparent">
+              <Sidebar.Item icon={HiOutlineHeart} className="hover:bg-transparent">
+                <span className="text-sm font-extrabold text-gray-500 dark:text-gray-400">
+                  Nutrition
+                </span>
+              </Sidebar.Item>
+              <div className="pl-6">
+                <Sidebar.Item
+                  className={
+                    "/nutritions" === currentPage
+                      ? "bg-gray-100 dark:bg-gray-700"
+                      : ""
+                  }
+                >
+                  <Link to="/nutritions">Recipes</Link>
+                </Sidebar.Item>
+                <Sidebar.Item
+                  className={
+                    "/ingredients" === currentPage
+                      ? "bg-gray-100 dark:bg-gray-700"
+                      : ""
+                  }
+                >
+                  <Link to="/ingredients">Ingredients</Link>
+                </Sidebar.Item>
+                <Sidebar.Item
+                  className={
+                    "/categories" === currentPage
+                      ? "bg-gray-100 dark:bg-gray-700"
+                      : ""
+                  }
+                >
+                  <Link to="/categories">Categories</Link>
+                </Sidebar.Item>
+              </div>
+            </Sidebar.ItemGroup>
+            <Sidebar.ItemGroup>
+              <Sidebar.Item icon={HiOutlineUser} className="hover:bg-transparent">
                 <span className="text-sm font-extrabold text-gray-500 dark:text-gray-400">
                   User
                 </span>
               </Sidebar.Item>
-              <Sidebar.Item className={
-                  "/users" === currentPage
-                    ? "bg-gray-100 dark:bg-gray-700"
-                    : ""
-              }>
-                <Link to="/users">Users list</Link>
-              </Sidebar.Item>
-              <Sidebar.Item>
-                <Link to="/users/add">Role list</Link>
-              </Sidebar.Item>
+              <div className="pl-6">
+                <Sidebar.Item className={
+                    "/users" === currentPage
+                      ? "bg-gray-100 dark:bg-gray-700"
+                      : ""
+                }>
+                  <Link to="/users">Users list</Link>
+                </Sidebar.Item>
+                <Sidebar.Item>
+                  <Link to="/users/roles">Role list</Link>
+                </Sidebar.Item>
+              </div>
             </Sidebar.ItemGroup>
             <Sidebar.ItemGroup>
               <Sidebar.Item

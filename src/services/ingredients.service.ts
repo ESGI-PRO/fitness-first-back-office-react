@@ -4,7 +4,7 @@ const headers = {
     "Authorization": `Bearer ${localStorage.getItem("token")}`
 };
 
-function getAll() {
+function get() {
     return http.get("/nutrition/ingredients", { headers });
 }
 
@@ -16,18 +16,23 @@ function create(data: any) {
     return http.post("/nutrition/ingredients", data, { headers });
 }
 
-function deleteById(id: number) {
+function remove(id: string) {
     return http.delete(`/nutrition/ingredients/${id}`, { headers });
 }
 
-function updateById(id: number, data: any) {
+function update(id: string, data: any) {
     return http.put(`/nutrition/ingredients/${id}`, data, { headers });
 }
 
+function getById(id: string) {
+    return http.get(`/nutrition/ingredients/${id}`, { headers });
+}
+
 export const ingredientsService = {
-    getAll,
-    getAllCategories,
+    get,
     create,
-    deleteById,
-    updateById
+    remove,
+    update,
+    getById,
+    getAllCategories
 }

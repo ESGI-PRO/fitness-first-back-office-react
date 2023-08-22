@@ -217,6 +217,7 @@ const AllUsersTable: FC = function () {
         setUsers(response.data);
       })
       .catch((error) => {
+        toast.error('Error', error);
         console.log(error);
       });
   }, []);

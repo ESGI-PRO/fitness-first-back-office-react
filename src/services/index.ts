@@ -4,3 +4,4 @@ export * from './subscriptions.service';
 export * from './nutritions.service';
 export * from './trainings.service';
 export * from './ingredients.service';
+export * from './categories.service';

@@ -10,14 +10,13 @@ import { Routes, Route, Navigate } from "react-router";
 import { BrowserRouter } from "react-router-dom";
 import DashboardPage from "./pages";
 import SignInPage from "./pages/authentication/sign-in";
-// import UserListPage from "./pages/users/list";
-// import NutritionPage from "./pages/nutritions/nutritions";
-// import TrainingsPage from "./pages/trainings/trainings";
-// import IngredientsPage from "./pages/ingredients/ingredients";
 
 import { authService } from "./services"; 
 import { User } from "./pages/users";
 import { Trainings } from "./pages/trainings";
+import { Ingredients } from "./pages/ingredients";
+import { Nutritions } from "./pages/nutritions";
+import { Categories } from "./pages/categories";
 
 const App = () => {
   const [authenticated, setAuthenticated] = useState(true);
@@ -47,9 +46,10 @@ const App = () => {
             <Route path="/authentication/sign-in" element={authenticated ? <Navigate to="/" /> : <SignInPage />} />
             <Route path="/" element={authenticated ? <DashboardPage /> : <Navigate to="/authentication/sign-in" />} />
             <Route path="/users/*" element={authenticated ? <User /> : <Navigate to="/authentication/sign-in" />} />
-            {/* <Route path="/nutritions" element={authenticated ? <NutritionPage /> : <Navigate to="/authentication/sign-in" />} /> */}
+            <Route path="/nutritions/*" element={authenticated ? <Nutritions /> : <Navigate to="/authentication/sign-in" />} />
+            <Route path="/categories/*" element={authenticated ? <Categories /> : <Navigate to="/authentication/sign-in" />} />
             <Route path="/trainings/*" element={authenticated ? <Trainings /> : <Navigate to="/authentication/sign-in" />} />
-            {/* <Route path="/ingredients" element={authenticated ? <IngredientsPage /> : <Navigate to="/authentication/sign-in" />} /> */}
+            <Route path="/ingredients/*" element={authenticated ? <Ingredients /> : <Navigate to="/authentication/sign-in" />} />
           </Routes>
         </BrowserRouter>
       </Flowbite>

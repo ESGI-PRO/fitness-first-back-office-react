@@ -2,7 +2,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import toast, { Toaster } from 'react-hot-toast';
-import { trainingsService, usersService } from '../../services';
+import { nutritionsService, usersService } from '../../services';
 import {
     Button,
     Select,
@@ -14,7 +14,7 @@ import {
 import NavbarSidebarLayout from '../../layouts/navbar-sidebar';
 import { HiHome } from 'react-icons/hi';
 
-const TrainingsAddEdit = () => {
+const NutritionsAddEdit = () => {
     return (
         <NavbarSidebarLayout isFooter={false}>
             <div
@@ -29,12 +29,12 @@ const TrainingsAddEdit = () => {
                                 </div>
                             </Breadcrumb.Item>
                             <Breadcrumb.Item>
-                                <Link to="/trainings">Trainings</Link>
+                                <Link to="/nutritions">Nutritions</Link>
                             </Breadcrumb.Item>
                             <Breadcrumb.Item>Form</Breadcrumb.Item>
                         </Breadcrumb>
                         <h1 className="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">
-                            Form training
+                            Form nutrition
                         </h1>
                         <Toaster
                             position="top-center"
@@ -57,7 +57,7 @@ const TrainingsAddEdit = () => {
 };
 
 const Form = () => {
-    const [user, setUser] = useState([]);
+    const [user, setUser] = useState<any>([]);
     const { id } = useParams();
     const navigate = useNavigate();
     const isAddMode = !id;
@@ -71,9 +71,8 @@ const Form = () => {
 
     const createData = async (data: any) => {
         try {
-            await trainingsService.create({ exercises: [data] });
-            toast.success('Training created');
-            console.log({ exercises: [data] });
+            await nutritionsService.create(data);
+            toast.success('Nutrition added');
             reset();
             navigate('..');
         } catch (error) {
@@ -84,7 +83,7 @@ const Form = () => {
 
     const updateData = async (id: any, data: any) => {
         try {
-            await trainingsService.update(id, data);
+            await nutritionsService.update(id, data);
             navigate('..');
         } catch (error) {
             console.log(error);
@@ -93,12 +92,12 @@ const Form = () => {
 
     useEffect(() => {
         if (!isAddMode) {
-            trainingsService.getById(id)
+            nutritionsService.getById(id)
                 .then((response: any) => {
-                    const fields = ['user_id', 'trainer_id', 'content.name', 'content.bodyPart', 'content.equipment', 'content.gifUrl', 'content.id', 'content.target'];
-                    fields.forEach(field => setValue(field, response.data.data.exercises[field]));
+                    const fields = ['title', 'UserId', 'instructions'];
+                    fields.forEach(field => setValue(field, response.data[field]));
                 })
-                .catch((error) => {
+                .catch((error: any) => {
                     console.log(error);
                 });
         }
@@ -116,65 +115,28 @@ const Form = () => {
                 className="space-y-4 p-6"
             >
                 <div className="w-full">
-                    <Label htmlFor="user_id">User</Label>
+                    <Label htmlFor="title">Title</Label>
+                    <TextInput
+                        id="title"
+                        {...register("title", { required: true })}
+                    />
+                </div>
+                <div className="w-full">
+                    <Label htmlFor="UserId">User</Label>
                     <Select
-                        id="user_id"
-                        {...register("user_id", { required: true })}
+                        id="UserId"
+                        {...register("UserId", { required: true })}
                     >
-                        {user.map((user: any, index: number) => (
-                            <option key={index} value={user.id}>{user.userName}</option>
+                        {user.map((item: any) => (
+                            <option key={item.id} value={item.id}>{item.userName}</option>
                         ))}
                     </Select>
                 </div>
                 <div className="w-full">
-                    <Label htmlFor="trainer_id">Trainer</Label>
-                    <Select
-                        id="trainer_id"
-                        {...register("trainer_id", { required: true })}
-                    >
-                        {user.map((user: any, index: number) => (
-                            <option key={index} value={user.id}>{user.userName}</option>
-                        ))}
-                    </Select>
-                </div>
-                <div className="w-full">
-                    <Label htmlFor="bodyPart">Body part</Label>
+                    <Label htmlFor="instructions">Instructions</Label>
                     <TextInput
-                        id="bodyPart"
-                        type="text"
-                        {...register("content.bodyPart", { required: true })}
-                    />
-                </div>
-                <div className="w-full">
-                    <Label htmlFor="equipment">Equipment</Label>
-                    <TextInput
-                        id="equipment"
-                        type="text"
-                        {...register("content.equipment", { required: true })}
-                    />
-                </div>
-                <div className="w-full">
-                    <Label htmlFor="name">Name</Label>
-                    <TextInput
-                        id="name"
-                        type="text"
-                        {...register("content.name", { required: true })}
-                    />
-                </div>
-                <div className="w-full">
-                    <Label htmlFor="gifUrl">Gif url</Label>
-                    <TextInput
-                        id="gifUrl"
-                        type="text"
-                        {...register("content.gifUrl", { required: true })}
-                    />
-                </div>
-                <div className="w-full">
-                    <Label htmlFor="target">Target muscle</Label>
-                    <TextInput
-                        id="target"
-                        type="text"
-                        {...register("content.target", { required: true })}
+                        id="instructions"
+                        {...register("instructions", { required: true })}
                     />
                 </div>
                 <div className="w-full flex items-center gap-3 pt-6">
@@ -188,4 +150,4 @@ const Form = () => {
     );
 }
 
-export { TrainingsAddEdit };
+export { NutritionsAddEdit };
