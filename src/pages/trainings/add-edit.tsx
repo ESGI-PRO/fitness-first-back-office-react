@@ -1,10 +1,11 @@
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useForm } from "react-hook-form";
-import { useEffect } from "react";
-import { usersService } from '../../services';
+import { useEffect, useState } from "react";
+import toast, { Toaster } from 'react-hot-toast';
+import { trainingsService, usersService } from '../../services';
 import {
     Button,
-    Checkbox,
+    Select,
     Label,
     TextInput,
     Spinner,
@@ -28,13 +29,17 @@ const TrainingsAddEdit = () => {
                                 </div>
                             </Breadcrumb.Item>
                             <Breadcrumb.Item>
-                                <Link to="/users">Users</Link>
+                                <Link to="/trainings">Trainings</Link>
                             </Breadcrumb.Item>
                             <Breadcrumb.Item>Form</Breadcrumb.Item>
                         </Breadcrumb>
                         <h1 className="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">
-                            Form User
+                            Form training
                         </h1>
+                        <Toaster
+                            position="top-center"
+                            reverseOrder={false}
+                        />
                     </div>
                 </div>
             </div>
@@ -52,6 +57,7 @@ const TrainingsAddEdit = () => {
 };
 
 const Form = () => {
+    const [user, setUser] = useState([]);
     const { id } = useParams();
     const navigate = useNavigate();
     const isAddMode = !id;
@@ -59,23 +65,26 @@ const Form = () => {
 
     const onSubmit = (data: any) => {
         return isAddMode
-            ? createUser(data)
-            : updateUser(id, data);
+            ? createData(data)
+            : updateData(id, data);
     };
 
-    const createUser = async (data: any) => {
+    const createData = async (data: any) => {
         try {
-            await usersService.create(data);
+            await trainingsService.create({ exercises: [data] });
+            toast.success('Training created');
+            console.log({ exercises: [data] });
             reset();
             navigate('..');
         } catch (error) {
+            toast.error('Error');
             console.log(error);
         }
     };
 
-    const updateUser = async (id: any, data: any) => {
+    const updateData = async (id: any, data: any) => {
         try {
-            await usersService.update(id, data);
+            await trainingsService.update(id, data);
             navigate('..');
         } catch (error) {
             console.log(error);
@@ -84,15 +93,20 @@ const Form = () => {
 
     useEffect(() => {
         if (!isAddMode) {
-            usersService.getById(id)
-                .then((user: any) => {
-                    const fields = ['email', 'userName ', 'mobileNumber', 'password', 'isAdmin', 'isTrainer', 'is_confirmed'];
-                    fields.forEach(field => setValue(field, user.data[field]));
+            trainingsService.getById(id)
+                .then((response: any) => {
+                    const fields = ['user_id', 'trainer_id', 'content.name', 'content.bodyPart', 'content.equipment', 'content.gifUrl', 'content.id', 'content.target'];
+                    fields.forEach(field => setValue(field, response.data.data.exercises[field]));
                 })
                 .catch((error) => {
                     console.log(error);
                 });
         }
+
+        usersService.getAll()
+            .then((response: any) => {
+                setUser(response.data);
+            })
     }, []);
 
     return (
@@ -101,59 +115,66 @@ const Form = () => {
                 onSubmit={handleSubmit(onSubmit)}
                 className="space-y-4 p-6"
             >
-                <div className="flex space-x-6">
-                    <div className="flex items-center gap-1">
-                        <Label htmlFor="isAdmin">Is admin</Label>
-                        <Checkbox
-                            id="isAdmin"
-                            {...register("isAdmin", { required: true })}
-                        />
-                    </div>
-                    <div className="flex items-center gap-1">
-                        <Label htmlFor="isTrainer">Is trainer</Label>
-                        <Checkbox
-                            id="isTrainer"
-                            {...register("isTrainer", { required: true })}
-                        />
-                    </div>  
-                    <div className="flex items-center gap-1">
-                        <Label htmlFor="is_confirmed">Is confirmed</Label>
-                        <Checkbox
-                            id="is_confirmed"
-                            {...register("is_confirmed", { required: true })}
-                        />
-                    </div>
+                <div className="w-full">
+                    <Label htmlFor="user_id">User</Label>
+                    <Select
+                        id="user_id"
+                        {...register("user_id", { required: true })}
+                    >
+                        {user.map((user: any) => (
+                            <option value={user.id}>{user.userName}</option>
+                        ))}
+                    </Select>
                 </div>
                 <div className="w-full">
-                    <Label htmlFor="email">Email</Label>
-                    <TextInput
-                        id="email"
-                        type="email"
-                        {...register("email", { required: true })}
-                    />
+                    <Label htmlFor="trainer_id">Trainer</Label>
+                    <Select
+                        id="trainer_id"
+                        {...register("trainer_id", { required: true })}
+                    >
+                        {user.map((user: any) => (
+                            <option value={user.id}>{user.userName}</option>
+                        ))}
+                    </Select>
                 </div>
                 <div className="w-full">
-                    <Label htmlFor="userName">Username</Label>
+                    <Label htmlFor="bodyPart">Body part</Label>
                     <TextInput
-                        id="userName"
+                        id="bodyPart"
                         type="text"
-                        {...register("userName", { required: true })}
+                        {...register("content.bodyPart", { required: true })}
                     />
                 </div>
                 <div className="w-full">
-                    <Label htmlFor="mobileNumber">Mobile number</Label>
+                    <Label htmlFor="equipment">Equipment</Label>
                     <TextInput
-                        id="mobileNumber"
+                        id="equipment"
                         type="text"
-                        {...register("mobileNumber", { required: true })}
+                        {...register("content.equipment", { required: true })}
                     />
                 </div>
                 <div className="w-full">
-                    <Label htmlFor="password">Password</Label>
+                    <Label htmlFor="name">Name</Label>
                     <TextInput
-                        id="password"
-                        type="password"
-                        {...register("password", { required: true })}
+                        id="name"
+                        type="text"
+                        {...register("content.name", { required: true })}
+                    />
+                </div>
+                <div className="w-full">
+                    <Label htmlFor="gifUrl">Gif url</Label>
+                    <TextInput
+                        id="gifUrl"
+                        type="text"
+                        {...register("content.gifUrl", { required: true })}
+                    />
+                </div>
+                <div className="w-full">
+                    <Label htmlFor="target">Target muscle</Label>
+                    <TextInput
+                        id="target"
+                        type="text"
+                        {...register("content.target", { required: true })}
                     />
                 </div>
                 <div className="w-full flex items-center gap-3 pt-6">

@@ -85,16 +85,15 @@ import {
     
       const handleDelete = () => {
         const id = itemId.data;
-        console.log('delete item', id);
-        // trainingsService.remove(id)
-        //   .then(() => {
-        //     toast.success('User deleted successfully.');
-        //     setUsers(users.filter((user: any) => user.id !== id));
-        //   })
-        //   .catch((error: any) => {
-        //     toast.error("User deletion failed.");
-        //     console.log(error);
-        //   });
+        trainingsService.remove(id)
+          .then(() => {
+            toast.success('Item deleted');
+            setData(data.filter((item: any) => item.id !== id));
+          })
+          .catch((error: any) => {
+            toast.error('Error');
+            console.log(error);
+          });
       };  
     
       return (
@@ -133,7 +132,7 @@ import {
         return (
             <div className="flex flex-col items-start gap-x-3 whitespace-nowrap">
                 <span className="font-semibold text-gray-800 capitalize">{data.content.bodyPart}</span>
-                <span className="text-gray-500">{data.content.name}</span>
+                <span className="text-gray-500 text-sm">{data.content.name}</span>
             </div>
             )
     };
@@ -142,11 +141,11 @@ import {
         return (
             <div className="flex items-center gap-x-3 whitespace-nowrap">
             <Button color="primary">
-                <Link to={`edit/${data.id}`} className="flex items-center gap-x-2">
+                <Link to={`edit/${data._id}`} className="flex items-center gap-x-2">
                     <HiOutlinePencilAlt className="text-lg" />
                 </Link>
             </Button>
-            <DeleteTrainingsModal data={data.id} />
+            <DeleteTrainingsModal data={data._id} />
             </div>
         )
     };
@@ -163,7 +162,7 @@ import {
                   <TextInput
                     value={globalFilterValue}
                     onChange={onGlobalFilterChange}
-                    placeholder="Search for users" />
+                    placeholder="Search trainings..." />
                 </div>
               </form>
             </div>
@@ -171,7 +170,7 @@ import {
               <Button color="primary">
                 <Link to="add" className="flex items-center gap-x-3">
                   <HiPlus className="text-xl" />
-                  Add user
+                  Add training
                 </Link>
               </Button>
             </div>
@@ -184,7 +183,6 @@ import {
     useEffect(() => {
       trainingsService.getAll()
         .then((response) => {
-            console.log('DATA', response.data.data.exercises);
           setData(response.data.data.exercises);
         })
         .catch((error) => {
@@ -205,8 +203,8 @@ import {
             globalFilterFields={['user_id', 'trainer_id', 'content.name']}
             filters={filters}
         >
-            <Column field="user_id" header="User" style={{ width: '25%' }}></Column>
-            <Column field="trainer_id" header="Trainer" style={{ width: '25%' }}></Column>
+            <Column field="user_id" header="User ID" style={{ width: '25%' }}></Column>
+            <Column field="trainer_id" header="Trainer ID" style={{ width: '25%' }}></Column>
             <Column header="Training" style={{ width: '25%' }} body={contentBodyTemplate}></Column>
             <Column header="Actions" style={{ width: '25%' }} body={actionBodyTemplate}></Column>
         </DataTable>
