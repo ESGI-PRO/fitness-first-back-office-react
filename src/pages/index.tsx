@@ -5,24 +5,24 @@ import { Link } from "react-router-dom";
 import { nutritionsService, trainingsService, usersService, subscriptionsService } from "../services"; 
 
 const DashboardPage: FC = function () {
-  const [ingredients, setIngredients] = useState<any>([]);
-  const [nutritions, setNutritions] = useState<any>([]);
-  const [trainings, setTrainings] = useState<any>([]);
+  // const [ingredients, setIngredients] = useState<any>([]);
+  // const [nutritions, setNutritions] = useState<any>([]);
+  // const [trainings, setTrainings] = useState<any>([]);
 
-  useEffect(() => {
-    nutritionsService.getAll().then((x: any) => setNutritions(x.data.data.nutrition));
-    trainingsService.getAll().then((x: any) => setTrainings(x.data.data.training));
-    nutritionsService.getIngredients().then((x: any) => setIngredients(x.data.data.nutrition));
-  }, []);
+  // useEffect(() => {
+  //   nutritionsService.getAll().then((x: any) => setNutritions(x.data.data.nutrition));
+  //   trainingsService.getAll().then((x: any) => setTrainings(x.data.data.training));
+  //   nutritionsService.getIngredients().then((x: any) => setIngredients(x.data.data.nutrition));
+  // }, []);
 
   return (
     <NavbarSidebarLayout>
-      <div className="px-4 pt-6">
-        <div className="flex items-center justify-around">
+      <div className="px-4">
+        {/* <div className="flex items-center justify-around">
           <SalesThisWeek count={ingredients.length} title={`Ingredients`} />
           <SalesThisWeek count={nutritions.length} title={`Nutritions`} />
           <SalesThisWeek count={trainings.length} title={`Trainings`} />
-        </div>
+        </div> */}
 
         <div className="my-6">
           <LatestTransactions />
@@ -38,25 +38,25 @@ const DashboardPage: FC = function () {
   );
 };
 
-const SalesThisWeek: FC<{ count: number; title: string }> = function ({
-  count,
-  title,
-}) {
-  return (
-    <div className="rounded-lg w-40 bg-white p-4 shadow dark:bg-gray-800 sm:p-6 xl:p-8">
-      <div className="mb-4">
-        <div className="shrink-0 text-center">
-          <span className="text-2xl font-bold leading-none text-gray-900 dark:text-white sm:text-3xl">
-            {count}
-          </span>
-          <h3 className="text-base font-normal text-gray-600 dark:text-gray-400">
-            {title}
-          </h3>
-        </div>
-      </div>
-    </div>
-  );
-};
+// const SalesThisWeek: FC<{ count: number; title: string }> = function ({
+//   count,
+//   title,
+// }) {
+//   return (
+//     <div className="rounded-lg w-40 bg-white p-4 shadow dark:bg-gray-800 sm:p-6 xl:p-8">
+//       <div className="mb-4">
+//         <div className="shrink-0 text-center">
+//           <span className="text-2xl font-bold leading-none text-gray-900 dark:text-white sm:text-3xl">
+//             {count}
+//           </span>
+//           <h3 className="text-base font-normal text-gray-600 dark:text-gray-400">
+//             {title}
+//           </h3>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
 
 const Datepicker: FC = function () {
   return (
@@ -84,7 +84,7 @@ const LatestRegisteredUsers: FC = function () {
           Latest Registered Users
         </h3>
         <Link
-          to="/users/list"
+          to="/users"
           className="inline-flex items-center rounded-lg p-2 text-sm font-medium text-primary-700 hover:bg-gray-100 dark:text-primary-500 dark:hover:bg-gray-700"
         >
           View all

@@ -63,34 +63,14 @@ const ExampleSidebar: FC = function () {
                 <Link to="/">Dashboard</Link>
               </Sidebar.Item>
               </Link>
-              <Sidebar.Item
-                icon={IoNutritionSharp}
-                className={
-                  "/nutritions" === currentPage
-                    ? "bg-gray-100 dark:bg-gray-700"
-                    : ""
-                }
-              >
-                <Link to="/nutritions">Nutritions</Link>
-              </Sidebar.Item>
 
-              <Link to="/ingredients">
-              <Sidebar.Item
-                icon={HiShoppingBag}
-                className={
-                  "/ingredients" === currentPage
-                    ? "bg-gray-100 dark:bg-gray-700"
-                    : ""
-                }
-              >
-                <Link to="/ingredients">Ingredients</Link>
-              </Sidebar.Item>
-              </Link>
+
+              
 
 
                 
               
-              <Sidebar.Item
+              {/* <Sidebar.Item
                 icon={HiUsers}
                 className={
                   "/users/list" === currentPage
@@ -99,17 +79,8 @@ const ExampleSidebar: FC = function () {
                 }
               >
                 <Link to="/users/list">Users list</Link>
-              </Sidebar.Item>
-              <Sidebar.Item
-                icon={IoFitnessSharp}
-                className={
-                  "/trainings" === currentPage
-                    ? "bg-gray-100 dark:bg-gray-700"
-                    : ""
-                }
-              >
-                <Link to="/trainings">Trainings</Link>
-              </Sidebar.Item>
+              </Sidebar.Item> */}
+
               {/* <Sidebar.Item
                 icon={BiMessageDetail}
                 className={
@@ -123,11 +94,49 @@ const ExampleSidebar: FC = function () {
             </Sidebar.ItemGroup>
             <Sidebar.ItemGroup>
               <Sidebar.Item className="hover:bg-transparent">
-                <span className="text-sm font-semibold text-gray-500 dark:text-gray-400">
+                <span className="text-sm font-extrabold text-gray-500 dark:text-gray-400">
+                  Fitness and Nutrition
+                </span>
+              </Sidebar.Item>
+              <Sidebar.Item
+                className={
+                  "/nutritions" === currentPage
+                    ? "bg-gray-100 dark:bg-gray-700"
+                    : ""
+                }
+              >
+                <Link to="/nutritions">Recipes</Link>
+              </Sidebar.Item>
+              <Sidebar.Item
+                className={
+                  "/ingredients" === currentPage
+                    ? "bg-gray-100 dark:bg-gray-700"
+                    : ""
+                }
+              >
+                <Link to="/ingredients">Ingredients</Link>
+              </Sidebar.Item>
+              <Sidebar.Item
+                className={
+                  "/trainings" === currentPage
+                    ? "bg-gray-100 dark:bg-gray-700"
+                    : ""
+                }
+              >
+                <Link to="/trainings">Trainings</Link>
+              </Sidebar.Item>
+            </Sidebar.ItemGroup>
+            <Sidebar.ItemGroup>
+              <Sidebar.Item className="hover:bg-transparent">
+                <span className="text-sm font-extrabold text-gray-500 dark:text-gray-400">
                   User
                 </span>
               </Sidebar.Item>
-              <Sidebar.Item>
+              <Sidebar.Item className={
+                  "/users" === currentPage
+                    ? "bg-gray-100 dark:bg-gray-700"
+                    : ""
+              }>
                 <Link to="/users">Users list</Link>
               </Sidebar.Item>
               <Sidebar.Item>

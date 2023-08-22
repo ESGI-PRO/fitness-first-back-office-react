@@ -5,7 +5,7 @@ const headers = {
 };
 
 function getAll() {
-    return http.get("/training", { headers });
+    return http.get("/training/exercises", { headers });
 }
 
 export const trainingsService = {
