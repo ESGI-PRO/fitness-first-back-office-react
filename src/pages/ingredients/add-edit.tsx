@@ -71,6 +71,19 @@ const Form = () => {
 
     const createData = async (data: any) => {
         try {
+            data.calories = parseInt(data.calories);
+            data.CategorieId = parseInt(data.CategorieId);
+            data.grammes = parseInt(data.grammes);
+            data.fat_total_g = parseInt(data.fat_total_g);
+            data.fat_saturated_g = parseInt(data.fat_saturated_g);
+            data.protein_g = parseInt(data.protein_g);
+            data.sodium_mg = parseInt(data.sodium_mg);
+            data.potassium_mg = parseInt(data.potassium_mg);
+            data.cholesterol_mg = parseInt(data.cholesterol_mg);
+            data.carbohydrates_total_g = parseInt(data.carbohydrates_total_g);
+            data.fiber_g = parseInt(data.fiber_g);
+            data.sugar_g = parseInt(data.sugar_g);
+
             await ingredientsService.create(data);
             toast.success('Ingredient created');
             reset();
