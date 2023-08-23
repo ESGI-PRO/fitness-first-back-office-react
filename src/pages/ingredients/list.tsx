@@ -197,17 +197,17 @@ import {
         >
             <Column field="name" header="Name" style={{ width: '25%' }}></Column>
             <Column field="calories" header="Calories" style={{ width: '25%' }}></Column>
-            <Column field="CategorieId" header="Categorie ID" style={{ width: '25%' }}></Column>
+            <Column field="CategorieId" header="Categorie" style={{ width: '25%' }}></Column>
             <Column field="grammes" header="Grammes" style={{ width: '25%' }}></Column>
-            <Column field="fat_total_g" header="Fat total" style={{ width: '25%' }}></Column>
-            <Column field="fat_saturated_g" header="Fat saturated" style={{ width: '25%' }}></Column>
             <Column field="protein_g" header="Protein" style={{ width: '25%' }}></Column>
             <Column field="sodium_mg" header="Sodium" style={{ width: '25%' }}></Column>
             <Column field="potassium_mg" header="Potassium" style={{ width: '25%' }}></Column>
             <Column field="cholesterol_mg" header="Cholesterol" style={{ width: '25%' }}></Column>
-            <Column field="carbohydrates_total_g" header="Carbohydrates total" style={{ width: '25%' }}></Column>
             <Column field="fiber_g" header="Fiber" style={{ width: '25%' }}></Column>
             <Column field="sugar_g" header="Sugar" style={{ width: '25%' }}></Column>
+            <Column field="fat_saturated_g" header="Fat saturated" style={{ width: '25%' }}></Column>
+            <Column field="fat_total_g" header="Fat total" style={{ width: '25%' }}></Column>
+            <Column field="carbohydrates_total_g" header="Carbohydrates total" style={{ width: '25%' }}></Column>
             <Column header="Actions" style={{ width: '25%' }} body={actionBodyTemplate}></Column>
         </DataTable>
       </>

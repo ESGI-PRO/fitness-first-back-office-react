@@ -72,8 +72,8 @@ const ExampleSidebar: FC = function () {
                 <Sidebar.Item
                   className={
                     "/trainings" === currentPage
-                      ? "bg-gray-100 dark:bg-gray-700"
-                      : ""
+                      ? "bg-gray-100 dark:bg-gray-700 my-1"
+                      : "my-1"
                   }
                 >
                   <Link to="/trainings">Trainings</Link>
@@ -90,8 +90,8 @@ const ExampleSidebar: FC = function () {
                 <Sidebar.Item
                   className={
                     "/nutritions" === currentPage
-                      ? "bg-gray-100 dark:bg-gray-700"
-                      : ""
+                      ? "bg-gray-100 dark:bg-gray-700 my-1"
+                      : "my-1"
                   }
                 >
                   <Link to="/nutritions">Recipes</Link>
@@ -99,8 +99,8 @@ const ExampleSidebar: FC = function () {
                 <Sidebar.Item
                   className={
                     "/ingredients" === currentPage
-                      ? "bg-gray-100 dark:bg-gray-700"
-                      : ""
+                      ? "bg-gray-100 dark:bg-gray-700 my-1"
+                      : "my-1"
                   }
                 >
                   <Link to="/ingredients">Ingredients</Link>
@@ -108,8 +108,8 @@ const ExampleSidebar: FC = function () {
                 <Sidebar.Item
                   className={
                     "/categories" === currentPage
-                      ? "bg-gray-100 dark:bg-gray-700"
-                      : ""
+                      ? "bg-gray-100 dark:bg-gray-700 my-1"
+                      : "my-1"
                   }
                 >
                   <Link to="/categories">Categories</Link>
@@ -125,12 +125,16 @@ const ExampleSidebar: FC = function () {
               <div className="pl-6">
                 <Sidebar.Item className={
                     "/users" === currentPage
-                      ? "bg-gray-100 dark:bg-gray-700"
-                      : ""
+                      ? "bg-gray-100 dark:bg-gray-700 my-1"
+                      : "my-1"
                 }>
                   <Link to="/users">Users list</Link>
                 </Sidebar.Item>
-                <Sidebar.Item>
+                <Sidebar.Item  className={
+                    "/users/roles" === currentPage
+                      ? "bg-gray-100 dark:bg-gray-700 my-1"
+                      : "my-1"
+                }>
                   <Link to="/users/roles">Role list</Link>
                 </Sidebar.Item>
               </div>

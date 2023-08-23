@@ -106,21 +106,21 @@ const Form = () => {
                         <Label htmlFor="isAdmin">Is admin</Label>
                         <Checkbox
                             id="isAdmin"
-                            {...register("isAdmin", { required: true })}
+                            {...register("isAdmin", { required: false })}
                         />
                     </div>
                     <div className="flex items-center gap-1">
                         <Label htmlFor="isTrainer">Is trainer</Label>
                         <Checkbox
                             id="isTrainer"
-                            {...register("isTrainer", { required: true })}
+                            {...register("isTrainer", { required: false })}
                         />
                     </div>  
                     <div className="flex items-center gap-1">
                         <Label htmlFor="is_confirmed">Is confirmed</Label>
                         <Checkbox
                             id="is_confirmed"
-                            {...register("is_confirmed", { required: true })}
+                            {...register("is_confirmed", { required: false })}
                         />
                     </div>
                 </div>
@@ -137,7 +137,7 @@ const Form = () => {
                     <TextInput
                         id="userName"
                         type="text"
-                        {...register("userName", { required: true })}
+                        {...register("userName", { required: false })}
                     />
                 </div>
                 <div className="w-full">
@@ -145,7 +145,7 @@ const Form = () => {
                     <TextInput
                         id="mobileNumber"
                         type="text"
-                        {...register("mobileNumber", { required: true })}
+                        {...register("mobileNumber", { required: false })}
                     />
                 </div>
                 <div className="w-full">
@@ -153,7 +153,7 @@ const Form = () => {
                     <TextInput
                         id="password"
                         type="password"
-                        {...register("password", { required: true })}
+                        {...register("password", { required: false })}
                     />
                 </div>
                 <div className="w-full flex items-center gap-3 pt-6">
