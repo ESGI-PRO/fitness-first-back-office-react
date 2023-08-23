@@ -204,8 +204,8 @@ import {
             globalFilterFields={['user_id', 'trainer_id', 'content.name']}
             filters={filters}
         >
-            <Column field="user_id" header="User ID" style={{ width: '25%' }}></Column>
-            <Column field="trainer_id" header="Trainer ID" style={{ width: '25%' }}></Column>
+            <Column field="user_id" header="User ID" style={{ width: '25%' }} sortable></Column>
+            <Column field="trainer_id" header="Trainer ID" style={{ width: '25%' }} sortable></Column>
             <Column header="Training" style={{ width: '25%' }} body={contentBodyTemplate}></Column>
             <Column header="Actions" style={{ width: '25%' }} body={actionBodyTemplate}></Column>
         </DataTable>
