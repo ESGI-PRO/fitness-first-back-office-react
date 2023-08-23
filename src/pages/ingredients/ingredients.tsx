@@ -68,6 +68,12 @@ const AllIngredientsTable: FC = function () {
   const [globalFilterValue, setGlobalFilterValue] = useState('');
   const toast = useRef<Toast>(null);
 
+  const headers = {
+    "Authorization": `Bearer ${localStorage.getItem("token")}`
+  };
+
+
+
   useEffect(() => {
     ingredientsService.getAllCategories().then((response) => {
       setAllCategories(response.data.data.nutrition);
@@ -94,16 +100,32 @@ const AllIngredientsTable: FC = function () {
   
     const onSubmit = async (data: any) => {
       try {
+        data.calories = parseFloat(data.calories);
+        data.CategorieId = parseFloat(data.CategorieId);
+        data.grammes = parseFloat(data.grammes);
+        data.fat_total_g = parseFloat(data.fat_total_g);
+        data.fat_saturated_g = parseFloat(data.fat_saturated_g);
+        data.protein_g = parseFloat(data.protein_g);
+        data.sodium_mg = parseFloat(data.sodium_mg);
+        data.potassium_mg = parseFloat(data.potassium_mg);
+        data.cholesterol_mg = parseFloat(data.cholesterol_mg);
+        data.carbohydrates_total_g = parseFloat(data.carbohydrates_total_g);
+        data.fiber_g = parseFloat(data.fiber_g);
+        data.sugar_g = parseFloat(data.sugar_g);
+
         await ingredientsService.create(data);
         console.log(data);
         reset();
         setOpen(false);
         toast.current?.show({ severity: 'success', summary: 'Successful', detail: 'Ingredient Created', life: 3000 });
         setIngredients([...ingredients, data]);
+        window.location.href = '/ingredients';
       } catch (error) {
         console.log(error);
         toast.current?.show({ severity: 'error', summary: 'Error Message', detail: 'Ingredient Not Created', life: 3000 });
       }
+
+      
     };
     
     return (
@@ -260,16 +282,17 @@ const AllIngredientsTable: FC = function () {
     );
   };
 
-  const DeleteUserModal: any = function ({ id }: any) {
+  const DeleteUserModal: any = function ({ ingredient }: any) {
     const [isOpen, setOpen] = useState(false);
-  
+
     const handleDelete = () => {
-      ingredientsService.deleteById(id)
+      ingredientsService.deleteById(ingredient)
         .then(() => { 
-          console.log('Ingredient deleted', id);
+          console.log('Ingredient deleted', ingredient);
           setOpen(false);
-          setIngredients(ingredients.filter((ingredient: any) => ingredient.id !== id));
+          setIngredients(ingredients.filter((ingredient: any) => ingredient.id !== ingredient));
           toast.current?.show({ severity: 'success', summary: 'Successful', detail: 'Ingredient Deleted', life: 3000 });
+          window.location.href = '/ingredients';
         })
         .catch((error) => {
           console.log(error);
@@ -314,28 +337,41 @@ const AllIngredientsTable: FC = function () {
     const { register, handleSubmit, formState } = useForm({
       defaultValues: {
         name: ingredient.name,
-        calories: ingredient.calories,
-        CategorieId: ingredient.CategorieId,
-        grammes: ingredient.grammes,
-        fat_total_g: ingredient.fat_total_g,
-        fat_saturated_g: ingredient.fat_saturated_g,
-        protein_g: ingredient.protein_g,
-        sodium_mg: ingredient.sodium_mg,
-        potassium_mg: ingredient.potassium_mg,
-        cholesterol_mg: ingredient.cholesterol_mg,
-        carbohydrates_total_g: ingredient.carbohydrates_total_g,
-        fiber_g: ingredient.fiber_g,
-        sugar_g: ingredient.sugar_g,
+        calories: parseFloat(ingredient.calories),
+        CategorieId: parseFloat(ingredient.CategorieId),
+        grammes: parseFloat(ingredient.grammes),
+        fat_total_g: parseFloat(ingredient.fat_total_g),
+        fat_saturated_g: parseFloat(ingredient.fat_saturated_g),
+        protein_g: parseFloat(ingredient.protein_g),
+        sodium_mg: parseFloat(ingredient.sodium_mg),
+        potassium_mg: parseFloat(ingredient.potassium_mg),
+        cholesterol_mg: parseFloat(ingredient.cholesterol_mg),
+        carbohydrates_total_g: parseFloat(ingredient.carbohydrates_total_g),
+        fiber_g: parseFloat(ingredient.fiber_g),
+        sugar_g: parseFloat(ingredient.sugar_g),
       },
     });
 
     const onSubmit = async (data: any) => {
+      data.calories = parseFloat(data.calories);
+      data.CategorieId = parseFloat(data.CategorieId);
+      data.grammes = parseFloat(data.grammes);
+      data.fat_total_g = parseFloat(data.fat_total_g);
+      data.fat_saturated_g = parseFloat(data.fat_saturated_g);
+      data.protein_g = parseFloat(data.protein_g);
+      data.sodium_mg = parseFloat(data.sodium_mg);
+      data.potassium_mg = parseFloat(data.potassium_mg);
+      data.cholesterol_mg = parseFloat(data.cholesterol_mg);
+      data.carbohydrates_total_g = parseFloat(data.carbohydrates_total_g);
+      data.fiber_g = parseFloat(data.fiber_g);
+      data.sugar_g = parseFloat(data.sugar_g);
       try {
         await ingredientsService.updateById(ingredient.id, data);
         console.log('DATA', data);
         setOpen(false);
         setIngredients((ingredients: any) => ingredients.map((ingredient: any) => ingredient.id === data.id ? data : ingredient));
         toast.current?.show({ severity: 'success', summary: 'Successful', detail: 'Ingredient Updated', life: 3000 });
+        window.location.href = '/ingredients';
       } catch (error) {
         console.log(error);
         toast.current?.show({ severity: 'error', summary: 'Error Message', detail: 'Ingredient Not Updated', life: 3000 });
@@ -514,7 +550,7 @@ const AllIngredientsTable: FC = function () {
           </form>
         </div>
         <div className="ml-auto flex items-center space-x-2 sm:space-x-3">
-          <AddIngredientModal />
+          <AddIngredientModal ingredient={ingredients} />
         </div>
       </div>
     );

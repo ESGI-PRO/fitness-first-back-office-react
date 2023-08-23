@@ -59,6 +59,7 @@ const NutritionPage: FC = function () {
 }
 
 const AddRecipeModal: FC = function () {
+
   const [isOpen, setOpen] = useState(false);
   const [recipe, setRecipe] = useState<any>({
     title: '',
@@ -76,6 +77,10 @@ const AddRecipeModal: FC = function () {
       }
     ]
   });
+
+  const headers = {
+    "Authorization": `Bearer ${localStorage.getItem("token")}`
+  };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = event.target;
@@ -141,19 +146,23 @@ const AddRecipeModal: FC = function () {
     UserId: userId
   };
     // Effectuez ici la requête front-end avec la recette ajoutée
-    await axios.post(`http://localhost:8000/nutrition`, newRecipe)
+    await axios.post(
+      // `http://localhost:8000/nutrition`
+      import.meta.env["VITE_URL_BACKEND"] + `nutrition`, { headers }
+      
+      , newRecipe)
     console.log(recipe);
     setOpen(false);
   };
 
   return (
     <>
-      <Button color="primary" onClick={() => setOpen(true)}>
+      {/* <Button color="primary" onClick={() => setOpen(true)}>
         <div className="flex items-center gap-x-3">
           <HiPlus className="text-xl" />
           Add Recipe
         </div>
-      </Button>
+      </Button> */}
       <Modal onClose={() => setOpen(false)} show={isOpen}>
         <Modal.Header className="border-b border-gray-200 !p-6 dark:border-gray-700">
           <strong>Add New Recipe</strong>
@@ -263,14 +272,28 @@ const AllUsersTable: FC = function () {
     setGlobalFilterValue(value);
   };
 
-  useEffect(() => {
-    const fetchNutritions = async () => {
-      const getNutritions = await axios.get('http://localhost:8000/nutrition')
-      console.log(getNutritions.data.data.nutrition);
-      setNutritions(getNutritions.data.data.nutrition);
+    
+  const headers = {
+    "Authorization": `Bearer ${localStorage.getItem("token")}`
+  };
 
+
+  useEffect(() => {
+    try {
+      const fetchNutritions = async () => {
+        const getNutritions = await axios.get(
+          // 'http://localhost:8000/nutrition'
+        import.meta.env["VITE_URL_BACKEND"] + `nutrition`, { headers }
+          )
+        // console.log(getNutritions.data.data.nutrition);
+        setNutritions(getNutritions.data.data.nutrition);
+        // console.log(nutritions)
+      }
+      fetchNutritions()
+    } catch(err) {
+      // console.log(err);
     }
-    fetchNutritions()
+    // fetchNutritions()
   }, [])
 
   const actionBodyTemplate = (rowData: any) => {
@@ -326,76 +349,6 @@ const AllUsersTable: FC = function () {
       <Column field="UserId" header="User ID" sortable></Column>
       <Column header="Actions" body={actionBodyTemplate} sortable></Column>
     </DataTable>
-    {/* <Table className="min-w-full divide-y divide-gray-200 dark:divide-gray-600">
-        <Table.Head className="bg-gray-100 dark:bg-gray-700">
-          <Table.HeadCell>
-            <Label htmlFor="select-all" className="sr-only">
-              Select all
-            </Label>
-            <Checkbox id="select-all" name="select-all" />
-          </Table.HeadCell>
-          <Table.HeadCell>Name</Table.HeadCell>
-           <Table.HeadCell>Author</Table.HeadCell>
-          <Table.HeadCell>Description</Table.HeadCell>
-          <Table.HeadCell>Status</Table.HeadCell>
-    <Table.HeadCell>Actions</Table.HeadCell>
-        </Table.Head>
-        <Table.Body className="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-800">
-          {nutritions.map((nutrition, id) => (
-            <Table.Row key={id} className="hover:bg-gray-100 dark:hover:bg-gray-700">
-              <Table.Cell className="w-4 p-4">
-                <div className="flex items-center">
-                  <Checkbox aria-describedby="checkbox-1" id="checkbox-1" />
-                  <label htmlFor="checkbox-1" className="sr-only">
-                    checkbox
-                  </label>
-                </div>
-              </Table.Cell>
-              <Table.Cell className="mr-12 flex items-center space-x-6 whitespace-nowrap p-4 lg:mr-0">
-                <img
-                  className="h-10 w-10 rounded-full"
-                  src="/images/users/neil-sims.png"
-                  alt="Neil Sims avatar" />
-                <div className="text-sm font-normal text-gray-500 dark:text-gray-400">
-                  <div className="text-base font-semibold text-gray-900 dark:text-white">
-                    {nutrition.title}
-                  </div>
-                  <div className="text-sm font-normal text-gray-500 dark:text-gray-400">
-                    {nutrition.UserId}
-                  </div>
-                </div>
-              </Table.Cell>
-              <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
-              {nutrition.UserId}
-            </Table.Cell>
-            <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
-              {
-                nutrition.instructions.map((details) => (
-                  details.description
-                ))
-              }
-            </Table.Cell>
-              <Table.Cell className="whitespace-nowrap p-4 text-base font-normal text-gray-900 dark:text-white">
-              <div className="flex items-center">
-                <div className="mr-2 h-2.5 w-2.5 rounded-full bg-green-400"></div>{" "}
-                Active
-              </div>
-            </Table.Cell>
-              <Table.Cell>
-                <div className="flex items-center gap-x-3 whitespace-nowrap">
-                  <RecetteDetailModal nutrition={nutrition} />
-                  <DeleteRecipeModal nutrition={nutrition} />
-                </div>
-              </Table.Cell>
-            </Table.Row>
-          ))}
-
-
-
-
-
-        </Table.Body>
-      </Table> */}
     </>
   )
 }
@@ -451,31 +404,19 @@ const EditRecipeModal: any = function ({ nutrition }: any) {
             </div> */}
 
             {
-              nutrition.instructions.map((details: any) => (
+              nutrition.instructions.map((details: any, id: any) => (
 
                 <>
 
-                  <div>
+                  <div key={id}>
                     <Label htmlFor="email">Order</Label>
                     <div className="mt-1">
-                      {/* <TextInput
-                    id="email"
-                    name="email"
-                    placeholder="example@company.com"
-                    type="email"
-                  /> */}
                       {details.order}
                     </div>
                   </div>
                   <div>
                     <Label htmlFor="email">Description</Label>
                     <div className="mt-1">
-                      {/* <TextInput
-                    id="email"
-                    name="email"
-                    placeholder="example@company.com"
-                    type="email"
-                  /> */}
                       {details.description}
                     </div>
                   </div>
@@ -484,17 +425,11 @@ const EditRecipeModal: any = function ({ nutrition }: any) {
 
 
                   {
-                    details.produits.map((lastdetails: any) => (
+                    details.produits.map((lastdetails: any, id: any) => (
                       <>
-                        <div>
+                        <div key={id}>
                           <Label htmlFor="email">Quantité(G)</Label>
                           <div className="mt-1">
-                            {/* <TextInput
-                          id="email"
-                          name="email"
-                          placeholder="example@company.com"
-                          type="email"
-                        /> */}
                             {lastdetails.quantite}
                           </div>
                         </div>
@@ -502,12 +437,6 @@ const EditRecipeModal: any = function ({ nutrition }: any) {
                         <div>
                           <Label htmlFor="email">Ingredients</Label>
                           <div className="mt-1">
-                            {/* <TextInput
-                          id="email"
-                          name="email"
-                          placeholder="example@company.com"
-                          type="email"
-                        /> */}
                             {lastdetails.ingredients}
                           </div>
                         </div>
@@ -536,15 +465,23 @@ const EditRecipeModal: any = function ({ nutrition }: any) {
 const DeleteRecipeModal: any = function ({nutrition}: any) {
   const [isOpen, setOpen] = useState(false);
 
+  const headers = {
+    "Authorization": `Bearer ${localStorage.getItem("token")}`
+  };
+
   const handleDelete = () => {
     // Mettez ici votre logique d'envoi des données au backend, par exemple avec axios
     axios
-      .delete(`http://localhost:8000/nutrition/${nutrition.id}`)
+      .delete(
+        // `http://localhost:8000/nutrition/${nutrition.id}`
+        import.meta.env["VITE_URL_BACKEND"] + `nutrition/${nutrition}`, { headers }
+        )
       .then((response) => {
         // Gérez la réponse du backend si nécessaire
         console.log(response.data);
         // Fermez le modal après la modification
         setOpen(false);
+        window.location.href = '/nutritions';
       })
       .catch((error) => {
         // Gérez les erreurs de requête si nécessaire
