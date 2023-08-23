@@ -92,8 +92,8 @@ const LatestRegisteredUsers: FC = function () {
       </div>
       <div className="flow-root">
         <ul className="divide-y divide-gray-200 dark:divide-gray-700 mb-2">
-          {users.slice(-5).map((user: any) => (
-          <li className="py-3 sm:py-4">
+          {users.slice(-5).map((user: any, index: number) => (
+          <li key={index} className="py-3 sm:py-4">
             <div className="flex items-center space-x-4">
               <div className="shrink-0">
                 <span
