@@ -44,23 +44,6 @@ const trainingsPage: FC = function () {
     fetchExercices();
   }, []);
 
-  // useEffect(() => {
-  //   try {
-  //     const fetchData = async () => { 
-  //       const data = await axios.get(
-  //         // 'http://localhost:8000/nutrition'
-  //       import.meta.env["VITE_URL_BACKEND"] + `training/exercises`, { headers }
-  //         )
-
-  //       console.log(data.data.data.exercises);
-  //       await setTrainings(data.data.data.exercises);
-  //     }
-  //     fetchData();
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // })
-
   const fetchTrainings = async () => {
     var p: any = await TrainingsAPI.trainings;
     console.log(p);
@@ -84,18 +67,28 @@ const trainingsPage: FC = function () {
   // ];
 
   const example = {
-    name: "",
-    description: "",
-    category: 0,
-    userId: "admin",
-    image:
-      "https://randomwordgenerator.com/img/picture-generator/53e1d04a4c5aa414f1dc8460962e33791c3ad6e04e5074417c2b79d59448cc_640.jpg",
-    listExercices: [],
-    durationStart: "",
-    durationEnd: "",
-    createdAt: "",
-    updatedAt: "",
-    trainingOnExercices: [],
+    // name: "",
+    user_id: "64b9224e5da2bdf902f8d28b",
+    trainer_id: "64b9224e5da2bdf902f8d290",
+    content: {
+      bodyPart: "back",
+      equipment: "weighted",
+      gifUrl: "https://edb-4rme8.ondigitalocean.app/image/0G-Iu0A6XzG-o7",
+      id: "0841",
+      name: "weighted pull-up",
+      target: "lats"
+    }
+    // description: "",
+    // category: 0,
+    // userId: "admin",
+    // image:
+    //   "https://randomwordgenerator.com/img/picture-generator/53e1d04a4c5aa414f1dc8460962e33791c3ad6e04e5074417c2b79d59448cc_640.jpg",
+    // listExercices: [],
+    // durationStart: "",
+    // durationEnd: "",
+    // createdAt: "",
+    // updatedAt: "",
+    // trainingOnExercices: [],
   };
 
   const handleInputChange = (e: any) => {
@@ -218,6 +211,14 @@ const AddTrainingModal: FC<{ training: any; categories: any; exercices: any }> =
     const [exo, setExo] = useState<any>("");
     const [series, setSeries] = useState("");
     const [rep, setRep] = useState("");
+    const [userId, setUserId] = useState("");
+    const [trainerId, setTrainerId] = useState("");
+    const [bodyPart, setBodyPart] = useState("");
+    const [equipment, setEquipment] = useState("");
+    const [gifUrl, setGifUrl] = useState("");
+    const [id, setId] = useState("");
+    const [name, setName] = useState("");
+    const [target, setTarget] = useState("");
 
     var exercicesList: any = [];
 
@@ -263,8 +264,8 @@ const AddTrainingModal: FC<{ training: any; categories: any; exercices: any }> =
           typeof value === "number"
             ? "number"
             : typeof value === "object"
-            ? "object"
-            : "text";
+              ? "object"
+              : "text";
 
         return (
           <div key={key}>
@@ -293,16 +294,16 @@ const AddTrainingModal: FC<{ training: any; categories: any; exercices: any }> =
                   >
                     {key === "trainingOnExercices"
                       ? exercices.map((exercice: any) => (
-                          <option value={exercice}>{exercice?.name}</option>
-                        ))
+                        <option value={exercice}>{exercice?.name}</option>
+                      ))
                       : ""}
 
                     {key === "category"
                       ? categories.map((category: any) => (
-                          <option value={Number(category?.id)}>
-                            {category?.name}
-                          </option>
-                        ))
+                        <option value={Number(category?.id)}>
+                          {category?.name}
+                        </option>
+                      ))
                       : ""}
                   </Select>
                 </>
@@ -338,24 +339,38 @@ const AddTrainingModal: FC<{ training: any; categories: any; exercices: any }> =
     };
 
     const addTraining = async () => {
-      console.log(formData);
-
+      console.log("le form: " + formData);
+      
       var p = {
-        name: formData.name,
-        description: formData.description,
-        // category: formData.category,
-        userId: "admin",
-        image:
-          "https://randomwordgenerator.com/img/picture-generator/53e1d04a4c5aa414f1dc8460962e33791c3ad6e04e5074417c2b79d59448cc_640.jpg",
-        listExercices: [],
-        durationStart: new Date(formData.durationStart).toISOString(),
-        durationEnd: new Date(formData.durationEnd).toISOString(),
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
+        exercises: [
+          {
+            user_id: userId,
+            trainer_id: trainerId,
+            content: {
+              bodyPart: bodyPart,
+              equipment: equipment,
+              gifUrl: gifUrl,
+              id: id,
+              name: name,
+              target: target
+            }
+            // name: formData.name,
+            // description: formData.description,
+            // // category: formData.category,
+            // userId: "admin",
+            // image:
+            //   "https://randomwordgenerator.com/img/picture-generator/53e1d04a4c5aa414f1dc8460962e33791c3ad6e04e5074417c2b79d59448cc_640.jpg",
+            // listExercices: [],
+            // durationStart: new Date(formData.durationStart).toISOString(),
+            // durationEnd: new Date(formData.durationEnd).toISOString(),
+            // createdAt: new Date().toISOString(),
+            // updatedAt: new Date().toISOString(),
+          }]
       };
+      console.log("donnees de p: " + p)
 
       await TrainingsAPI.create(p).then((data) => {
-        console.log(data);
+        console.log("données:" + data);
         notifications.success("Training ajouté");
         setOpen(false);
       });
@@ -375,54 +390,54 @@ const AddTrainingModal: FC<{ training: any; categories: any; exercices: any }> =
       // });
     };
 
-    const exercicesStep = () => {
-      const handleExercice = () => {
-        console.log({
-          exerciceId: 1,
-          trainingId: 168,
-          series: 9,
-          repetition: 6,
-        });
-      };
-      return (
-        <div className={exo.length === 0 ? "hidden" : ""}>
-          series : {series} <br />
-          rep : {rep} <br />
-          {JSON.stringify(exo)}
-          {exo?.name}
-          <div className="flex flex-row my-4 justify-between items-center">
-            <div>
-              <Label> Series : </Label>
-              <TextInput
-                type="number"
-                id={exo?.id}
-                name={exo?.id}
-                value={series}
-                onChange={(e) => setSeries(e.target.value)}
-              />
-            </div>
+    // const exercicesStep = () => {
+    //   const handleExercice = () => {
+    //     console.log({
+    //       exerciceId: 1,
+    //       trainingId: 168,
+    //       series: 9,
+    //       repetition: 6,
+    //     });
+    //   };
+    //   return (
+    //     <div className={exo.length === 0 ? "hidden" : ""}>
+    //       series : {series} <br />
+    //       rep : {rep} <br />
+    //       {JSON.stringify(exo)}
+    //       {exo?.name}
+    //       <div className="flex flex-row my-4 justify-between items-center">
+    //         <div>
+    //           <Label> Series : </Label>
+    //           <TextInput
+    //             type="number"
+    //             id={exo?.id}
+    //             name={exo?.id}
+    //             value={series}
+    //             onChange={(e) => setSeries(e.target.value)}
+    //           />
+    //         </div>
 
-            <div>
-              <Label> Repetitions : </Label>
-              <TextInput
-                type="number"
-                id={"repetitions"}
-                name={"Repetitions"}
-                value={rep}
-                onChange={(e) => setRep(e.target.value)}
-              />
-            </div>
+    //         <div>
+    //           <Label> Repetitions : </Label>
+    //           <TextInput
+    //             type="number"
+    //             id={"repetitions"}
+    //             name={"Repetitions"}
+    //             value={rep}
+    //             onChange={(e) => setRep(e.target.value)}
+    //           />
+    //         </div>
 
-            <Button color="primary" onClick={() => setExo("")}>
-              close
-            </Button>
-          </div>
-          <Button color="primary" onClick={handleExercice}>
-            add exercice
-          </Button>
-        </div>
-      );
-    };
+    //         <Button color="primary" onClick={() => setExo("")}>
+    //           close
+    //         </Button>
+    //       </div>
+    //       <Button color="primary" onClick={handleExercice}>
+    //         add exercice
+    //       </Button>
+    //     </div>
+    //   );
+    // };
 
     return (
       <>
@@ -439,11 +454,125 @@ const AddTrainingModal: FC<{ training: any; categories: any; exercices: any }> =
           {JSON.stringify(formData)}
 
           <Modal.Body>
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-              {generateInputs()}
-            </div>
+            {/* <div className="grid grid-cols-1 gap-6 sm:grid-cols-2"> */}
+              {/* {generateInputs()} */}
 
-            {exercicesStep()}
+              <form 
+              //onSubmit={handleSubmit}
+              >
+                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                  <div>
+                    <Label htmlFor="title">User ID</Label>
+                    <div className="mt-1">
+                      <TextInput
+                        id="title"
+                        name="title"
+                        // value={recipe.title}
+                        onChange={(e) => setUserId(e.target.value)}
+                        // placeholder="Delicious Chocolate Cake"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <Label htmlFor="UserId">Trainer ID</Label>
+                    <div className="mt-1">
+                      <TextInput
+                        id="UserId"
+                        name="UserId"
+                        // value={recipe.UserId}
+                        onChange={(e) => setTrainerId(e.target.value)}
+                        type="text"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <Label htmlFor="instructions.0.order">Body Part</Label>
+                    <div className="mt-1">
+                      <TextInput
+                        id="instructions.0.order"
+                        name="instructions.0.order"
+                        // value={recipe.instructions[0].order}
+                        onChange={(e) => setBodyPart(e.target.value)}
+                        type="text"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <Label htmlFor="instructions.0.description">Equipment</Label>
+                    <div className="mt-1">
+                      <TextInput
+                        id="instructions.0.description"
+                        name="instructions.0.description"
+                        
+                        onChange={(e) => setEquipment(e.target.value)}
+                        placeholder="Prepare the batter by mixing all the ingredients together. Bake in the oven for 30 minutes. Let it cool before serving."
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <Label htmlFor="instructions.0.produits.0.quantite">Gif Url</Label>
+                    <div className="mt-1">
+                      <TextInput
+                        id="instructions.0.produits.0.quantite"
+                        name="instructions.0.produits.0.quantite"
+                        // value={recipe.instructions[0].produits[0].quantite}
+                        // onChange={handleChange}
+                        onChange={(e) => setGifUrl(e.target.value)}
+                        type="text"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <Label htmlFor="instructions.0.produits.0.ingredients">Id</Label>
+                    <div className="mt-1">
+                      <TextInput
+                        id="instructions.0.produits.0.ingredients"
+                        name="instructions.0.produits.0.ingredients"
+                        // value={recipe.instructions[0].produits[0].ingredients}
+                        onChange={(e) => setId(e.target.value)}
+                        type="number"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <Label htmlFor="instructions.0.produits.0.ingredients">Name</Label>
+                    <div className="mt-1">
+                      <TextInput
+                        id="instructions.0.produits.0.ingredients"
+                        name="instructions.0.produits.0.ingredients"
+                        // value={recipe.instructions[0].produits[0].ingredients}
+                        onChange={(e) => setName(e.target.value)}
+                        type="text"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <Label htmlFor="instructions.0.produits.0.ingredients">Target</Label>
+                    <div className="mt-1">
+                      <TextInput
+                        id="instructions.0.produits.0.ingredients"
+                        name="instructions.0.produits.0.ingredients"
+                        // value={recipe.instructions[0].produits[0].ingredients}
+                        onChange={(e) => setTarget(e.target.value)}
+                        type="text"
+                      />
+                    </div>
+                  </div>
+
+                </div>
+                {/* <Modal.Footer>
+                  <Button color="primary" type="submit">
+                    Add Recipe
+                  </Button>
+                </Modal.Footer> */}
+              </form>
+
+
+            {/* </div> */}
+
+            {/* {exercicesStep()} */}
 
             {/* {JSON.stringify(categories)} */}
           </Modal.Body>
@@ -557,14 +686,16 @@ const EditUserModal: FC<{ training: any; categories: any; exercices: any }> =
           ].includes(key)
       );
 
+      console.log("clé à afficher: " + keysToDisplay);
+
       return keysToDisplay.map((key) => {
         const value = formData[key];
         const inputType =
           typeof value === "number"
             ? "number"
             : typeof value === "object"
-            ? "object"
-            : "text";
+              ? "object"
+              : "text";
 
         return (
           <div key={key}>
@@ -593,16 +724,16 @@ const EditUserModal: FC<{ training: any; categories: any; exercices: any }> =
                   >
                     {key === "trainingOnExercices"
                       ? exercices.map((exercice: any) => (
-                          <option value={exercice?.name}>
-                            {exercice?.name}
-                          </option>
-                        ))
+                        <option value={exercice?.name}>
+                          {exercice?.name}
+                        </option>
+                      ))
                       : ""}
 
                     {key === "category"
                       ? categories.map((category: any) => (
-                          <option value={category?.id}>{category?.name}</option>
-                        ))
+                        <option value={category?.id}>{category?.name}</option>
+                      ))
                       : ""}
                   </Select>
                 </>

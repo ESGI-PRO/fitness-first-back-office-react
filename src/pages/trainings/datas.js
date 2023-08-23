@@ -70,14 +70,21 @@ class Trainings {
   }
 
   async create(data) {
-    return new Promise(function (resolve, reject) {
-      axios
-        .post(import.meta.env.VITE_URL_BACKEND + "training", data, { headers })
-        .then((response) => {
-          var res = response.data.data.training;
-          resolve(res);
-        });
-    });
+    // return new Promise(function (resolve, reject) {
+    //   console.log(data);
+    //   axios
+    //     .post(import.meta.env.VITE_URL_BACKEND + "training/exercises", data, { headers })
+    //     .then((response) => {
+    //       var res = response.data.data.training;
+    //       console.log("create response: " + res)
+    //       resolve(res);
+    //     });
+    // });
+    try {
+      await axios.post(import.meta.env.VITE_URL_BACKEND + "training/exercises", data, { headers });
+    } catch (error) {
+      console.log("error: " + error)
+    }
   }
 
   async delete(id) {
