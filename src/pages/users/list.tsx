@@ -21,7 +21,7 @@ import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { FilterMatchMode } from 'primereact/api';
 
-import { usersService } from "../../services"; 
+import { usersService } from "../../services";
 import { Link } from "react-router-dom";
 
 const UserList = () => {
@@ -79,7 +79,7 @@ const statusBodyTemplate = (rowData: any) => {
           <span>Inactive</span>
         </>
       )}
-    </div>  
+    </div>
   )
 };
 
@@ -87,17 +87,17 @@ const userBodyTemplate = (user: any) => {
   return (
     <div className="mr-12 flex items-center space-x-6 whitespace-nowrap p-4 lg:mr-0">
       <span
-          className="bg-gray-400 h-2 w-2 p-5 rounded-full font-bold text-white text-xl uppercase flex items-center justify-center"
-          aria-hidden="true">
-          {user.userName[0]}
+        className="bg-gray-400 h-2 w-2 p-5 rounded-full font-bold text-white text-xl uppercase flex items-center justify-center"
+        aria-hidden="true">
+        {user.userName[0]}
       </span>
       <div className="text-sm font-normal text-gray-500 dark:text-gray-400">
-          <div className="text-base font-semibold text-gray-900 dark:text-white">
-              {user.userName}
-          </div>
-          <div className="text-sm font-normal text-gray-500 dark:text-gray-400">
-              {user.email}
-          </div>
+        <div className="text-base font-semibold text-gray-900 dark:text-white">
+          {user.userName}
+        </div>
+        <div className="text-sm font-normal text-gray-500 dark:text-gray-400">
+          {user.email}
+        </div>
       </div>
     </div>
   )
@@ -105,7 +105,7 @@ const userBodyTemplate = (user: any) => {
 
 const AllUsersTable: FC = function () {
   const [users, setUsers] = useState<any[]>([]);
-  const [filters, setFilters] = useState({ global: { value: null, matchMode: FilterMatchMode.CONTAINS }});
+  const [filters, setFilters] = useState({ global: { value: null, matchMode: FilterMatchMode.CONTAINS } });
   const [globalFilterValue, setGlobalFilterValue] = useState('');
 
   const onGlobalFilterChange = (e: any) => {
@@ -120,7 +120,7 @@ const AllUsersTable: FC = function () {
 
   const DeleteUserModal: any = function (userId: any) {
     const [isOpen, setOpen] = useState(false);
-  
+
     const handleDelete = () => {
       const id = userId.data;
       // console.log('delete user with id: ', id);
@@ -133,8 +133,8 @@ const AllUsersTable: FC = function () {
           toast.error("User deletion failed.");
           console.log(error);
         });
-    };  
-  
+    };
+
     return (
       <>
         <Button color="failure" onClick={() => setOpen(true)}>
@@ -171,46 +171,46 @@ const AllUsersTable: FC = function () {
   const actionBodyTemplate = (user: any) => {
     return (
       <div className="flex items-center gap-x-3 whitespace-nowrap">
-        <Button color="primary">
-          <Link to={`edit/${user.id}`} className="flex items-center gap-x-2">
+        <Link to={`edit/${user.id}`} className="flex items-center gap-x-2">
+          <Button color="primary">
             <HiOutlinePencilAlt className="text-lg" />
-          </Link>
-        </Button>
+          </Button>
+        </Link>
         <DeleteUserModal data={user.id} />
       </div>
     )
   };
 
   const renderHeader = () => {
-      return (
-        <div className="sm:flex m-2">
-          <div className="mb-3 hidden items-center dark:divide-gray-700 sm:mb-0 sm:flex sm:divide-x sm:divide-gray-100">
-            <form className="lg:pr-3">
-              <Label htmlFor="users-search" className="sr-only">
-                Search
-              </Label>
-              <div className="relative mt-1 lg:w-64 xl:w-96">
-                <TextInput
-                  value={globalFilterValue}
-                  onChange={onGlobalFilterChange}
-                  placeholder="Search for users" />
-              </div>
-            </form>
-          </div>
-          <div className="ml-auto flex items-center space-x-2 sm:space-x-3">
-            <Button color="primary">
-              <Link to="add" className="flex items-center gap-x-3">
-                <HiPlus className="text-xl" />
-                Add user
-              </Link>
-            </Button>
-          </div>
+    return (
+      <div className="sm:flex m-2">
+        <div className="mb-3 hidden items-center dark:divide-gray-700 sm:mb-0 sm:flex sm:divide-x sm:divide-gray-100">
+          <form className="lg:pr-3">
+            <Label htmlFor="users-search" className="sr-only">
+              Search
+            </Label>
+            <div className="relative mt-1 lg:w-64 xl:w-96">
+              <TextInput
+                value={globalFilterValue}
+                onChange={onGlobalFilterChange}
+                placeholder="Search for users" />
+            </div>
+          </form>
         </div>
-      );
+        <div className="ml-auto flex items-center space-x-2 sm:space-x-3">
+          <Button color="primary">
+            <Link to="add" className="flex items-center gap-x-3">
+              <HiPlus className="text-xl" />
+              Add user
+            </Link>
+          </Button>
+        </div>
+      </div>
+    );
   };
 
   const header = renderHeader();
-  
+
   useEffect(() => {
     usersService.getAll()
       .then((response) => {
@@ -224,12 +224,12 @@ const AllUsersTable: FC = function () {
 
   return (
     <>
-      <DataTable 
-        value={users} 
-        size={"small"} 
-        paginator 
-        rows={10} 
-        rowsPerPageOptions={[5, 10, 25, 50]} 
+      <DataTable
+        value={users}
+        size={"small"}
+        paginator
+        rows={10}
+        rowsPerPageOptions={[5, 10, 25, 50]}
         tableStyle={{ minWidth: '50rem' }}
         header={header}
         globalFilterFields={['userName', 'mobileNumber', 'role']}
