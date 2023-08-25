@@ -2,7 +2,7 @@ import { Badge, Dropdown, Table } from "flowbite-react";
 import { useEffect, type FC, useState } from "react";
 import NavbarSidebarLayout from "../layouts/navbar-sidebar";
 import { Link } from "react-router-dom";
-import { nutritionsService, trainingsService, usersService, subscriptionsService } from "../services"; 
+import { usersService, subscriptionsService } from "../services"; 
 
 const DashboardPage: FC = function () {
   // const [ingredients, setIngredients] = useState<any>([]);
