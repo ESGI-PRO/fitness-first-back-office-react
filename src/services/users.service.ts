@@ -24,10 +24,25 @@ function remove(id: string) {
     return http.delete(`/users/${id}`, { headers });
 }
 
+function getRoleRequest() {
+    return http.get("/users/role/change_requests", { headers });
+}
+
+function changeRole(id: string) {
+    return http.post(`/users/role/change_requests/${id}`, {}, { headers });
+}
+
+function changeApproval(id: string) {
+    return http.post(`/users/role/change_approval/${id}`, {}, { headers });
+}
+
 export const usersService = {
     getAll,
     getById,
     create,
     update,
     remove,
+    getRoleRequest,
+    changeRole,
+    changeApproval
 }

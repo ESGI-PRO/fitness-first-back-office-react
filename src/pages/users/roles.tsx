@@ -120,14 +120,13 @@ import {
     
       const handleDelete = () => {
         const id = userId.data;
-        // console.log('delete user with id: ', id);
-        usersService.remove(id)
+        usersService.changeApproval(id)
           .then(() => {
-            toast.success('User deleted successfully.');
+            toast.success('Role user is changed.');
             setUsers(users.filter((user: any) => user.id !== id));
           })
           .catch((error: any) => {
-            toast.error("User deletion failed.");
+            toast.error("Error");
             console.log(error);
           });
       };  
@@ -201,7 +200,7 @@ import {
     const header = renderHeader();
     
     useEffect(() => {
-      usersService.getAll()
+      usersService.getRoleRequest()
         .then((response) => {
           setUsers(response.data);
         })
@@ -225,6 +224,7 @@ import {
         >
           <Column header="Name" body={userBodyTemplate}></Column>
           <Column field="role" header="Role"></Column>
+          <Column field="isTrainer" header="Is trainer"></Column>
           <Column header="Status" body={statusBodyTemplate}></Column>
           <Column header="Actions" body={actionBodyTemplate}></Column>
         </DataTable>
