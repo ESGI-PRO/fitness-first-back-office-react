@@ -23,6 +23,8 @@ import {
   
   import { trainingsService } from "../../services"; 
   import { Link } from "react-router-dom";
+
+  
   
   const TrainingsList = () => {
     return (
@@ -150,6 +152,12 @@ import {
         )
     };
 
+    const imageBodyTemplate = (data: any) => {
+      return (
+        <img src={data.content.gifUrl} alt="Image" style={{ width: '100px' }} />
+      );
+    };
+
     const renderHeader = () => {
         return (
           <div className="sm:flex m-2">
@@ -184,6 +192,7 @@ import {
       trainingsService.getAll()
         .then((response) => {
           setData(response.data.data.exercises);
+          console.log(response.data.data.exercises)
         })
         .catch((error) => {
           toast.error('Error', error);
@@ -204,6 +213,7 @@ import {
             globalFilterFields={['user_id', 'trainer_id', 'content.name']}
             filters={filters}
         >
+            <Column field="content.gifUrl" header="Image" style={{ width: '25%' }} body={imageBodyTemplate}></Column>
             <Column field="user_id" header="User ID" style={{ width: '25%' }} sortable></Column>
             <Column field="trainer_id" header="Trainer ID" style={{ width: '25%' }} sortable></Column>
             <Column header="Training" style={{ width: '25%' }} body={contentBodyTemplate}></Column>
