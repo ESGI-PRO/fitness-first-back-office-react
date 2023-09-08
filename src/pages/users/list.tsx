@@ -235,10 +235,10 @@ const AllUsersTable: FC = function () {
         globalFilterFields={['userName', 'mobileNumber', 'role']}
         filters={filters}
       >
-        <Column header="Name" style={{ width: '25%' }} body={userBodyTemplate} sortable></Column>
+        <Column header="Name" style={{ width: '25%' }} body={userBodyTemplate}  sortable></Column>
         <Column field="mobileNumber" header="Phone number" style={{ width: '25%' }} sortable></Column>
         <Column field="isAdmin" header="Admin" style={{ width: '15%' }} sortable></Column>
-        <Column field="isTrainer" header="Trainer" style={{ width: '15%' }} sortable></Column>
+        <Column field="isTrainer" header="Trainer" style={{ width: '15%' }} dataType="boolean" filter sortable></Column>
         <Column header="Status" style={{ width: '15%' }} body={statusBodyTemplate} sortable></Column>
         <Column header="Actions" style={{ width: '25%' }} body={actionBodyTemplate}></Column>
       </DataTable>

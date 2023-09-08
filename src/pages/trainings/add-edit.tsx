@@ -71,9 +71,24 @@ const Form = () => {
 
     const createData = async (data: any) => {
         try {
-            await trainingsService.create({ exercises: [data] });
+            await trainingsService.create({ 
+                exercises: [
+                    {
+                        user_id: data.user_id,
+                        trainer_id: data.trainer_id,
+                        content: {
+                            bodyPart: data.bodyPart,
+                            equipment: data.equipment,
+                            gifUrl: data.gifUrl,
+                            id: data.id,
+                            name: data.name,
+                            target: data.target,
+                        }
+                    }
+                ] 
+            });
             toast.success('Training created');
-            console.log({ exercises: [data] });
+            // console.log({ exercises: [data] });
             reset();
             navigate('..');
         } catch (error) {
@@ -84,7 +99,22 @@ const Form = () => {
 
     const updateData = async (id: any, data: any) => {
         try {
-            await trainingsService.update(id, data);
+            await trainingsService.update(id, {
+                exercises: [
+                    {
+                        user_id: data.user_id,
+                        trainer_id: data.trainer_id,
+                        content: {
+                            bodyPart: data.bodyPart,
+                            equipment: data.equipment,
+                            gifUrl: data.gifUrl,
+                            id: data.id,
+                            name: data.name,
+                            target: data.target,
+                        }
+                    }
+                ] 
+            });
             navigate('..');
         } catch (error) {
             console.log(error);
@@ -94,9 +124,11 @@ const Form = () => {
     useEffect(() => {
         if (!isAddMode) {
             trainingsService.getById(id)
-                .then((response: any) => {
-                    const fields = ['user_id', 'trainer_id', 'content.name', 'content.bodyPart', 'content.equipment', 'content.gifUrl', 'content.id', 'content.target'];
-                    fields.forEach(field => setValue(field, response.data.data.exercises[field]));
+            .then((response: any) => {
+                const fields = ['user_id', 'trainer_id'];
+                const fields2 = ['name', 'bodyPart', 'equipment', 'gifUrl', 'id', 'target'];
+                fields.forEach(field => setValue(field, response.data[field]));
+                fields2.forEach(field => setValue(field, response.data.content[field]));
                 })
                 .catch((error) => {
                     console.log(error);
@@ -142,7 +174,7 @@ const Form = () => {
                     <TextInput
                         id="bodyPart"
                         type="text"
-                        {...register("content.bodyPart", { required: true })}
+                        {...register("bodyPart", { required: true })}
                     />
                 </div>
                 <div className="w-full">
@@ -150,7 +182,7 @@ const Form = () => {
                     <TextInput
                         id="equipment"
                         type="text"
-                        {...register("content.equipment", { required: true })}
+                        {...register("equipment", { required: true })}
                     />
                 </div>
                 <div className="w-full">
@@ -158,7 +190,7 @@ const Form = () => {
                     <TextInput
                         id="name"
                         type="text"
-                        {...register("content.name", { required: true })}
+                        {...register("name", { required: true })}
                     />
                 </div>
                 <div className="w-full">
@@ -166,7 +198,7 @@ const Form = () => {
                     <TextInput
                         id="gifUrl"
                         type="text"
-                        {...register("content.gifUrl", { required: true })}
+                        {...register("gifUrl", { required: true })}
                     />
                 </div>
                 <div className="w-full">
@@ -174,7 +206,7 @@ const Form = () => {
                     <TextInput
                         id="target"
                         type="text"
-                        {...register("content.target", { required: true })}
+                        {...register("target", { required: true })}
                     />
                 </div>
                 <div className="w-full flex items-center gap-3 pt-6">

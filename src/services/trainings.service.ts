@@ -17,7 +17,7 @@ function update(id: string, data: any) {
 }
 
 function getById(id: string) {
-    return http.get(`/training/exercises/${id}`, { headers });
+    return http.get(`/training/exercises/f/${id}`, { headers });
 }
 
 function remove(id: string) {
