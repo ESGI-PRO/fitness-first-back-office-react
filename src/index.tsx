@@ -26,10 +26,10 @@ const App = () => {
       .then((response: any) => {
         if (response) {
           setAuthenticated(true);
-          console.log('USER IS AUTHENTICATED', authenticated);
+          // console.log('USER IS AUTHENTICATED', authenticated);
         } else {
           setAuthenticated(false);
-          console.log('USER IS NOT AUTHENTICATED', authenticated);
+          // console.log('USER IS NOT AUTHENTICATED', authenticated);
         }
       })
       .catch((error) => {

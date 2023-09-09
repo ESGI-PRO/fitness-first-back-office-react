@@ -99,23 +99,9 @@ const Form = () => {
 
     const updateData = async (id: any, data: any) => {
         try {
-            await trainingsService.update(id, {
-                exercises: [
-                    {
-                        user_id: data.user_id,
-                        trainer_id: data.trainer_id,
-                        content: {
-                            bodyPart: data.bodyPart,
-                            equipment: data.equipment,
-                            gifUrl: data.gifUrl,
-                            id: data.id,
-                            name: data.name,
-                            target: data.target,
-                        }
-                    }
-                ] 
-            });
-            navigate('..');
+            // await trainingsService.update(id, data);
+            // navigate('..');
+            console.log('updateData', id, data);
         } catch (error) {
             console.log(error);
         }

@@ -142,11 +142,11 @@ import {
     const actionBodyTemplate = (data: any) => {
         return (
             <div className="flex items-center gap-x-3 whitespace-nowrap">
-              <Link to={`edit/${data._id}`} className="flex items-center gap-x-2">
+              {/* <Link to={`edit/${data._id}`} className="flex items-center gap-x-2">
                 <Button color="primary">
                     <HiOutlinePencilAlt className="text-lg" />
                 </Button>
-              </Link>
+              </Link> */}
             <DeleteTrainingsModal data={data._id} />
             </div>
         )
@@ -192,7 +192,7 @@ import {
       trainingsService.getAll()
         .then((response) => {
           setData(response.data.data.exercises);
-          console.log(response.data.data.exercises)
+          // console.log(response.data.data.exercises)
         })
         .catch((error) => {
           toast.error('Error', error);
