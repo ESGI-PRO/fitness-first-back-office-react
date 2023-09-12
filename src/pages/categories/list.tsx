@@ -131,11 +131,11 @@ import {
     const actionBodyTemplate = (data: any) => {
         return (
             <div className="flex items-center gap-x-3 whitespace-nowrap">
-                <Button color="primary">
-                    <Link to={`edit/${data._id}`} className="flex items-center gap-x-2">
-                        <HiOutlinePencilAlt className="text-lg" />
-                    </Link>
-                </Button>
+                <Link to={`edit/${data.id}`} className="flex items-center gap-x-2">
+                  <Button color="primary">
+                    <HiOutlinePencilAlt className="text-lg" />
+                  </Button>
+                </Link>
                 <DeleteTrainingsModal data={data.id} />
             </div>
         )
@@ -174,7 +174,7 @@ import {
     useEffect(() => {
         categoriesService.get()
             .then((response) => {
-                setData(response.data.data);
+                setData(response.data.data.nutrition);
             })
             .catch((error) => {
                 toast.error('Error', error);

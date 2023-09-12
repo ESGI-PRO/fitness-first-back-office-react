@@ -95,7 +95,7 @@ const Form = () => {
             nutritionsService.getById(id)
                 .then((response: any) => {
                     const fields = ['title', 'UserId', 'instructions'];
-                    fields.forEach(field => setValue(field, response.data[field]));
+                    fields.forEach(field => setValue(field, response.data.data.nutrition[field]));
                 })
                 .catch((error: any) => {
                     console.log(error);

@@ -90,7 +90,10 @@ import {
         trainingsService.remove(id)
           .then(() => {
             toast.success('Item deleted');
-            setData(data.filter((item: any) => item.id !== id));
+            trainingsService.getAll()
+            .then((response) => {
+              setData(response.data.data.exercises);
+            })
           })
           .catch((error: any) => {
             toast.error('Error');

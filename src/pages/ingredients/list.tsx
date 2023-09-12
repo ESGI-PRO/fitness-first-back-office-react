@@ -132,11 +132,11 @@ import {
         return (
             <div className="flex items-center gap-x-3 whitespace-nowrap">
                 <Button color="primary">
-                    <Link to={`edit/${data._id}`} className="flex items-center gap-x-2">
+                    <Link to={`edit/${data.id}`} className="flex items-center gap-x-2">
                         <HiOutlinePencilAlt className="text-lg" />
                     </Link>
                 </Button>
-                <DeleteTrainingsModal data={data._id} />
+                <DeleteTrainingsModal data={data.id} />
             </div>
         )
     };
@@ -158,12 +158,12 @@ import {
                 </form>
                 </div>
                 <div className="ml-auto flex items-center space-x-2 sm:space-x-3">
-                <Button color="primary">
                     <Link to="add" className="flex items-center gap-x-3">
-                    <HiPlus className="text-xl" />
-                    Add ingredient
+                      <Button color="primary">
+                          <HiPlus className="text-xl" />
+                          Add ingredient
+                      </Button>
                     </Link>
-                </Button>
                 </div>
             </div>
         );
@@ -174,7 +174,7 @@ import {
     useEffect(() => {
         ingredientsService.get()
             .then((response) => {
-                setData(response.data.data);
+                setData(response.data.data.nutrition);
             })
             .catch((error) => {
                 toast.error('Error', error);

@@ -195,9 +195,9 @@ const LatestTransactions: FC = function () {
           </div>
         </div>
       </div>
-      <div className="flex items-center justify-between pt-3 sm:pt-6">
+      {/* <div className="flex items-center justify-between pt-3 sm:pt-6">
         <Datepicker />
-      </div>
+      </div> */}
     </div>
   );
 };

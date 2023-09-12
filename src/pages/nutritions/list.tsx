@@ -38,12 +38,12 @@ import {
                   </div>
                 </Breadcrumb.Item>
                 <Breadcrumb.Item>
-                  <Link to="/nutritions">Nutritions</Link>
+                  <Link to="/nutritions">Recipes</Link>
                 </Breadcrumb.Item>
                 <Breadcrumb.Item>List</Breadcrumb.Item>
               </Breadcrumb>
               <h1 className="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">
-                All nutritions
+                All recipes
               </h1>
               <Toaster
                 position="top-center"
@@ -161,7 +161,7 @@ import {
                 <Button color="primary">
                     <Link to="add" className="flex items-center gap-x-3">
                     <HiPlus className="text-xl" />
-                    Add nutrition
+                    Add recipes
                     </Link>
                 </Button>
                 </div>
@@ -174,7 +174,7 @@ import {
     useEffect(() => {
         nutritionsService.get()
             .then((response) => {
-                setData(response.data.data);
+                setData(response.data.data.nutrition);
             })
             .catch((error) => {
                 toast.error('Error', error);

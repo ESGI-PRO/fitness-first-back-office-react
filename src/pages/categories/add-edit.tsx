@@ -93,7 +93,7 @@ const Form = () => {
             categoriesService.getById(id)
                 .then((response: any) => {
                     const fields = ['name'];
-                    fields.forEach(field => setValue(field, response.data.data[field]));
+                    fields.forEach(field => setValue(field, response.data.data.nutrition[field]));
                 })
                 .catch((error) => {
                     console.log(error);

@@ -71,20 +71,23 @@ const Form = () => {
 
     const createData = async (data: any) => {
         try {
-            data.calories = parseInt(data.calories);
-            data.CategorieId = parseInt(data.CategorieId);
-            data.grammes = parseInt(data.grammes);
-            data.fat_total_g = parseInt(data.fat_total_g);
-            data.fat_saturated_g = parseInt(data.fat_saturated_g);
-            data.protein_g = parseInt(data.protein_g);
-            data.sodium_mg = parseInt(data.sodium_mg);
-            data.potassium_mg = parseInt(data.potassium_mg);
-            data.cholesterol_mg = parseInt(data.cholesterol_mg);
-            data.carbohydrates_total_g = parseInt(data.carbohydrates_total_g);
-            data.fiber_g = parseInt(data.fiber_g);
-            data.sugar_g = parseInt(data.sugar_g);
+            const form = {
+                name: data.name,
+                calories: parseInt(data.calories),
+                CategorieId: parseInt(data.CategorieId),
+                grammes: parseInt(data.grammes),
+                fat_total_g: parseInt(data.fat_total_g),
+                fat_saturated_g: parseInt(data.fat_saturated_g),
+                protein_g: parseInt(data.protein_g),
+                sodium_mg: parseInt(data.sodium_mg),
+                potassium_mg: parseInt(data.potassium_mg),
+                cholesterol_mg: parseInt(data.cholesterol_mg),
+                carbohydrates_total_g: parseInt(data.carbohydrates_total_g),
+                fiber_g: parseInt(data.fiber_g),
+                sugar_g: parseInt(data.sugar_g),
+            };
 
-            await ingredientsService.create(data);
+            await ingredientsService.create(form);
             toast.success('Ingredient created');
             reset();
             navigate('..');
@@ -96,7 +99,22 @@ const Form = () => {
 
     const updateData = async (id: any, data: any) => {
         try {
-            await ingredientsService.update(id, data);
+            const form = {
+                name: data.name,
+                calories: parseInt(data.calories),
+                CategorieId: parseInt(data.CategorieId),
+                grammes: parseInt(data.grammes),
+                fat_total_g: parseInt(data.fat_total_g),
+                fat_saturated_g: parseInt(data.fat_saturated_g),
+                protein_g: parseInt(data.protein_g),
+                sodium_mg: parseInt(data.sodium_mg),
+                potassium_mg: parseInt(data.potassium_mg),
+                cholesterol_mg: parseInt(data.cholesterol_mg),
+                carbohydrates_total_g: parseInt(data.carbohydrates_total_g),
+                fiber_g: parseInt(data.fiber_g),
+                sugar_g: parseInt(data.sugar_g),
+            };
+            await ingredientsService.update(id, form);
             navigate('..');
         } catch (error) {
             console.log(error);
@@ -108,7 +126,7 @@ const Form = () => {
             ingredientsService.getById(id)
                 .then((response: any) => {
                     const fields = ['name', 'calories', 'CategorieId', 'grammes', 'fat_total_g', 'fat_saturated_g', 'protein_g', 'sodium_mg', 'potassium_mg', 'cholesterol_mg', 'carbohydrates_total_g', 'fiber_g', 'sugar_g'];
-                    fields.forEach(field => setValue(field, response.data[field]));
+                    fields.forEach(field => setValue(field, response.data.data.nutrition[field]));
                 })
                 .catch((error: any) => {
                     console.log(error);
@@ -117,7 +135,7 @@ const Form = () => {
 
         ingredientsService.getAllCategories()
             .then((response: any) => {
-                setCategory(response.data);
+                setCategory(response.data.data.nutrition);
             })
     }, []);
 
@@ -140,6 +158,7 @@ const Form = () => {
                     <TextInput
                         id="calories"
                         type="number"
+                        step="0.1"
                         {...register("calories", { required: true })}
                     />
                 </div>
@@ -159,6 +178,7 @@ const Form = () => {
                     <TextInput
                         id="grammes"
                         type="number"
+                        step="0.1"
                         {...register("grammes", { required: true })}
                     />
                 </div>
@@ -167,6 +187,7 @@ const Form = () => {
                     <TextInput
                         id="fat_total_g"
                         type="number"
+                        step="0.1"
                         {...register("fat_total_g", { required: true })}
                     />
                 </div>
@@ -175,6 +196,7 @@ const Form = () => {
                     <TextInput
                         id="fat_saturated_g"
                         type="number"
+                        step="0.1"
                         {...register("fat_saturated_g", { required: true })}
                     />
                 </div>
@@ -183,6 +205,7 @@ const Form = () => {
                     <TextInput
                         id="protein_g"
                         type="number"
+                        step="0.1"
                         {...register("protein_g", { required: true })}
                     />
                 </div>
@@ -191,6 +214,7 @@ const Form = () => {
                     <TextInput
                         id="sodium_mg"
                         type="number"
+                        step="0.1"
                         {...register("sodium_mg", { required: true })}
                     />
                 </div>
@@ -199,6 +223,7 @@ const Form = () => {
                     <TextInput
                         id="potassium_mg"
                         type="number"
+                        step="0.1"
                         {...register("potassium_mg", { required: true })}
                     />
                 </div>
@@ -207,6 +232,7 @@ const Form = () => {
                     <TextInput
                         id="cholesterol_mg"
                         type="number"
+                        step="0.1"
                         {...register("cholesterol_mg", { required: true })}
                     />
                 </div>
@@ -215,6 +241,7 @@ const Form = () => {
                     <TextInput
                         id="carbohydrates_total_g"
                         type="number"
+                        step="0.1"
                         {...register("carbohydrates_total_g", { required: true })}
                     />
                 </div>
@@ -223,6 +250,7 @@ const Form = () => {
                     <TextInput
                         id="fiber_g"
                         type="number"
+                        step="0.1"
                         {...register("fiber_g", { required: true })}
                     />
                 </div>
@@ -231,6 +259,7 @@ const Form = () => {
                     <TextInput
                         id="sugar_g"
                         type="number"
+                        step="0.1"
                         {...register("sugar_g", { required: true })}
                     />
                 </div>
