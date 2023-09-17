@@ -1,4 +1,4 @@
-import { Badge, Dropdown, Table } from "flowbite-react";
+import { Badge, Table } from "flowbite-react";
 import { useEffect, type FC, useState } from "react";
 import NavbarSidebarLayout from "../layouts/navbar-sidebar";
 import { Link } from "react-router-dom";
@@ -58,17 +58,17 @@ const DashboardPage: FC = function () {
 //   );
 // };
 
-const Datepicker: FC = function () {
-  return (
-    <span className="text-sm text-gray-600">
-      <Dropdown inline label="Last 7 days">
-        <Dropdown.Item>Last 7 days</Dropdown.Item>
-        <Dropdown.Item>Last 30 days</Dropdown.Item>
-        <Dropdown.Item>Last 90 days</Dropdown.Item>
-      </Dropdown>
-    </span>
-  );
-};
+// const Datepicker: FC = function () {
+//   return (
+//     <span className="text-sm text-gray-600">
+//       <Dropdown inline label="Last 7 days">
+//         <Dropdown.Item>Last 7 days</Dropdown.Item>
+//         <Dropdown.Item>Last 30 days</Dropdown.Item>
+//         <Dropdown.Item>Last 90 days</Dropdown.Item>
+//       </Dropdown>
+//     </span>
+//   );
+// };
 
 const LatestRegisteredUsers: FC = function () {
   const [users, setUsers] = useState<any>([]);
