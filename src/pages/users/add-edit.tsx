@@ -86,7 +86,7 @@ const Form = () => {
         if (!isAddMode) {
             usersService.getById(id)
                 .then((user: any) => {
-                    const fields = ['email', 'userName ', 'mobileNumber', 'password', 'isAdmin', 'isTrainer', 'is_confirmed'];
+                    const fields = ['email', 'userName', 'mobileNumber', 'password', 'isAdmin', 'isTrainer', 'is_confirmed'];
                     fields.forEach(field => setValue(field, user.data[field]));
                 })
                 .catch((error) => {

@@ -62,15 +62,7 @@ const SignInPage: FC = function () {
           </div>
           <div className="mb-6">
             <Button type="submit" className="w-full lg:w-auto" disabled={formState.isSubmitting}>
-              {formState.isSubmitting && 
-                <>
-                  <Spinner className="mr-2" />
-                  <span className="text-white font-medium text-sm">
-                    Loading...
-                  </span>
-                </>
-              }
-              Login to your account
+              {formState.isSubmitting && <Spinner />} Login to your account
             </Button>
           </div>
         </form>
