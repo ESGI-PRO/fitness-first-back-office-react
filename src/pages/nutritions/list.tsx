@@ -197,7 +197,7 @@ import {
         >
             <Column field="title" header="Title"></Column>
             <Column field="UserId" header="User ID"></Column>
-            <Column field="instructions" header="Instructions"></Column>
+            {/* <Column field="instructions" header="Instructions"></Column> */}
             <Column header="Actions" style={{ width: '25%' }} body={actionBodyTemplate}></Column>
         </DataTable>
       </>
